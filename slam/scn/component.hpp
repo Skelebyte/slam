@@ -3,13 +3,28 @@
 #define SLAM_COMPONENT_HPP
 
 #include "../common.hpp"
+#include "../math/vec3.hpp"
 
 namespace slam::scn {
+
+struct Transform {
+  Transform();
+
+  void Process();
+
+  math::Vec3 Forward() const;
+
+  math::Vec3 position;
+  math::Vec3 rotation;
+  math::Vec3 scale;
+};
+
 struct Component : public ID, public Destroyable {
   Component();
   virtual void Process() = 0;
   virtual void Destroy() = 0;
 
+  Transform *transform;
   bool enabled = true;
   sUint attachedEntityID = 0;
 };
@@ -21,13 +36,6 @@ private:
   sUint nextID = 1;
 };
 
-struct Transform : public Component {
-
-  Transform() = default;
-
-  void Process() override {}
-  void Destroy() override {}
-};
 } // namespace slam::scn
 
 #endif

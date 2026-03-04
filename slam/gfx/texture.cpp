@@ -6,7 +6,7 @@ using namespace slam::gfx;
 using namespace slam::err;
 using namespace slam::util;
 
-Texture::Texture(sString path, TextureFilter filter) {
+Texture::Texture(const sString &path, TextureFilter filter) {
   if (File::Exists(path) == false) {
     THROW_ERROR(WARNING.Derived(
         "", "File " + path + " does not exist! Loading missing texture."));

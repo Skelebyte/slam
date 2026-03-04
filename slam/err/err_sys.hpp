@@ -8,8 +8,10 @@
 namespace slam::err {
 struct ErrorSystem : public Singleton<ErrorSystem> {
   ErrorSystem() = default;
-  void ThrowError(const Error &error, bool print, sString file, sString func);
-  void ThrowErrorGL(const Error &error, bool print, sString file, sString func);
+  void ThrowError(const Error &error, bool print, const sString &file,
+                  const sString &func);
+  void ThrowErrorGL(const Error &error, bool print, const sString &file,
+                    const sString &func);
 
   // This is a flag that determins what errors can have pop up windows.
   // Selected errors: `ErrorSeverity::ERROR` and `ErrorSeverity::FATAL`.
@@ -19,6 +21,10 @@ struct ErrorSystem : public Singleton<ErrorSystem> {
   // `ErrorSeverity::WARNING` has been added to `enablePopupOnErrors` then a
   // window will still appear for warnings.
   bool silenceWarnings = false;
+
+  const Error *lastError = nullptr;
+  sString file;
+  sString function;
 };
 
 #define THROW_ERROR(error)                                                     \

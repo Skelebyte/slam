@@ -40,6 +40,10 @@ private:
   sUint id;
 };
 
+/**
+ * @brief Checks if is destroyed, and returns a value.
+ *
+ */
 #define IS_DESTROYED(retValue)                                                 \
   do {                                                                         \
     if (IsDestroyed())                                                         \
@@ -61,10 +65,11 @@ private:
  * `DEBUG("My name is " << name << " and I am " << age <<".");`
  *
  * Output:
- * `My name is John Doe and I am 26. (file: src/main.cpp, function: main)`
+ * `[DEBUG] My name is John Doe and I am 26. (file: src/main.cpp, function:
+ * main)`
  */
 #define DEBUG(value)                                                           \
-  std::cout << value << " (file: " << __FILE__                                 \
+  std::cout << "[DEBUG] " << value << " (file: " << __FILE__                   \
             << ", function: " << __FUNCTION__ << ")\n"
 
 /**

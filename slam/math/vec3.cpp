@@ -72,7 +72,7 @@ sString Vec3::ToString() const {
   return std::to_string(x) + "," + std::to_string(y) + "," + std::to_string(z);
 }
 
-Vec3 Vec3::FromString(sString string) {
+Vec3 Vec3::FromString(const sString &string) {
   Vec3 result;
   List<sString> strings;
   std::istringstream stream = std::istringstream(string);

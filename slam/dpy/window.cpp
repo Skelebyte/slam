@@ -1,5 +1,6 @@
 #include "window.hpp"
 #include "../engine.hpp"
+#include <SDL3/SDL_messagebox.h>
 
 using namespace slam;
 using namespace slam::dpy;
@@ -32,6 +33,8 @@ Window::Window(const sString &name, sUint w, sUint h, bool resizable,
 
   running = true;
 
+  EventSystem::Get().on_error += dpy::ErrorWindow;
+
   Engine::Get().window = this;
 }
 
@@ -43,6 +46,27 @@ void Window::Destroy() {
   SDL_DestroyWindow(sdlWindow);
 
   Engine::Get().window = nullptr;
+}
+
+void Window::PopupWindow(const sString &title, const sString &message,
+                         bool isErrorWindow) {
+  if (isErrorWindow) {
+    switch (ErrorSystem::Get().lastError->GetSeverity()) {
+    case err::ES_MSG:
+      SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, title.c_str(),
+                               message.c_str(), NULL);
+      break;
+    case err::ES_WARNING:
+      SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_WARNING, title.c_str(),
+                               message.c_str(), NULL);
+      break;
+    default:
+      SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, title.c_str(),
+                               message.c_str(), NULL);
+      break;
+    }
+    return;
+  }
 }
 
 SDL_Window *Window::GetSDLWindow() const { return sdlWindow; }
@@ -84,19 +108,22 @@ void Window::Update() {
 
   glClear(GL_COLOR_BUFFER_BIT |
           GL_DEPTH_BUFFER_BIT); // MOVE TO RENDERER/gfx (?)
+  THROW_ERROR_GL(FATAL.Derived("GL_CLEAR_FAIL"));
 
   glViewport(this->viewportPosition.x, this->viewportPosition.y,
              this->viewportSize.x, this->viewportSize.y);
   THROW_ERROR_GL(FATAL.Derived("GL_VIEWPORT_FAIL"));
 }
 
-void Window::Swap() {
+void Window::SwapAndClear() {
   IS_DESTROYED();
 
   if (SDL_GL_SwapWindow(this->sdlWindow) == false) {
     THROW_ERROR(FATAL.Derived("", "SDL failed to swap buffers. SDL error: " +
                                       sString(SDL_GetError())));
   }
+
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 Vec2i Window::GetDimensions() {
@@ -137,4 +164,17 @@ float Window::GetViewportAspect() const {
   IS_DESTROYED(0.0f);
 
   return (float)this->viewportSize.x / (float)this->viewportSize.y;
+}
+
+void dpy::ErrorWindow() {
+  if (ErrorSystem::Get().lastError == nullptr)
+    return;
+
+  if ((ErrorSystem::Get().lastError->GetSeverity() &
+       ErrorSystem::Get().enablePopupOnErrors) == false)
+    return;
+
+  Engine::Get().window->PopupWindow(ErrorSystem::Get().lastError->GetName(),
+                                    ErrorSystem::Get().lastError->GetDesc(),
+                                    true);
 }

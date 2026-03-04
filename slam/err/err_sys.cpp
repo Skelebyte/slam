@@ -5,9 +5,8 @@ using namespace slam;
 using namespace slam::err;
 using namespace slam::evt;
 
-void ErrorSystem::ThrowError(const Error &error, bool print, sString file,
-                             sString func) {
-  EventSystem::Get().on_error.Invoke();
+void ErrorSystem::ThrowError(const Error &error, bool print,
+                             const sString &file, const sString &func) {
 
   if (error.GetSeverity() == ErrorSeverity::ES_WARNING &&
       silenceWarnings == true)
@@ -38,14 +37,21 @@ void ErrorSystem::ThrowError(const Error &error, bool print, sString file,
             << error.GetDesc() << " (file: `" << file << "`, function: `"
             << func << "`)\n";
 
+  this->file = file;
+  function = func;
+
+  lastError = &error;
+
+  EventSystem::Get().on_error.Invoke();
+
   if (error.GetSeverity() == ErrorSeverity::ES_FATAL) {
     exit(ErrorSeverity::ES_FATAL);
   }
 }
 
-void ErrorSystem::ThrowErrorGL(const Error &error, bool print, sString file,
-                               sString func) {
-  uint glErr = glGetError();
+void ErrorSystem::ThrowErrorGL(const Error &error, bool print,
+                               const sString &file, const sString &func) {
+  sUint glErr = glGetError();
   Error err = error.Derived("", error.GetDesc() +
                                     " OpenGL error: " + std::to_string(glErr));
   if (glErr != GL_NO_ERROR) {

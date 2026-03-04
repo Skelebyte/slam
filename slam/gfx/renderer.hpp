@@ -17,7 +17,6 @@ struct Renderer : public Singleton<Renderer> {
 
 private:
   SDL_GLContext gl;
-  sUint shaderID;
 };
 } // namespace slam::gfx
 

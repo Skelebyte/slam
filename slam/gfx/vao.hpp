@@ -15,7 +15,7 @@ public:
   void Destroy() override;
   void Bind();
   void Unbind();
-  void LinkAttrib(VBO &vbo, uint layout, uint components, uint type,
+  void LinkAttrib(VBO &vbo, sUint layout, sUint components, sUint type,
                   size_t stride, void *offset);
 };
 

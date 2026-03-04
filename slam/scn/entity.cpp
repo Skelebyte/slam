@@ -56,6 +56,7 @@ void Entity::AddComponent(Component *component) {
   }
 
   component->attachedEntityID = GetID();
+  component->transform = &transform;
 
   this->components.Add(component);
 }
@@ -78,7 +79,8 @@ void Entity::RemoveComponent(Component *component) {
     return;
   }
 
-  (*components[compIndex]).attachedEntityID = 0;
+  components[compIndex]->attachedEntityID = 0;
+  components[compIndex]->transform = nullptr;
   components.Remove(compIndex);
 }
 

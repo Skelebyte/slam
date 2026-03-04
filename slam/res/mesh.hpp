@@ -12,7 +12,7 @@ namespace slam::res {
 
 struct Mesh {
   Mesh() = default;
-  Mesh(sString path);
+  Mesh(const sString &path);
   List<Vertex> vertices;
   List<sUint> indices;
 

@@ -32,6 +32,8 @@ struct Mat4 {
                   float near_plane, float far_plane);
   void LookAt(Vec3 position, Vec3 target_position, Vec3 forward);
 
+  sString ToString() const;
+
   Mat4 Inverse() const;
 
   Mat4 operator*(const Mat4 &other);

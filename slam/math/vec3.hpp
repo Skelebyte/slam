@@ -27,7 +27,7 @@ union Vec3 {
   static float Dot(const Vec3 &a, const Vec3 &b);
   static Vec3 Cross(const Vec3 &a, const Vec3 &b);
   sString ToString() const;
-  static Vec3 FromString(sString string);
+  static Vec3 FromString(const sString &string);
 
   Vec3 operator+(const Vec3 &other) const;
   Vec3 operator-(const Vec3 &other) const;

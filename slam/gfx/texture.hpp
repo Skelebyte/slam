@@ -16,7 +16,7 @@ enum TextureFilter {
 
 struct Texture : public Destroyable, public ID {
   Texture() = default;
-  Texture(sString path, TextureFilter filter);
+  Texture(const sString &path, TextureFilter filter);
   void Destroy() override;
   void TextureFallback();
   void LoadFromData(sUchar *data, sUint channels, sUint width, sUint height);

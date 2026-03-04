@@ -1,4 +1,5 @@
 #include "renderer.hpp"
+#include <SDL3/SDL_video.h>
 
 using namespace slam;
 using namespace slam::dpy;
@@ -20,28 +21,16 @@ void Renderer::Init(dpy::Window *window) {
     return;
   }
 
+  SDL_GL_MakeCurrent(window->GetSDLWindow(), gl);
+
   if (!gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress)) {
     THROW_ERROR(FATAL.Derived("", "Failed to initialize glad! remind me to "
-                                  "come back here add a get error func"));
+                                  "come back here add a get_error func"));
   }
 
-  // sString fragContent = File::Read(fragShaderPath);
-  // sString vertContent = File::Read(vertShaderPath);
+  glEnable(GL_DEPTH_TEST);
 
-  // if (fragContent.empty()) {
-  //   THROW_ERROR(FATAL.Derived("", "Failed to read fragment shader " +
-  //                                     fragShaderPath + "."));
-  // }
-
-  // if (vertContent.empty()) {
-  //   THROW_ERROR(FATAL.Derived("", "Failed to read vertex shader " +
-  //                                     vertShaderPath + "."));
-  // }
-
-  // const char *ccFrag = fragContent.c_str();
-  // const char *ccVert = vertContent.c_str();
-
-  // sUint frag = glCreateShader(GL_FRAGMENT_SHADER);
+  glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
   initialized = true;
 }

@@ -9,7 +9,7 @@ namespace slam::gfx {
 class EBO : public Destroyable, public ID {
 public:
   EBO() = default;
-  void Init(uint *indices, size_t size);
+  void Init(sUint *indices, size_t size);
   void Destroy() override;
   void Bind();
   void Unbind();

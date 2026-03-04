@@ -112,8 +112,8 @@ void Mat4::Perspective(float fov_deg, float aspect, float near_plane,
   float fov_rads = Mathf::ToRadians(fov_deg);
 
   this->Identity();
-  this->data[0] = 1 / (aspect * tan(fov_deg / 2));
-  this->data[5] = 1 / tan(fov_deg / 2);
+  this->data[0] = 1 / (aspect * tan(fov_rads / 2));
+  this->data[5] = 1 / tan(fov_rads / 2);
   this->data[10] = -(far_plane + near_plane) / (far_plane - near_plane);
   this->data[11] = -1;
   this->data[14] = -(2 * far_plane * near_plane) / (far_plane - near_plane);
@@ -150,6 +150,16 @@ void Mat4::LookAt(Vec3 position, Vec3 target_position, Vec3 forward) {
   this->data[6] = forward_.y;
   this->data[10] = forward_.z;
   this->data[14] = -Vec3::Dot(forward_, position);
+}
+
+sString Mat4::ToString() const {
+  sString result;
+
+  for (sUint i = 0; i < 16; i++) {
+    result.append(std::to_string(data[i]) + ", ");
+  }
+
+  return result;
 }
 
 Mat4 Mat4::Inverse() const {

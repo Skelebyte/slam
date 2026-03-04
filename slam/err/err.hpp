@@ -27,7 +27,7 @@ const Error WARNING =
     Error("WARNING", "This is a warning!", ErrorSeverity::ES_WARNING);
 const Error ERROR =
     Error("ERROR", "This is an error!", ErrorSeverity::ES_ERROR);
-const Error FATAL = Error("ERROR", "This is fatal!", ErrorSeverity::ES_FATAL);
+const Error FATAL = Error("FATAL", "This is fatal!", ErrorSeverity::ES_FATAL);
 
 } // namespace slam::err
 

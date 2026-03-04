@@ -8,6 +8,11 @@
 namespace slam {
 template <typename T> struct List {
   List() { data = std::vector<T>(); }
+  /**
+   * @brief Returns number of elements
+   *
+   * @return sUint
+   */
   sUint Size() { return data.size(); }
   void Add(const T &value, bool first = false) {
     if (first) {
@@ -30,6 +35,8 @@ template <typename T> struct List {
   }
 
   void Clear() { data.clear(); }
+
+  auto *Pointer() { return data.data(); }
 
   T &operator[](sUint index) {
     if (index > Size()) {

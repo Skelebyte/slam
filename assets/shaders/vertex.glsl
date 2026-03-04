@@ -16,6 +16,8 @@ void main() {
   pos = vec3(model * vec4(i_pos, 1.0));
   gl_Position = projection * view * vec4(pos, 1.0);
 
+  // gl_Position = vec4(i_pos * 0.1, 1.0);
+
   texture_coord = i_texture_coord;
   normal = mat3(transpose(inverse(model))) * i_normal;
 }

@@ -15,9 +15,11 @@ struct Window : public Destroyable {
          bool resizable = true, bool fullscreen = false);
   bool IsRunning() const;
   void Destroy() override;
+  void PopupWindow(const sString &title, const sString &message,
+                   bool isErrorWindow = false);
   SDL_Window *GetSDLWindow() const;
   void Update();
-  void Swap();
+  void SwapAndClear();
   math::Vec2i GetDimensions();
   void Stop();
   math::Vec2i GetViewportPosition() const;
@@ -32,6 +34,8 @@ private:
   math::Vec2i viewportPosition;
   math::Vec2i viewportSize;
 };
+
+static void ErrorWindow();
 
 } // namespace slam::dpy
 
