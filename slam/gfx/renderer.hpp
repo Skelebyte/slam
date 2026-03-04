@@ -14,9 +14,11 @@ struct Renderer : public Singleton<Renderer> {
   Renderer() = default;
   void Init(dpy::Window *window);
   void Shutdown();
+  void ToggleWireframe();
 
 private:
   SDL_GLContext gl;
+  bool wireframe;
 };
 } // namespace slam::gfx
 

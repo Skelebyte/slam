@@ -39,3 +39,14 @@ void Renderer::Shutdown() {
   SDL_GL_DestroyContext(gl);
   initialized = false;
 }
+
+void Renderer::ToggleWireframe() {
+  wireframe = !wireframe;
+
+  if (wireframe) {
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+  } else {
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+  }
+}

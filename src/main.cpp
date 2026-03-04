@@ -151,16 +151,23 @@ int main() {
   InputAxis horizontal = InputAxis(Keycode::D, Keycode::A);
   InputAxis vertical = InputAxis(Keycode::S, Keycode::W);
 
+  Keybind toggleWireframe = Keybind(Keycode::F1);
+
   while (window.IsRunning()) {
     window.Update();
 
     shader.Bind();
 
+    if (Input::Get().GetKeyOnce(&toggleWireframe)) {
+      Renderer::Get().ToggleWireframe();
+    }
+
     cube.transform.rotation = Vec3(val);
-    val += 0.1f;
+    val += 0.001f;
 
     cam.transform.position.x += (float)Input::Get().GetAxis(horizontal) / 1000;
-    cam.transform.position.z += (float)Input::Get().GetAxis(vertical) / 1000;
+    cam.transform.position += cam.transform.Forward() *
+                              -((float)Input::Get().GetAxis(vertical) / 1000);
 
     cam.Update();
     cube.Update();
