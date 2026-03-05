@@ -55,19 +55,31 @@ Vec3 Transform::Right() const {
 }
 
 Vec3 Transform::GetInheritedPosition() const {
-  Vec3 value = position;
-  if (parent != nullptr) {
-    value += parent->position;
+
+  if (parent == nullptr) {
+    return position;
   }
+  Vec3 value = Vec3();
+
+  Quat inheritedRot = Quat::FromEuler(parent->GetInheritedRotation());
+
+  Quat result = inheritedRot * position;
+
+  value = parent->GetInheritedPosition() + Vec3(result.x, result.y, result.z);
+
   return value;
 }
 
 Vec3 Transform::GetInheritedRotation() const {
-  Vec3 value = rotation;
-  if (parent != nullptr) {
-    value += parent->rotation;
+  if (parent == nullptr) {
+    return rotation;
   }
-  return value;
+
+  Quat parentRotation = Quat::FromEuler(parent->GetInheritedRotation());
+  Quat thisRotation = Quat::FromEuler(rotation);
+  Quat newRotation = thisRotation * parentRotation;
+
+  return newRotation.ToEuler();
 }
 
 Vec3 Transform::GetInheritedScale() const {

@@ -3,6 +3,7 @@
 #define SLAM_COMPONENT_HPP
 
 #include "../common.hpp"
+#include "../math/quat.hpp"
 #include "../math/vec3.hpp"
 
 namespace slam::scn {

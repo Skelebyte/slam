@@ -40,6 +40,8 @@ struct Camera : public Entity {
   void Update() override {
     IS_DESTROYED();
 
+    // transform.Process();
+
     view.LookAt(transform.GetInheritedPosition(),
                 transform.GetInheritedPosition() + transform.InheritedForward(),
                 Vec3(0, 1, 0));
@@ -66,7 +68,7 @@ struct MeshRenderer : public Entity {
   MeshRenderer(Shader *shader, const sString &path) {
     this->shader = shader;
     mesh = Mesh(path);
-    texture = Texture("assets/textures/demo/diffuse.png", slam::gfx::TF_LINEAR);
+    texture = Texture("assets/textures/demo/difuse.png", slam::gfx::TF_LINEAR);
 
     model = Mat4();
 
@@ -100,6 +102,8 @@ struct MeshRenderer : public Entity {
   void Update() override {
     IS_DESTROYED();
 
+    // transform.Process();
+
     model = Mat4::Transformation(transform.GetInheritedPosition(),
                                  transform.GetInheritedRotation(),
                                  transform.GetInheritedScale());
@@ -131,7 +135,8 @@ int main() {
   Engine::Get().Init();
   Window window = Window("Hi mum!");
   Renderer::Get().Init(&window);
-  glEnable(GL_CULL_FACE);
+
+  ErrorSystem::Get().silenceWarnings = true;
 
   Shader shader =
       Shader("assets/shaders/fragment.glsl", "assets/shaders/vertex.glsl");
@@ -143,13 +148,26 @@ int main() {
 
   Keybind toggleWireframe = Keybind(Keycode::F1);
 
-  // Entity cam = Entity();
   Camera cam = Camera(&shader);
-  // cam.AddComponent(&camComp);
 
   MeshRenderer cube = MeshRenderer(&shader, "assets/models/cube.fbx");
-  cube.transform.position = Vec3(0, 0, -3);
-  float val;
+  cube.transform.position = Vec3(0, -2, 0);
+  cube.transform.scale = Vec3(10, 1, 10);
+
+  MeshRenderer slime = MeshRenderer(&shader, "assets/models/cube.fbx");
+  slime.texture = Texture("assets/textures/demo/transparency.png",
+                          TextureFilter::TF_NEAREST);
+
+  MeshRenderer slime2 = MeshRenderer(&shader, "assets/models/cube.fbx");
+  slime2.texture = Texture("assets/textures/demo/transparency.png",
+                           TextureFilter::TF_NEAREST);
+  slime2.transform.position.z = -5;
+
+  MeshRenderer gun = MeshRenderer(&shader, "assets/models/BasicGun.fbx");
+  gun.transform.position.x += 1;
+  gun.transform.position.y -= 0.25;
+  gun.transform.position.z -= 1;
+  gun.MakeChildOf(&cam);
 
   InputAxis horizontal = InputAxis(Keycode::D, Keycode::A);
   InputAxis vertical = InputAxis(Keycode::S, Keycode::W);
@@ -159,28 +177,33 @@ int main() {
     window.Update();
 
     shader.Bind();
-    shader.GetUniform("light_color")->SetValue(Vec3(val, 1.0f, 0.0f));
+    shader.GetUniform("light_color")->SetValue(Vec3(1.0, 1.0f, 1.0f));
 
     if (Input::Get().GetKeyOnce(&toggleWireframe)) {
       Renderer::Get().ToggleWireframe();
     }
 
-    cube.transform.rotation = Vec3(val);
-    val += 0.001f;
+    Vec3 velocity = Vec3();
+    velocity +=
+        cam.transform.Right() * ((float)Input::Get().GetAxis(horizontal) / 100);
+    velocity += cam.transform.Forward() *
+                -((float)Input::Get().GetAxis(vertical) / 100);
 
-    cam.transform.position += cam.transform.Right() *
-                              ((float)Input::Get().GetAxis(horizontal) / 1000);
-    cam.transform.position += cam.transform.Forward() *
-                              -((float)Input::Get().GetAxis(vertical) / 1000);
+    cam.transform.position += velocity.Normalized() / 100;
 
-    cam.transform.rotation.y += (float)Input::Get().GetAxis(rotY) / 10000;
+    cam.transform.rotation.y +=
+        Mathf::ToDegrees((float)Input::Get().GetAxis(rotY) / 100);
 
     cam.Update();
     cube.Update();
+    slime.Update();
+    slime2.Update();
+    gun.Update();
 
     glClearColor(0.05f, 0.1f, 0.05f, 1.0f);
 
     window.SwapAndClear();
+    SDL_Delay(10);
   }
 
   cam.Destroy();

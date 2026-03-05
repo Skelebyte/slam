@@ -89,6 +89,7 @@ GENERATED += $(OBJDIR)/main.o
 GENERATED += $(OBJDIR)/mat4.o
 GENERATED += $(OBJDIR)/mathf.o
 GENERATED += $(OBJDIR)/mesh.o
+GENERATED += $(OBJDIR)/quat.o
 GENERATED += $(OBJDIR)/renderer.o
 GENERATED += $(OBJDIR)/shader.o
 GENERATED += $(OBJDIR)/texture.o
@@ -117,6 +118,7 @@ OBJECTS += $(OBJDIR)/main.o
 OBJECTS += $(OBJDIR)/mat4.o
 OBJECTS += $(OBJDIR)/mathf.o
 OBJECTS += $(OBJDIR)/mesh.o
+OBJECTS += $(OBJDIR)/quat.o
 OBJECTS += $(OBJDIR)/renderer.o
 OBJECTS += $(OBJDIR)/shader.o
 OBJECTS += $(OBJDIR)/texture.o
@@ -243,6 +245,9 @@ $(OBJDIR)/mat4.o: slam/math/mat4.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/mathf.o: slam/math/mathf.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/quat.o: slam/math/quat.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/vec2.o: slam/math/vec2.cpp

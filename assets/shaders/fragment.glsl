@@ -13,6 +13,8 @@ uniform vec3 light_color = vec3(0.0, 1.0, 0.0);
 // uniform float specular_strength = 0.5;
 
 void main() {
+  if (texture(diffuse_texture, texture_coord).w < 1.0)
+    discard;
   FragColor = texture(diffuse_texture, texture_coord) * vec4(light_color, 1.0);
   // FragColor = texture(diffuse_texture, texture_coord);
 }

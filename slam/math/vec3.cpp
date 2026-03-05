@@ -29,29 +29,32 @@ Vec3::Vec3(float xyz_) {
 
 void Vec3::Rotate(float angle, Vec3 axis) {
   axis = axis.Normalized();
+
+  float angleInRads = Mathf::ToRadians(angle);
+
   Vec3 old = *this;
 
   if (axis.x != 0) {
-    this->y = old.y * cos(angle) - old.z * sin(angle);
-    this->z = old.y * sin(angle) + old.z * cos(angle);
+    this->y = old.y * cos(angleInRads) - old.z * sin(angleInRads);
+    this->z = old.y * sin(angleInRads) + old.z * cos(angleInRads);
     old = *this;
   }
 
   if (axis.y != 0) {
-    this->x = old.x * cos(angle) + old.z * sin(angle);
-    this->z = -old.x * sin(angle) + old.z * cos(angle);
+    this->x = old.x * cos(angleInRads) + old.z * sin(angleInRads);
+    this->z = -old.x * sin(angleInRads) + old.z * cos(angleInRads);
     old = *this;
   }
 
   if (axis.z != 0) {
-    this->x = old.x * cos(angle) - old.y * sin(angle);
-    this->y = old.x * sin(angle) + old.y * cos(angle);
+    this->x = old.x * cos(angleInRads) - old.y * sin(angleInRads);
+    this->y = old.x * sin(angleInRads) + old.y * cos(angleInRads);
   }
 }
 
 float Vec3::Length() const { return sqrt(pow(x, 2) + pow(y, 2) + pow(z, 2)); }
 
-Vec3 Vec3::Normalized() {
+Vec3 Vec3::Normalized() const {
   if (Length() == 0.0f) {
     return Vec3(0.0f, 0.0f, 0.0f);
   }
@@ -102,6 +105,10 @@ Vec3 Vec3::operator*(const Vec3 &other) const {
 
 Vec3 Vec3::operator*(const float &other) const {
   return Vec3(x * other, y * other, z * other);
+}
+
+Vec3 Vec3::operator/(const float &other) const {
+  return Vec3(x / other, y / other, z / other);
 }
 
 void Vec3::operator+=(const Vec3 &other) {

@@ -3,6 +3,7 @@
 
 #include "../common.hpp"
 #include "../list.hpp"
+#include "mathf.hpp"
 #include "pi.hpp"
 #include <cmath>
 #include <iostream>
@@ -23,7 +24,7 @@ union Vec3 {
   void Zero();
   void Rotate(float angle, Vec3 axis);
   float Length() const;
-  Vec3 Normalized();
+  Vec3 Normalized() const;
   static float Dot(const Vec3 &a, const Vec3 &b);
   static Vec3 Cross(const Vec3 &a, const Vec3 &b);
   sString ToString() const;
@@ -33,6 +34,7 @@ union Vec3 {
   Vec3 operator-(const Vec3 &other) const;
   Vec3 operator*(const Vec3 &other) const;
   Vec3 operator*(const float &other) const;
+  Vec3 operator/(const float &other) const;
   void operator*=(const Vec3 &other);
   void operator*=(const float &other);
   void operator+=(const Vec3 &other);
