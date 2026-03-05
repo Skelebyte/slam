@@ -110,6 +110,18 @@ void Vec3::operator+=(const Vec3 &other) {
   z += other.z;
 }
 
+void Vec3::operator*=(const Vec3 &other) {
+  x *= other.x;
+  y *= other.y;
+  z *= other.z;
+}
+
+void Vec3::operator*=(const float &other) {
+  x *= other;
+  y *= other;
+  z *= other;
+}
+
 void Vec3::operator-=(const Vec3 &other) {
   x -= other.x;
   y -= other.y;

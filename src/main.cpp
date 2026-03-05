@@ -25,7 +25,7 @@ using namespace slam::res;
 using namespace slam::input;
 using namespace slam;
 
-struct Camera : public Component {
+struct Camera : public Entity {
   Camera(Shader *shader) {
     view = Mat4();
     projection = Mat4();
@@ -37,10 +37,11 @@ struct Camera : public Component {
     shader = nullptr;
     // deleting stuff/freeing memory
   }
-  void Process() override {
+  void Update() override {
     IS_DESTROYED();
 
-    view.LookAt(transform->position, transform->position + transform->Forward(),
+    view.LookAt(transform.GetInheritedPosition(),
+                transform.GetInheritedPosition() + transform.InheritedForward(),
                 Vec3(0, 1, 0));
 
     projection.Perspective(fov, Engine::Get().window->GetViewportAspect(), near,
@@ -61,7 +62,7 @@ private:
   Shader *shader;
 };
 
-struct MeshRenderer : public Component {
+struct MeshRenderer : public Entity {
   MeshRenderer(Shader *shader, const sString &path) {
     this->shader = shader;
     mesh = Mesh(path);
@@ -96,11 +97,12 @@ struct MeshRenderer : public Component {
     shader = nullptr;
   }
 
-  void Process() override {
+  void Update() override {
     IS_DESTROYED();
 
-    model = Mat4::Transformation(transform->position, transform->rotation,
-                                 transform->scale);
+    model = Mat4::Transformation(transform.GetInheritedPosition(),
+                                 transform.GetInheritedRotation(),
+                                 transform.GetInheritedScale());
 
     shader->Bind();
     shader->GetUniform("model")->SetValue(model);
@@ -137,26 +139,27 @@ int main() {
   shader.AddUniform("view");
   shader.AddUniform("projection");
   shader.AddUniform("diffuse_texture");
+  shader.AddUniform("light_color");
 
-  Entity cam = Entity();
-  Camera camComp = Camera(&shader);
-  cam.AddComponent(&camComp);
+  Keybind toggleWireframe = Keybind(Keycode::F1);
 
-  Entity cube = Entity();
-  MeshRenderer mr = MeshRenderer(&shader, "assets/models/cube.fbx");
-  cube.AddComponent(&mr);
+  // Entity cam = Entity();
+  Camera cam = Camera(&shader);
+  // cam.AddComponent(&camComp);
+
+  MeshRenderer cube = MeshRenderer(&shader, "assets/models/cube.fbx");
   cube.transform.position = Vec3(0, 0, -3);
   float val;
 
   InputAxis horizontal = InputAxis(Keycode::D, Keycode::A);
   InputAxis vertical = InputAxis(Keycode::S, Keycode::W);
-
-  Keybind toggleWireframe = Keybind(Keycode::F1);
+  InputAxis rotY = InputAxis(Keycode::L_ARROW, Keycode::R_ARROW);
 
   while (window.IsRunning()) {
     window.Update();
 
     shader.Bind();
+    shader.GetUniform("light_color")->SetValue(Vec3(val, 1.0f, 0.0f));
 
     if (Input::Get().GetKeyOnce(&toggleWireframe)) {
       Renderer::Get().ToggleWireframe();
@@ -165,9 +168,12 @@ int main() {
     cube.transform.rotation = Vec3(val);
     val += 0.001f;
 
-    cam.transform.position.x += (float)Input::Get().GetAxis(horizontal) / 1000;
+    cam.transform.position += cam.transform.Right() *
+                              ((float)Input::Get().GetAxis(horizontal) / 1000);
     cam.transform.position += cam.transform.Forward() *
                               -((float)Input::Get().GetAxis(vertical) / 1000);
+
+    cam.transform.rotation.y += (float)Input::Get().GetAxis(rotY) / 10000;
 
     cam.Update();
     cube.Update();

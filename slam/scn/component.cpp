@@ -37,6 +37,47 @@ Vec3 Transform::Forward() const {
   return forward;
 }
 
+Vec3 Transform::InheritedForward() const {
+  Vec3 forward = Vec3(0, 0, -1);
+  forward.Rotate(GetInheritedRotation().x, Vec3(1, 0, 0));
+  forward.Rotate(GetInheritedRotation().y, Vec3(0, 1, 0));
+  forward.Rotate(GetInheritedRotation().z, Vec3(0, 0, -1));
+
+  return forward;
+}
+
+Vec3 Transform::Right() const {
+  Vec3 right = Vec3(1, 0, 0);
+  right.Rotate(rotation.x, Vec3(1, 0, 0));
+  right.Rotate(rotation.y, Vec3(0, 1, 0));
+  right.Rotate(rotation.z, Vec3(0, 0, -1));
+  return right;
+}
+
+Vec3 Transform::GetInheritedPosition() const {
+  Vec3 value = position;
+  if (parent != nullptr) {
+    value += parent->position;
+  }
+  return value;
+}
+
+Vec3 Transform::GetInheritedRotation() const {
+  Vec3 value = rotation;
+  if (parent != nullptr) {
+    value += parent->rotation;
+  }
+  return value;
+}
+
+Vec3 Transform::GetInheritedScale() const {
+  Vec3 value = scale;
+  if (parent != nullptr) {
+    value *= parent->scale;
+  }
+  return value;
+}
+
 Component::Component() { SetID(ComponentManager::Get().GetNextID()); }
 
 sUint ComponentManager::GetNextID() {

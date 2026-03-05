@@ -38,6 +38,7 @@ struct Entity : public ID, public Destroyable {
   void AddComponent(Component *component);
   void RemoveComponent(Component *component);
   sUint ComponentAmount();
+  void MakeChildOf(Entity *entity);
 
   Transform transform;
 

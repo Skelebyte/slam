@@ -86,6 +86,15 @@ void Entity::RemoveComponent(Component *component) {
 
 sUint Entity::ComponentAmount() { return components.Size(); }
 
+void Entity::MakeChildOf(Entity *entity) {
+  if (entity == nullptr) {
+    transform.parent = nullptr;
+    return;
+  }
+
+  transform.parent = &entity->transform;
+}
+
 sUint EntityManager::GetNextID() {
   nextID++;
 

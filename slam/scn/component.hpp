@@ -13,10 +13,17 @@ struct Transform {
   void Process();
 
   math::Vec3 Forward() const;
+  math::Vec3 InheritedForward() const;
+  math::Vec3 Right() const;
+  math::Vec3 GetInheritedPosition() const;
+  math::Vec3 GetInheritedRotation() const;
+  math::Vec3 GetInheritedScale() const;
 
   math::Vec3 position;
   math::Vec3 rotation;
   math::Vec3 scale;
+
+  Transform *parent = nullptr;
 };
 
 struct Component : public ID, public Destroyable {
