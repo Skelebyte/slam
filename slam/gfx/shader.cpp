@@ -115,7 +115,7 @@ Shader::Shader(const sString &fragPath, const sString &vertPath) {
   IsLinkOK();
 
   int isProgramValid = glIsProgram(GetID());
-  DEBUG("Is program valid: " << isProgramValid << ".");
+  LOG("Is program valid: " << isProgramValid << ".");
 
   glDeleteShader(frag);
   glDeleteShader(vert);

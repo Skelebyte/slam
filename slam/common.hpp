@@ -58,19 +58,23 @@ private:
     DESTROY_BASE;                                                              \
   } while (0)
 
+#ifndef LOG_MACRO
+#define LOG_MACRO
 /**
  * @brief Wrapper for `std::cout`. Appends the file and function at the end.
  *
  * Example:
- * `DEBUG("My name is " << name << " and I am " << age <<".");`
+ * `LOG("My name is " << name << " and I am " << age <<".");`
  *
  * Output:
- * `[DEBUG] My name is John Doe and I am 26. (file: src/main.cpp, function:
+ * `[LOG] My name is John Doe and I am 26. (file: src/main.cpp, function:
  * main)`
  */
-#define DEBUG(value)                                                           \
-  std::cout << "[DEBUG] " << value << " (file: " << __FILE__                   \
+#define LOG(value)                                                             \
+  std::cout << "[LOG] " << value << " (file: " << __FILE__                     \
             << ", function: " << __FUNCTION__ << ")\n"
+
+#endif
 
 /**
  * @brief Wrapper for `std::cout`. Prints value and appends `\n` at the end.
