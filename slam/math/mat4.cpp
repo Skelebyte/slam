@@ -79,8 +79,8 @@ void Mat4::Rotate(Vec3 angles) {
            Mathf::ToRadians(angles.z));
 
   x_rot.data[5] = cos(angles_in_rad.x);
-  x_rot.data[6] = -sin(angles_in_rad.x);
-  x_rot.data[9] = sin(angles_in_rad.x);
+  x_rot.data[6] = sin(angles_in_rad.x);
+  x_rot.data[9] = -sin(angles_in_rad.x);
   x_rot.data[10] = cos(angles_in_rad.x);
 
   y_rot.data[0] = cos(angles_in_rad.y);
