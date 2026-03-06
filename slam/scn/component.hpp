@@ -12,18 +12,18 @@ struct Transform {
 
   void Process();
 
-  Vec3 Forward() const;
-  // Vec3 InheritedForward() const;
-  Vec3 Right() const;
-  // Vec3 GetInheritedPosition() const;
-  // Vec3 GetInheritedRotation() const;
+  math::Vec3 Forward() const;
+  math::Vec3 InheritedForward() const;
+  math::Vec3 Right() const;
+  math::Vec3 GetInheritedPosition() const;
+  math::Quat GetInheritedRotation() const;
   // // math::Quat GetInheritedRotation() const;
-  // Vec3 GetInheritedScale() const;
+  math::Vec3 GetInheritedScale() const;
 
-  Vec3 position;
-  Vec3 rotation;
+  math::Vec3 position;
+  math::Vec3 rotation;
   // Quat qRotation;
-  Vec3 scale;
+  math::Vec3 scale;
 
   Transform *parent = nullptr;
 };

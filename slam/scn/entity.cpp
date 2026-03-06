@@ -5,6 +5,7 @@ using namespace slam::err;
 using namespace slam;
 
 Entity::Entity() {
+  transform = Transform();
   SetID(EntityManager::Get().GetNextID());
   components = List<Component *>();
 }

@@ -83,21 +83,18 @@ GENERATED += $(OBJDIR)/evt.o
 GENERATED += $(OBJDIR)/evt_sys.o
 GENERATED += $(OBJDIR)/file.o
 GENERATED += $(OBJDIR)/glad.o
+GENERATED += $(OBJDIR)/glm.o
 GENERATED += $(OBJDIR)/gltf_loader.o
 GENERATED += $(OBJDIR)/input.o
 GENERATED += $(OBJDIR)/main.o
-GENERATED += $(OBJDIR)/mat4.o
 GENERATED += $(OBJDIR)/mathf.o
 GENERATED += $(OBJDIR)/mesh.o
-GENERATED += $(OBJDIR)/quat.o
 GENERATED += $(OBJDIR)/renderer.o
 GENERATED += $(OBJDIR)/shader.o
 GENERATED += $(OBJDIR)/texture.o
 GENERATED += $(OBJDIR)/ufbx.o
 GENERATED += $(OBJDIR)/vao.o
 GENERATED += $(OBJDIR)/vbo.o
-GENERATED += $(OBJDIR)/vec2.o
-GENERATED += $(OBJDIR)/vec3.o
 GENERATED += $(OBJDIR)/vertex.o
 GENERATED += $(OBJDIR)/window.o
 OBJECTS += $(OBJDIR)/common.o
@@ -111,21 +108,18 @@ OBJECTS += $(OBJDIR)/evt.o
 OBJECTS += $(OBJDIR)/evt_sys.o
 OBJECTS += $(OBJDIR)/file.o
 OBJECTS += $(OBJDIR)/glad.o
+OBJECTS += $(OBJDIR)/glm.o
 OBJECTS += $(OBJDIR)/gltf_loader.o
 OBJECTS += $(OBJDIR)/input.o
 OBJECTS += $(OBJDIR)/main.o
-OBJECTS += $(OBJDIR)/mat4.o
 OBJECTS += $(OBJDIR)/mathf.o
 OBJECTS += $(OBJDIR)/mesh.o
-OBJECTS += $(OBJDIR)/quat.o
 OBJECTS += $(OBJDIR)/renderer.o
 OBJECTS += $(OBJDIR)/shader.o
 OBJECTS += $(OBJDIR)/texture.o
 OBJECTS += $(OBJDIR)/ufbx.o
 OBJECTS += $(OBJDIR)/vao.o
 OBJECTS += $(OBJDIR)/vbo.o
-OBJECTS += $(OBJDIR)/vec2.o
-OBJECTS += $(OBJDIR)/vec3.o
 OBJECTS += $(OBJDIR)/vertex.o
 OBJECTS += $(OBJDIR)/window.o
 
@@ -215,6 +209,9 @@ $(OBJDIR)/evt_sys.o: slam/evt/evt_sys.cpp
 $(OBJDIR)/glad.o: slam/ext/glad/glad.c
 	@echo "$(notdir $<)"
 	$(SILENT) $(CC) $(ALL_CFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/glm.o: slam/ext/glm/detail/glm.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/ufbx.o: slam/ext/ufbx/ufbx.c
 	@echo "$(notdir $<)"
 	$(SILENT) $(CC) $(ALL_CFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
@@ -239,19 +236,7 @@ $(OBJDIR)/vbo.o: slam/gfx/vbo.cpp
 $(OBJDIR)/input.o: slam/input/input.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-$(OBJDIR)/mat4.o: slam/math/mat4.cpp
-	@echo "$(notdir $<)"
-	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/mathf.o: slam/math/mathf.cpp
-	@echo "$(notdir $<)"
-	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-$(OBJDIR)/quat.o: slam/math/quat.cpp
-	@echo "$(notdir $<)"
-	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-$(OBJDIR)/vec2.o: slam/math/vec2.cpp
-	@echo "$(notdir $<)"
-	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-$(OBJDIR)/vec3.o: slam/math/vec3.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/mesh.o: slam/res/mesh.cpp

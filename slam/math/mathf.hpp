@@ -1,10 +1,14 @@
 #ifndef SLAM_MATHF_HPP
 #define SLAM_MATHF_HPP
 
-#include "../ext/glm/glm.hpp"
+#define GLM_ENABLE_EXPERIMENTAL
+#include "../common.hpp"
 #include "../ext/glm/ext/matrix_transform.hpp"
 #include "../ext/glm/ext/quaternion_geometric.hpp"
 #include "../ext/glm/geometric.hpp"
+#include "../ext/glm/glm.hpp"
+#include "../ext/glm/gtc/type_ptr.hpp"
+#include "../ext/glm/gtx/rotate_vector.hpp"
 // #include "../ext/gtx/rotate_vector.hpp"
 
 namespace slam::math {
@@ -24,7 +28,11 @@ public:
   static float Lerp(float a, float b, float t);
   static float Clamp(float target, float min, float max);
   static float Wrap(float target, float min, float max);
-  static Vec3 Rotate();
+  static sString ToString(const Vec3 &target);
+  static Vec3 Normalized(const Vec3 &target);
+  static Vec3 RotateX(const Vec3 &target, float angleDeg);
+  static Vec3 RotateY(const Vec3 &target, float angleDeg);
+  static Vec3 RotateZ(const Vec3 &target, float angleDeg);
 };
 
 } // namespace slam::math

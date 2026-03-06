@@ -21,14 +21,14 @@ sString Uniform::GetName() const { return name; }
 sUint Uniform::GetID() const { return id; }
 
 void Uniform::SetValue(const Mat4 &value) {
-  glUniformMatrix4fv(id, 1, GL_FALSE, value.data);
+  glUniformMatrix4fv(id, 1, GL_FALSE, glm::value_ptr(value));
   THROW_ERROR_GL(
       FATAL.Derived("GL_UNIFORM_MATRIX_4FV_FAIL",
                     "Failed to set Matrix4x4 uniform `" + name + "`."));
 }
 
 void Uniform::SetValue(const Vec3 &value) {
-  glUniform3fv(id, 1, value.data);
+  glUniform3fv(id, 1, glm::value_ptr(value));
   THROW_ERROR_GL(FATAL.Derived("GL_UNIFORM_3FV_FAIL",
                                "Failed to set float3 uniform `" + name + "`."));
 }

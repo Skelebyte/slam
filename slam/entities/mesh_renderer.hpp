@@ -68,11 +68,13 @@ struct MeshRenderer : public Entity {
 
     transform.Process();
 
-    model = glm::translate(model, transform.position);
-    model = glm::rotate(model, transform.rotation.x, Vec3(1, 0, 0));
-    model = glm::rotate(model, transform.rotation.y, Vec3(0, 1, 0));
-    model = glm::rotate(model, transform.rotation.z, Vec3(0, 0, 1));
-    model = glm::scale(model, transform.scale);
+    model = Mat4(1.0f);
+
+    model = glm::translate(model, transform.GetInheritedPosition());
+
+    model *= glm::mat4_cast(transform.GetInheritedRotation());
+
+    model = glm::scale(model, transform.GetInheritedScale());
 
     // model = Mat4::Transformation(transform.GetInheritedPosition(),
     //                              transform.GetInheritedRotation(),

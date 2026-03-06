@@ -45,12 +45,14 @@ struct Camera : public Entity {
 
     transform.Process();
 
-    view.LookAt(transform.GetInheritedPosition(),
-                transform.GetInheritedPosition() + transform.InheritedForward(),
-                Vec3(0, 1, 0));
+    view = glm::lookAt(transform.GetInheritedPosition(),
+                       transform.GetInheritedPosition() +
+                           transform.InheritedForward(),
+                       Vec3(0, 1, 0));
 
-    projection.Perspective(fov, Engine::Get().window->GetViewportAspect(), near,
-                           far);
+    projection =
+        glm::perspective(Mathf::ToRadians(fov),
+                         Engine::Get().window->GetViewportAspect(), near, far);
 
     shader->Bind();
     shader->GetUniform("view")->SetValue(view);

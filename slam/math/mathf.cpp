@@ -47,6 +47,31 @@ float Mathf::Wrap(float target, float min, float max) {
   return target;
 }
 
+sString Mathf::ToString(const Vec3 &target) {
+  return std::to_string(target.x) + "," + std::to_string(target.y) + "," +
+         std::to_string(target.z);
+}
+
+Vec3 Mathf::Normalized(const Vec3 &target) {
+  if (glm::length(target) == 0) {
+    return Vec3(0);
+  }
+
+  return glm::normalize(target);
+}
+
+Vec3 Mathf::RotateX(const Vec3 &target, float angleDeg) {
+  return glm::rotateX(target, Mathf::ToRadians(angleDeg));
+}
+
+Vec3 Mathf::RotateY(const Vec3 &target, float angleDeg) {
+  return glm::rotateY(target, Mathf::ToRadians(angleDeg));
+}
+
+Vec3 Mathf::RotateZ(const Vec3 &target, float angleDeg) {
+  return glm::rotateZ(target, Mathf::ToRadians(angleDeg));
+}
+
 // Vec2 Fmath::v3_to_v2(Vec3 value) { return Vec2(value.x, value.y); }
 
 // Vec3 Fmath::v2_to_v3(Vec2 value, float z_value) {

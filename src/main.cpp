@@ -53,13 +53,15 @@ int main() {
       Texture("assets/textures/demo/damn.png", TextureFilter::TF_NEAREST);
   slime.transform.scale = Vec3(0.5f);
   slime.transform.position.z = -5;
+  slime.MakeChildOf(&cam);
 
   MeshRenderer slime2 = MeshRenderer("assets/models/cube.fbx");
-  // slime2.texture =
-  //     Texture("assets/textures/demo/frank.png", TextureFilter::TF_NEAREST);
+  slime2.texture =
+      Texture("assets/textures/demo/frank.png", TextureFilter::TF_NEAREST);
   slime2.transform.position.z = -5;
+  slime2.transform.scale = Vec3(2);
 
-  // slime2.MakeChildOf(&slime);
+  slime2.MakeChildOf(&slime);
 
   MeshRenderer gun = MeshRenderer("assets/models/BasicGun.fbx");
   gun.texture = Texture("assets/textures/texture.png");
@@ -85,27 +87,25 @@ int main() {
 
     Vec3 velocity = Vec3();
     velocity += player.transform.Right() *
-                ((float)Input::Get().GetAxis(horizontal) / 100);
+                ((float)Input::Get().GetAxis(horizontal) / 1000);
     velocity += player.transform.Forward() *
-                -((float)Input::Get().GetAxis(vertical) / 100);
+                -((float)Input::Get().GetAxis(vertical) / 1000);
 
-    player.transform.position += velocity.Normalized() / 10;
+    player.transform.position += Mathf::Normalized(velocity);
 
     player.transform.rotation.y +=
         Mathf::ToDegrees((float)Input::Get().GetAxis(rotY) / 100);
-    cam.transform.rotation.x = Mathf::Clamp(cam.transform.rotation.x, -89, 89);
-    // LOG(slime.transform.GetInheritedScale().ToString());
-    cam.transform.rotation.x +=
-        Mathf::ToDegrees((float)Input::Get().GetAxis(rotX) / 10);
 
-    // slime.transform.rotation.x += 0.5f;
+    cam.transform.rotation.x +=
+        Mathf::ToDegrees((float)Input::Get().GetAxis(rotX) / 100);
+    cam.transform.rotation.x = Mathf::Clamp(cam.transform.rotation.x, -89, 89);
+    slime.transform.rotation.x += 0.5f;
     slime.transform.rotation.y += 0.5f;
-    // slime.transform.rotation.z += 0.5f;
+    slime.transform.rotation.z += 0.5f;
 
     cam.Update();
     cube.Update();
     slime.Update();
-    LOG(slime.transform.rotation.ToString());
     slime2.Update();
     gun.Update();
 
@@ -114,7 +114,7 @@ int main() {
     glClearColor(0.05f, 0.1f, 0.05f, 1.0f);
 
     window.SwapAndClear();
-    SDL_Delay(50);
+    SDL_Delay(10);
   }
 
   cam.Destroy();
