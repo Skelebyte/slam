@@ -57,7 +57,11 @@ void Engine::BeginFrame() {
   }
 }
 
-void Engine::EndFrame() {}
+void Engine::EndFrame() {
+  if (!isDrawFrame) {
+    SDL_Delay(10);
+  }
+}
 
 bool Engine::IsDrawFrame() const { return isDrawFrame; }
 

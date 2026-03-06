@@ -121,7 +121,6 @@ sI32 main() {
     glClearColor(0.05f, 0.1f, 0.05f, 1.0f);
 
     window.SwapAndClear();
-    SDL_Delay(10);
 
     Engine::Get().EndFrame();
   }
