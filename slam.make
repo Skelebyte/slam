@@ -97,7 +97,6 @@ GENERATED += $(OBJDIR)/ufbx.o
 GENERATED += $(OBJDIR)/vao.o
 GENERATED += $(OBJDIR)/vbo.o
 GENERATED += $(OBJDIR)/vec2.o
-GENERATED += $(OBJDIR)/vec2i.o
 GENERATED += $(OBJDIR)/vec3.o
 GENERATED += $(OBJDIR)/vertex.o
 GENERATED += $(OBJDIR)/window.o
@@ -126,7 +125,6 @@ OBJECTS += $(OBJDIR)/ufbx.o
 OBJECTS += $(OBJDIR)/vao.o
 OBJECTS += $(OBJDIR)/vbo.o
 OBJECTS += $(OBJDIR)/vec2.o
-OBJECTS += $(OBJDIR)/vec2i.o
 OBJECTS += $(OBJDIR)/vec3.o
 OBJECTS += $(OBJDIR)/vertex.o
 OBJECTS += $(OBJDIR)/window.o
@@ -251,9 +249,6 @@ $(OBJDIR)/quat.o: slam/math/quat.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/vec2.o: slam/math/vec2.cpp
-	@echo "$(notdir $<)"
-	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-$(OBJDIR)/vec2i.o: slam/math/vec2i.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/vec3.o: slam/math/vec3.cpp

@@ -6,7 +6,19 @@ using namespace slam::gfx;
 using namespace slam::err;
 using namespace slam::util;
 
+Texture::Texture() {
+  sUchar *data = Texture::CustomTexture(4, 4, 255, 255, 255, 200, 200, 200);
+
+  LoadFromData(data, 3, 4, 4);
+}
+
 Texture::Texture(const sString &path, TextureFilter filter) {
+  if (path.empty() == true) {
+    sUchar *data = Texture::CustomTexture(4, 4, 255, 255, 255, 200, 200, 200);
+
+    LoadFromData(data, 3, 4, 4);
+  }
+
   if (File::Exists(path) == false) {
     THROW_ERROR(WARNING.Derived(
         "", "File " + path + " does not exist! Loading missing texture."));
@@ -29,7 +41,7 @@ Texture::Texture(const sString &path, TextureFilter filter) {
     return;
   }
 
-  LoadFromData(data, channels, width, height);
+  LoadFromData(data, channels, width, height, filter);
 }
 
 void Texture::Destroy() {
@@ -45,7 +57,7 @@ void Texture::TextureFallback() {
 }
 
 void Texture::LoadFromData(sUchar *data, sUint channels, sUint width,
-                           sUint height) {
+                           sUint height, TextureFilter filter) {
   if (!data) {
     THROW_ERROR(ERROR.Derived("", "The `data` parameter is not valid!"));
     return;
@@ -65,12 +77,19 @@ void Texture::LoadFromData(sUchar *data, sUint channels, sUint width,
   THROW_ERROR_GL(
       FATAL.Derived("", " Setting GL_TEXTURE_WRAP_T parameter failed."));
 
-  // TODO: add checks to actually use `TextureFilter`
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-  THROW_ERROR_GL(FATAL.Derived("", "Setting MIN_FILTER failed."));
+  if (filter == TF_NEAREST) {
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    THROW_ERROR_GL(FATAL.Derived("", "Setting MIN_FILTER failed."));
 
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-  THROW_ERROR_GL(FATAL.Derived("", "Setting MAG_FILTER failed."));
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    THROW_ERROR_GL(FATAL.Derived("", "Setting MAG_FILTER failed."));
+  } else {
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    THROW_ERROR_GL(FATAL.Derived("", "Setting MIN_FILTER failed."));
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    THROW_ERROR_GL(FATAL.Derived("", "Setting MAG_FILTER failed."));
+  }
 
   sUint format = channels == 4 ? GL_RGBA : GL_RGB;
 

@@ -82,7 +82,7 @@ void Window::Update() {
     }
   }
 
-  Vec2i dimensions = this->GetDimensions();
+  Vec2 dimensions = this->GetDimensions();
 
   float windowAspect = (float)dimensions.x / dimensions.y;
   float gameAspect = (float)1920 / 1080;
@@ -126,17 +126,21 @@ void Window::SwapAndClear() {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-Vec2i Window::GetDimensions() {
-  IS_DESTROYED(Vec2i());
+Vec2 Window::GetDimensions() {
+  IS_DESTROYED(Vec2());
 
-  Vec2i dimensions;
+  int x;
+  int y;
+  Vec2 dimensions;
 
-  if (SDL_GetWindowSize(this->sdlWindow, &dimensions.x, &dimensions.y) ==
-      false) {
+  if (SDL_GetWindowSize(this->sdlWindow, &x, &y) == false) {
     THROW_ERROR(ERROR.Derived("", "SDL failed to get window size! SDL error: " +
                                       sString(SDL_GetError())));
     dimensions.x = 0;
     dimensions.y = 0;
+  } else {
+    dimensions.x = x;
+    dimensions.y = y;
   }
 
   return dimensions;
@@ -148,14 +152,14 @@ void Window::Stop() {
   running = false;
 }
 
-Vec2i Window::GetViewportPosition() const {
-  IS_DESTROYED(Vec2i());
+Vec2 Window::GetViewportPosition() const {
+  IS_DESTROYED(Vec2());
 
   return viewportPosition;
 }
 
-Vec2i Window::GetViewportSize() const {
-  IS_DESTROYED(Vec2i());
+Vec2 Window::GetViewportSize() const {
+  IS_DESTROYED(Vec2());
 
   return viewportSize;
 }

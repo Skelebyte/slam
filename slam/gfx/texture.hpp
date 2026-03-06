@@ -15,11 +15,12 @@ enum TextureFilter {
 };
 
 struct Texture : public Destroyable, public ID {
-  Texture() = default;
-  Texture(const sString &path, TextureFilter filter);
+  Texture();
+  Texture(const sString &path, TextureFilter filter = TF_NEAREST);
   void Destroy() override;
   void TextureFallback();
-  void LoadFromData(sUchar *data, sUint channels, sUint width, sUint height);
+  void LoadFromData(sUchar *data, sUint channels, sUint width, sUint height,
+                    TextureFilter filter = TF_NEAREST);
   static sUchar *CustomTexture(sUint width, sUint height, sUint r1, sUint g1,
                                sUint b1, sUint r2, sUint g2, sUint b2);
   void Bind();

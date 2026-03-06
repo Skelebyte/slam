@@ -29,6 +29,24 @@ float Mathf::ToDegrees(float value) {
 
 float Mathf::Lerp(float a, float b, float t) { return a + t * (b - a); }
 
+float Mathf::Clamp(float target, float min, float max) {
+  if (target > max)
+    return max;
+  if (target < min)
+    return min;
+
+  return target;
+}
+
+float Mathf::Wrap(float target, float min, float max) {
+  if (target > max)
+    return target - max;
+  if (target < min)
+    return target + abs(min);
+
+  return target;
+}
+
 // Vec2 Fmath::v3_to_v2(Vec3 value) { return Vec2(value.x, value.y); }
 
 // Vec3 Fmath::v2_to_v3(Vec2 value, float z_value) {

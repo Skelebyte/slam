@@ -30,10 +30,10 @@ using namespace slam;
 namespace slam::entities {
 
 struct MeshRenderer : public Entity {
-  MeshRenderer(Shader *shader, const sString &path) {
-    this->shader = shader;
+  MeshRenderer(const sString &path) {
+    this->shader = Renderer::Get().GetShader("default");
     mesh = Mesh(path);
-    texture = Texture("assets/textures/demo/difuse.png", slam::gfx::TF_LINEAR);
+    texture = Texture();
 
     model = Mat4();
 

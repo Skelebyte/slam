@@ -31,13 +31,8 @@ using namespace slam;
 namespace slam::entities {
 
 struct Line : public Entity {
-  Line(Camera *camera, const Vec3 &start, const Vec3 &end,
-       const sString &frag = "assets/shaders/line_frag.glsl",
-       const sString &vert = "assets/shaders/line_vert.glsl") {
-    shader = Shader(frag, vert);
-    shader.AddUniform("view");
-    shader.AddUniform("projection");
-    shader.AddUniform("color");
+  Line(Camera *camera, const Vec3 &start, const Vec3 &end) {
+    shader = Renderer::Get().GetShader("line");
     this->camera = camera;
     this->start = start;
     this->end = end;
@@ -68,17 +63,17 @@ struct Line : public Entity {
   void Destroy() override {
     DESTROY();
 
-    shader.Destroy();
+    shader = nullptr;
     camera = nullptr;
   }
 
   void Update() override {
     IS_DESTROYED();
 
-    shader.Bind();
-    shader.GetUniform("view")->SetValue(camera->view);
-    shader.GetUniform("projection")->SetValue(camera->projection);
-    shader.GetUniform("color")->SetValue(color);
+    shader->Bind();
+    shader->GetUniform("view")->SetValue(camera->view);
+    shader->GetUniform("projection")->SetValue(camera->projection);
+    shader->GetUniform("color")->SetValue(color);
 
     vao.Bind();
     glDrawArrays(GL_LINES, 0, 2);
@@ -86,13 +81,13 @@ struct Line : public Entity {
   Vec3 color = Vec3(1.0f, 0.0f, 0.0f);
   Vec3 start;
   Vec3 end;
-  Shader shader;
 
 private:
   List<float> points;
   Camera *camera;
   VAO vao;
   VBO vbo;
+  Shader *shader;
 };
 
 } // namespace slam::entities

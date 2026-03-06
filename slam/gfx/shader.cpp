@@ -45,7 +45,8 @@ void Uniform::SetValue(int value) {
                                "Failed to set int1 uniform `" + name + "`."));
 }
 
-Shader::Shader(const sString &fragPath, const sString &vertPath) {
+Shader::Shader(const sString &name, const sString &fragPath,
+               const sString &vertPath) {
   if (File::Exists(fragPath) == false) {
     THROW_ERROR(FATAL.Derived("", "No file " + fragPath + " found."));
     return;
@@ -54,6 +55,8 @@ Shader::Shader(const sString &fragPath, const sString &vertPath) {
     THROW_ERROR(FATAL.Derived("", "No file " + vertPath + " found."));
     return;
   }
+
+  SetName(name);
 
   sString fragContent = File::Read(fragPath);
   sString vertContent = File::Read(vertPath);
@@ -163,6 +166,10 @@ void Shader::Bind() {
   glUseProgram(GetID());
   THROW_ERROR_GL(FATAL.Derived("GL_USE_PROGRAM_FAIL"));
 }
+
+void Shader::SetName(const sString &name) { this->name = name; }
+
+sString &Shader::GetName() { return name; }
 
 bool Shader::IsCompileNotOK(sUint shader, const sString &type) {
   int success;

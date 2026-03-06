@@ -4,7 +4,7 @@
 #include "../common.hpp"
 #include "../err/err_sys.hpp"
 #include "../evt/evt_sys.hpp"
-#include "../math/vec2i.hpp"
+#include "../math/vec2.hpp"
 #include <SDL3/SDL.h>
 #include <string>
 
@@ -20,10 +20,10 @@ struct Window : public Destroyable {
   SDL_Window *GetSDLWindow() const;
   void Update();
   void SwapAndClear();
-  math::Vec2i GetDimensions();
+  math::Vec2 GetDimensions();
   void Stop();
-  math::Vec2i GetViewportPosition() const;
-  math::Vec2i GetViewportSize() const;
+  math::Vec2 GetViewportPosition() const;
+  math::Vec2 GetViewportSize() const;
   float GetViewportAspect() const;
 
 private:
@@ -31,8 +31,8 @@ private:
   SDL_Window *sdlWindow;
   bool pillarboxed;
   bool letterboxed;
-  math::Vec2i viewportPosition;
-  math::Vec2i viewportSize;
+  math::Vec2 viewportPosition;
+  math::Vec2 viewportSize;
 };
 
 static void ErrorWindow();

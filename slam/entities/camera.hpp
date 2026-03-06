@@ -30,10 +30,10 @@ using namespace slam;
 namespace slam::entities {
 
 struct Camera : public Entity {
-  Camera(Shader *shader) {
+  Camera() {
     view = Mat4();
     projection = Mat4();
-    this->shader = shader;
+    shader = Renderer::Get().GetShader("default");
   }
   void Destroy() override {
     DESTROY();

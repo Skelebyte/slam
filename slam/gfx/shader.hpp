@@ -26,14 +26,18 @@ private:
 };
 
 struct Shader : public ID, public Destroyable {
-  Shader(const sString &fragPath = "assets/shaders/fragment.glsl",
+  Shader(const sString &name,
+         const sString &fragPath = "assets/shaders/fragment.glsl",
          const sString &vertPath = "assets/shaders/vertex.glsl");
   void Destroy() override;
   void AddUniform(const sString &name);
   Uniform *GetUniform(const sString &name);
   void Bind();
+  void SetName(const sString &name);
+  sString &GetName();
 
 private:
+  sString name = "";
   List<Uniform> uniforms;
   bool IsCompileNotOK(sUint shader, const sString &type);
   bool IsLinkOK();

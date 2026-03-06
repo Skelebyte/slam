@@ -1,6 +1,8 @@
 #ifndef SLAM_COMMON_HPP
 #define SLAM_COMMON_HPP
 
+// #include "ext/HandmadeMath.h"
+#include "ext/glm/glm.hpp"
 #include <iostream>
 #include <string>
 #include <vector>

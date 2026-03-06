@@ -35,11 +35,34 @@ void Renderer::Init(dpy::Window *window) {
 
   glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
+  shaders = List<Shader>();
+
+  AddShader("default", "fragment.glsl", "vertex.glsl");
+  AddShader("line", "line_frag.glsl", "line_vert.glsl");
+  AddShader("ui", "ui_frag.glsl", "ui_vert.glsl");
+
+  GetShader("default")->AddUniform("model");
+  GetShader("default")->AddUniform("view");
+  GetShader("default")->AddUniform("projection");
+  GetShader("default")->AddUniform("diffuse_texture");
+  GetShader("default")->AddUniform("light_color");
+
+  GetShader("line")->AddUniform("view");
+  GetShader("line")->AddUniform("projection");
+  GetShader("line")->AddUniform("color");
+
   initialized = true;
 }
 
 void Renderer::Shutdown() {
   SDL_GL_DestroyContext(gl);
+
+  for (sUint i = 0; i < shaders.Size(); i++) {
+    shaders[i].Destroy();
+  }
+
+  shaders.Clear();
+
   initialized = false;
 }
 
@@ -52,4 +75,32 @@ void Renderer::ToggleWireframe() {
   } else {
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
   }
+}
+
+void Renderer::AddShader(const sString &name, const sString &fragPath,
+                         const sString &vertPath) {
+  bool silence = ErrorSystem::Get().silenceWarnings;
+
+  ErrorSystem::Get().silenceWarnings = true;
+  Shader *temp = GetShader(name);
+  ErrorSystem::Get().silenceWarnings = silence;
+  if (temp != nullptr) {
+    THROW_ERROR(WARNING.Derived("", "A shader with the name `" + name +
+                                        "` already exists!"));
+    return;
+  }
+
+  shaders.Add(Shader(name, shaderPath + fragPath, shaderPath + vertPath));
+}
+
+Shader *Renderer::GetShader(const sString &name) {
+  for (sUint i = 0; i < shaders.Size(); i++) {
+    if (name == shaders[i].GetName()) {
+      return &shaders[i];
+    }
+  }
+
+  THROW_ERROR(WARNING.Derived("", "Could not find shader with the name `" +
+                                      name + "`!"));
+  return nullptr;
 }
