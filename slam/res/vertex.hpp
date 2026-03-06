@@ -2,8 +2,7 @@
 #define SLAM_VERTEX_HPP
 
 #include "../common.hpp"
-#include "../math/vec2.hpp"
-#include "../math/vec3.hpp"
+#include "../math/mathf.hpp"
 
 namespace slam::res {
 

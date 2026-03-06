@@ -2,6 +2,9 @@
 #define SLAM_MATHF_HPP
 
 #include "../ext/glm/glm.hpp"
+#include "../ext/glm/ext/matrix_transform.hpp"
+#include "../ext/glm/ext/quaternion_geometric.hpp"
+#include "../ext/glm/geometric.hpp"
 // #include "../ext/gtx/rotate_vector.hpp"
 
 namespace slam::math {

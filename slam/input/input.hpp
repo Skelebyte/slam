@@ -4,7 +4,7 @@
 #include "../common.hpp"
 #include "../dpy/window.hpp"
 #include "../engine.hpp"
-#include "../math/vec2.hpp"
+#include "../math/mathf.hpp"
 
 namespace slam::input {
 

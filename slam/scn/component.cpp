@@ -28,14 +28,14 @@ Vec3 Transform::Forward() const {
   return forward;
 }
 
-Vec3 Transform::InheritedForward() const {
-  Vec3 forward = Vec3(0, 0, -1);
-  forward.Rotate(GetInheritedRotation().x, Vec3(1, 0, 0));
-  forward.Rotate(GetInheritedRotation().y, Vec3(0, 1, 0));
-  forward.Rotate(GetInheritedRotation().z, Vec3(0, 0, -1));
+// Vec3 Transform::InheritedForward() const {
+//   Vec3 forward = Vec3(0, 0, -1);
+//   forward.Rotate(GetInheritedRotation().x, Vec3(1, 0, 0));
+//   forward.Rotate(GetInheritedRotation().y, Vec3(0, 1, 0));
+//   forward.Rotate(GetInheritedRotation().z, Vec3(0, 0, -1));
 
-  return forward;
-}
+//   return forward;
+// }
 
 Vec3 Transform::Right() const {
   Vec3 right = Vec3(1, 0, 0);
@@ -48,29 +48,29 @@ Vec3 Transform::Right() const {
   return right;
 }
 
-Vec3 Transform::GetInheritedPosition() const {
+// Vec3 Transform::GetInheritedPosition() const {
 
-  if (parent == nullptr) {
-    return position;
-  }
-  Vec3 value = Vec3();
+//   if (parent == nullptr) {
+//     return position;
+//   }
+//   Vec3 value = Vec3();
 
-  Vec3 inheritedRot = parent->GetInheritedRotation();
+//   Vec3 inheritedRot = parent->GetInheritedRotation();
 
-  Vec3 result = inheritedRot * position;
+//   Vec3 result = inheritedRot * position;
 
-  value = parent->GetInheritedPosition() + Vec3(result.x, result.y, result.z);
+//   value = parent->GetInheritedPosition() + Vec3(result.x, result.y, result.z);
 
-  return value;
-}
+//   return value;
+// }
 
-Vec3 Transform::GetInheritedRotation() const {
-  if (parent == nullptr) {
-    return rotation;
-  }
+// Vec3 Transform::GetInheritedRotation() const {
+//   if (parent == nullptr) {
+//     return rotation;
+//   }
 
-  return parent->GetInheritedRotation() * rotation;
-}
+//   return parent->GetInheritedRotation() * rotation;
+// }
 
 /*
 Quat Transform::GetInheritedRotation() const {
@@ -82,13 +82,13 @@ Quat Transform::GetInheritedRotation() const {
 }
 */
 
-Vec3 Transform::GetInheritedScale() const {
-  Vec3 value = scale;
-  if (parent != nullptr) {
-    value *= parent->scale;
-  }
-  return value;
-}
+// Vec3 Transform::GetInheritedScale() const {
+//   Vec3 value = scale;
+//   if (parent != nullptr) {
+//     value *= parent->scale;
+//   }
+//   return value;
+// }
 
 Component::Component() { SetID(ComponentManager::Get().GetNextID()); }
 

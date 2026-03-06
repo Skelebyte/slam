@@ -5,7 +5,7 @@
 #include "../dpy/window.hpp"
 #include "../ext/glad/glad.h"
 #include "../list.hpp"
-#include "../math/mat4.hpp"
+#include "../math/mathf.hpp"
 #include "../util/file.hpp"
 #include <SDL3/SDL.h>
 

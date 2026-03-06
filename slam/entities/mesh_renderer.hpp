@@ -11,8 +11,7 @@
 #include "../gfx/vao.hpp"
 #include "../gfx/vbo.hpp"
 #include "../input/input.hpp"
-#include "../math/mat4.hpp"
-#include "../math/vec3.hpp"
+#include "../math/mathf.hpp"
 #include "../res/mesh.hpp"
 #include "../scn/component.hpp"
 #include "../scn/entity.hpp"
@@ -69,9 +68,15 @@ struct MeshRenderer : public Entity {
 
     transform.Process();
 
-    model = Mat4::Transformation(transform.GetInheritedPosition(),
-                                 transform.GetInheritedRotation(),
-                                 transform.GetInheritedScale());
+    model = glm::translate(model, transform.position);
+    model = glm::rotate(model, transform.rotation.x, Vec3(1, 0, 0));
+    model = glm::rotate(model, transform.rotation.y, Vec3(0, 1, 0));
+    model = glm::rotate(model, transform.rotation.z, Vec3(0, 0, 1));
+    model = glm::scale(model, transform.scale);
+
+    // model = Mat4::Transformation(transform.GetInheritedPosition(),
+    //                              transform.GetInheritedRotation(),
+    //                              transform.GetInheritedScale());
 
     shader->Bind();
     shader->GetUniform("model")->SetValue(model);

@@ -4,7 +4,7 @@
 #include "../common.hpp"
 #include "../err/err_sys.hpp"
 #include "../evt/evt_sys.hpp"
-#include "../math/vec2.hpp"
+#include "../math/mathf.hpp"
 #include <SDL3/SDL.h>
 #include <string>
 
