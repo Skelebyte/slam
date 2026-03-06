@@ -10,7 +10,7 @@ Event::Event(const sString &name) {
 void Event::Invoke() {
   IS_DESTROYED();
 
-  for (sUint i = 0; i < listeners.Size(); i++) {
+  for (sU32 i = 0; i < listeners.Size(); i++) {
     listeners[i]();
   }
 }

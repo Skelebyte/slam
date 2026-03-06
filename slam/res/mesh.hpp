@@ -14,9 +14,9 @@ struct Mesh {
   Mesh() = default;
   Mesh(const sString &path);
   List<Vertex> vertices;
-  List<sUint> indices;
+  List<sU32> indices;
 
-  List<float> data;
+  List<sF32> data;
 };
 
 } // namespace slam::res

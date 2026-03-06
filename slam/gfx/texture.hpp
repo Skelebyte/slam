@@ -19,10 +19,10 @@ struct Texture : public Destroyable, public ID {
   Texture(const sString &path, TextureFilter filter = TF_NEAREST);
   void Destroy() override;
   void TextureFallback();
-  void LoadFromData(sUchar *data, sUint channels, sUint width, sUint height,
+  void LoadFromData(sU8 *data, sU32 channels, sU32 width, sU32 height,
                     TextureFilter filter = TF_NEAREST);
-  static sUchar *CustomTexture(sUint width, sUint height, sUint r1, sUint g1,
-                               sUint b1, sUint r2, sUint g2, sUint b2);
+  static sU8 *CustomTexture(sU32 width, sU32 height, sU32 r1, sU32 g1, sU32 b1,
+                            sU32 r2, sU32 g2, sU32 b2);
   void Bind();
   void Unbind();
 };

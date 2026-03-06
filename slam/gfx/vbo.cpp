@@ -4,7 +4,7 @@ using namespace slam;
 using namespace slam::gfx;
 using namespace slam::err;
 
-void VBO::Init(float *vertices, size_t size) {
+void VBO::Init(sF32 *vertices, size_t size) {
   glGenBuffers(1, GetID_Ptr());
   THROW_ERROR_GL(FATAL.Derived("GL_GEN_BUFFERS_FAIL",
                                "Generating the VBO buffer failed!"));

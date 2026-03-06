@@ -28,9 +28,10 @@ using namespace slam::input;
 using namespace slam::entities;
 using namespace slam;
 
-int main() {
-  Engine::Get().Init();
+sI32 main() {
+  Engine::Get().Init(144);
   Window window = Window("Hi mum!");
+  window.appendFpsToTitle = true;
   Renderer::Get().Init(&window);
 
   ErrorSystem::Get().silenceWarnings = true;
@@ -79,29 +80,35 @@ int main() {
   Line line = Line(&cam, Vec3(0, 1, 0), Vec3(4, 0.5, -3));
 
   while (window.IsRunning()) {
+    Engine::Get().BeginFrame();
+
     window.Update();
+    // window.SetTitle(std::to_string(Engine::Get().GetFps()));
 
     if (Input::Get().GetKeyOnce(&toggleWireframe)) {
       Renderer::Get().ToggleWireframe();
     }
 
     Vec3 velocity = Vec3();
-    velocity += player.transform.Right() *
-                ((float)Input::Get().GetAxis(horizontal) / 1000);
-    velocity += player.transform.Forward() *
-                -((float)Input::Get().GetAxis(vertical) / 1000);
+    velocity +=
+        player.transform.Right() * ((sF32)Input::Get().GetAxis(horizontal));
+    velocity +=
+        player.transform.Forward() * -((sF32)Input::Get().GetAxis(vertical));
 
-    player.transform.position += Mathf::Normalized(velocity);
+    player.transform.position +=
+        Mathf::Normalized(velocity) * Engine::Get().deltaTime;
 
     player.transform.rotation.y +=
-        Mathf::ToDegrees((float)Input::Get().GetAxis(rotY) / 100);
+        Mathf::ToDegrees((sF32)Input::Get().GetAxis(rotY)) *
+        Engine::Get().deltaTime;
 
     cam.transform.rotation.x +=
-        Mathf::ToDegrees((float)Input::Get().GetAxis(rotX) / 100);
+        Mathf::ToDegrees((sF32)Input::Get().GetAxis(rotX)) *
+        Engine::Get().deltaTime;
     cam.transform.rotation.x = Mathf::Clamp(cam.transform.rotation.x, -89, 89);
-    slime.transform.rotation.x += 0.5f;
-    slime.transform.rotation.y += 0.5f;
-    slime.transform.rotation.z += 0.5f;
+    slime.transform.rotation.x += 1.0f * Engine::Get().deltaTime;
+    slime.transform.rotation.y += 1.0f * Engine::Get().deltaTime;
+    slime.transform.rotation.z += 1.0f * Engine::Get().deltaTime;
 
     cam.Update();
     cube.Update();
@@ -115,6 +122,8 @@ int main() {
 
     window.SwapAndClear();
     SDL_Delay(10);
+
+    Engine::Get().EndFrame();
   }
 
   cam.Destroy();

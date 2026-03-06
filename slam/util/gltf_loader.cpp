@@ -24,5 +24,5 @@ void Loader::Load(const sString &path) {
       fileString.substr(0, fileString.find_last_of('/') + 1);
   bytesText = File::Read(fileDirectory + uri);
 
-  std::vector<sUchar> data(bytesText.begin(), bytesText.end());
+  std::vector<sU8> data(bytesText.begin(), bytesText.end());
 }

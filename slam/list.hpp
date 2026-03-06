@@ -11,9 +11,9 @@ template <typename T> struct List {
   /**
    * @brief Returns number of elements
    *
-   * @return sUint
+   * @return sU32
    */
-  sUint Size() { return data.size(); }
+  sU32 Size() { return data.size(); }
   void Add(const T &value, bool first = false) {
     if (first) {
       data.insert(data.begin(), value);
@@ -22,7 +22,7 @@ template <typename T> struct List {
     }
   }
 
-  void Remove(sUint index) {
+  void Remove(sU32 index) {
     if (index > Size()) {
       err::ErrorSystem::THROW_ERROR(err::ERROR.Derived(
           "INDEX_OUT_OF_BOUNDS", "Index " + std::to_string(index) +
@@ -38,7 +38,7 @@ template <typename T> struct List {
 
   auto *Pointer() { return data.data(); }
 
-  T &operator[](sUint index) {
+  T &operator[](sU32 index) {
     if (index > Size()) {
       err::ErrorSystem::THROW_ERROR(err::FATAL.Derived(
           "INDEX_OUT_OF_BOUNDS", "Index " + std::to_string(index) +

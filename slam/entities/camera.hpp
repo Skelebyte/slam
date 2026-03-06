@@ -59,9 +59,9 @@ struct Camera : public Entity {
     shader->GetUniform("projection")->SetValue(projection);
   }
 
-  float fov = 75.0f;
-  float near = 0.1f;
-  float far = 100.0f;
+  sF32 fov = 75.0f;
+  sF32 near = 0.1f;
+  sF32 far = 100.0f;
   Mat4 view;
   Mat4 projection;
 

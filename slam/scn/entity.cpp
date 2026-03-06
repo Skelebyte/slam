@@ -13,7 +13,7 @@ Entity::Entity() {
 void Entity::Destroy() {
   DESTROY();
 
-  for (int i = 0; i < components.Size(); i++) {
+  for (sI32 i = 0; i < components.Size(); i++) {
     (*components[i]).Destroy();
   }
 }
@@ -21,13 +21,13 @@ void Entity::Destroy() {
 void Entity::Update() {
   IS_DESTROYED();
 
-  for (int i = 0; i < components.Size(); i++) {
+  for (sI32 i = 0; i < components.Size(); i++) {
     (*components[i]).Process();
   }
 }
 
 // template <typename T> T *Entity::GetComponent() {
-//   for (int i = 0; i < this->components.Size(); i++) {
+//   for (sI32 i = 0; i < this->components.Size(); i++) {
 //     if (typeid(this->components[i]) == typeid(T)) {
 //       return (T)this->components[i];
 //     }
@@ -41,7 +41,7 @@ void Entity::Update() {
 // }
 
 // template <typename T> bool Entity::HasComponentOfType() {
-//   for (int i = 0; i < this->components.Size(); i++) {
+//   for (sI32 i = 0; i < this->components.Size(); i++) {
 //     if (typeid(this->components[i]) == typeid(T)) {
 //       return true;
 //     }
@@ -64,8 +64,8 @@ void Entity::AddComponent(Component *component) {
 
 void Entity::RemoveComponent(Component *component) {
   bool foundComp = false;
-  int compIndex = 0;
-  for (int i = 0; i < components.Size(); i++) {
+  sI32 compIndex = 0;
+  for (sI32 i = 0; i < components.Size(); i++) {
     if ((*components[i]).GetID() == component->GetID()) {
       foundComp = true;
       compIndex = i;
@@ -85,7 +85,7 @@ void Entity::RemoveComponent(Component *component) {
   components.Remove(compIndex);
 }
 
-sUint Entity::ComponentAmount() { return components.Size(); }
+sU32 Entity::ComponentAmount() { return components.Size(); }
 
 void Entity::MakeChildOf(Entity *entity) {
   if (entity == nullptr) {
@@ -96,7 +96,7 @@ void Entity::MakeChildOf(Entity *entity) {
   transform.parent = &entity->transform;
 }
 
-sUint EntityManager::GetNextID() {
+sU32 EntityManager::GetNextID() {
   nextID++;
 
   return nextID - 1;

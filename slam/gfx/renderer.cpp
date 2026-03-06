@@ -57,7 +57,7 @@ void Renderer::Init(dpy::Window *window) {
 void Renderer::Shutdown() {
   SDL_GL_DestroyContext(gl);
 
-  for (sUint i = 0; i < shaders.Size(); i++) {
+  for (sU32 i = 0; i < shaders.Size(); i++) {
     shaders[i].Destroy();
   }
 
@@ -94,7 +94,7 @@ void Renderer::AddShader(const sString &name, const sString &fragPath,
 }
 
 Shader *Renderer::GetShader(const sString &name) {
-  for (sUint i = 0; i < shaders.Size(); i++) {
+  for (sU32 i = 0; i < shaders.Size(); i++) {
     if (name == shaders[i].GetName()) {
       return &shaders[i];
     }

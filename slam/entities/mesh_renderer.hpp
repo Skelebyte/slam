@@ -43,14 +43,14 @@ struct MeshRenderer : public Entity {
     vao.Init();
     vao.Bind();
 
-    vbo.Init(mesh.data.Pointer(), sizeof(float) * mesh.data.Size());
-    ebo.Init(mesh.indices.Pointer(), sizeof(sUint) * mesh.indices.Size());
+    vbo.Init(mesh.data.Pointer(), sizeof(sF32) * mesh.data.Size());
+    ebo.Init(mesh.indices.Pointer(), sizeof(sU32) * mesh.indices.Size());
 
-    vao.LinkAttrib(vbo, 0, 3, GL_FLOAT, 8 * sizeof(float), (void *)0);
-    vao.LinkAttrib(vbo, 1, 2, GL_FLOAT, 8 * sizeof(float),
-                   (void *)(3 * sizeof(float)));
-    vao.LinkAttrib(vbo, 2, 3, GL_FLOAT, 8 * sizeof(float),
-                   (void *)(5 * sizeof(float)));
+    vao.LinkAttrib(vbo, 0, 3, GL_FLOAT, 8 * sizeof(sF32), (void *)0);
+    vao.LinkAttrib(vbo, 1, 2, GL_FLOAT, 8 * sizeof(sF32),
+                   (void *)(3 * sizeof(sF32)));
+    vao.LinkAttrib(vbo, 2, 3, GL_FLOAT, 8 * sizeof(sF32),
+                   (void *)(5 * sizeof(sF32)));
 
     vbo.Unbind();
     vao.Unbind();
@@ -67,6 +67,10 @@ struct MeshRenderer : public Entity {
     IS_DESTROYED();
 
     transform.Process();
+
+    if (!Engine::Get().IsDrawFrame()) {
+      return;
+    }
 
     model = Mat4(1.0f);
 

@@ -13,7 +13,7 @@ struct Entity : public ID, public Destroyable {
   void Destroy() override;
   virtual void Update();
   template <typename T> T *GetComponent() {
-    for (int i = 0; i < this->components.Size(); i++) {
+    for (sI32 i = 0; i < this->components.Size(); i++) {
       if (typeid(this->components[i]) == typeid(T)) {
         return (T)this->components[i];
       }
@@ -27,7 +27,7 @@ struct Entity : public ID, public Destroyable {
   }
 
   template <typename T> bool HasComponentOfType() {
-    for (int i = 0; i < this->components.Size(); i++) {
+    for (sI32 i = 0; i < this->components.Size(); i++) {
       if (dynamic_cast<T *>(this->components[i]) != nullptr) {
         return true;
       }
@@ -37,7 +37,7 @@ struct Entity : public ID, public Destroyable {
 
   void AddComponent(Component *component);
   void RemoveComponent(Component *component);
-  sUint ComponentAmount();
+  sU32 ComponentAmount();
   void MakeChildOf(Entity *entity);
 
   Transform transform;
@@ -47,10 +47,10 @@ protected:
 };
 
 struct EntityManager : public Singleton<EntityManager> {
-  sUint GetNextID();
+  sU32 GetNextID();
 
 private:
-  sUint nextID = 1;
+  sU32 nextID = 1;
 };
 
 } // namespace slam::scn

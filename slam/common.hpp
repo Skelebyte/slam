@@ -3,13 +3,19 @@
 
 // #include "ext/HandmadeMath.h"
 #include "ext/glm/glm.hpp"
+#include <cstdint>
 #include <iostream>
 #include <string>
 #include <vector>
 
 namespace slam {
-typedef unsigned int sUint;
-typedef unsigned char sUchar;
+typedef int32_t sI32;
+typedef uint32_t sU32;
+typedef int64_t sI64;
+typedef uint64_t sU64;
+typedef float sF32;
+typedef double sF64;
+typedef unsigned char sU8;
 typedef std::string sString;
 
 struct Destroyable {
@@ -32,14 +38,14 @@ protected:
 };
 
 struct ID {
-  sUint GetID() { return id; }
+  sU32 GetID() { return id; }
 
 protected:
-  sUint *GetID_Ptr() { return &id; }
-  void SetID(sUint newID) { id = newID; }
+  sU32 *GetID_Ptr() { return &id; }
+  void SetID(sU32 newID) { id = newID; }
 
 private:
-  sUint id;
+  sU32 id;
 };
 
 /**

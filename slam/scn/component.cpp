@@ -78,7 +78,7 @@ Vec3 Transform::GetInheritedScale() const {
 
 Component::Component() { SetID(ComponentManager::Get().GetNextID()); }
 
-sUint ComponentManager::GetNextID() {
+sU32 ComponentManager::GetNextID() {
   nextID++;
 
   return nextID - 1;

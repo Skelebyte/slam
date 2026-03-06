@@ -7,7 +7,7 @@ using namespace slam::err;
 using namespace slam::util;
 using namespace slam::math;
 
-Uniform::Uniform(const sString &name, sUint shaderID) {
+Uniform::Uniform(const sString &name, sU32 shaderID) {
   id = glGetUniformLocation(shaderID, name.c_str());
   THROW_ERROR_GL(FATAL.Derived(
       "GL_GET_UNIFORM_LOCATION_FAIL",
@@ -18,7 +18,7 @@ Uniform::Uniform(const sString &name, sUint shaderID) {
 
 sString Uniform::GetName() const { return name; }
 
-sUint Uniform::GetID() const { return id; }
+sU32 Uniform::GetID() const { return id; }
 
 void Uniform::SetValue(const Mat4 &value) {
   glUniformMatrix4fv(id, 1, GL_FALSE, glm::value_ptr(value));
@@ -33,13 +33,13 @@ void Uniform::SetValue(const Vec3 &value) {
                                "Failed to set float3 uniform `" + name + "`."));
 }
 
-void Uniform::SetValue(float value) {
+void Uniform::SetValue(sF32 value) {
   glUniform1f(id, value);
   THROW_ERROR_GL(FATAL.Derived("GL_UNIFORM_1F_FAIL",
                                "Failed to set float1 uniform `" + name + "`."));
 }
 
-void Uniform::SetValue(int value) {
+void Uniform::SetValue(sI32 value) {
   glUniform1i(id, value);
   THROW_ERROR_GL(FATAL.Derived("GL_UNIFORM_1I_FAIL",
                                "Failed to set int1 uniform `" + name + "`."));
@@ -75,7 +75,7 @@ Shader::Shader(const sString &name, const sString &fragPath,
   const char *ccFrag = fragContent.c_str();
   const char *ccVert = vertContent.c_str();
 
-  sUint frag = glCreateShader(GL_FRAGMENT_SHADER);
+  sU32 frag = glCreateShader(GL_FRAGMENT_SHADER);
   THROW_ERROR_GL(FATAL.Derived("GL_CREATE_SHADER_FAIL",
                                "Failed to create fragment shader."));
 
@@ -88,7 +88,7 @@ Shader::Shader(const sString &name, const sString &fragPath,
   if (IsCompileNotOK(frag, "FRAGMENT"))
     return;
 
-  sUint vert = glCreateShader(GL_VERTEX_SHADER);
+  sU32 vert = glCreateShader(GL_VERTEX_SHADER);
   THROW_ERROR_GL(FATAL.Derived("GL_CREATE_SHADER_FAIL",
                                "Failed to create vertex shader."));
 
@@ -117,7 +117,7 @@ Shader::Shader(const sString &name, const sString &fragPath,
 
   IsLinkOK();
 
-  int isProgramValid = glIsProgram(GetID());
+  sI32 isProgramValid = glIsProgram(GetID());
   LOG("Is program valid: " << isProgramValid << ".");
 
   glDeleteShader(frag);
@@ -134,7 +134,7 @@ void Shader::Destroy() {
 void Shader::AddUniform(const sString &name) {
   IS_DESTROYED();
 
-  for (int i = 0; i < uniforms.Size(); i++) {
+  for (sI32 i = 0; i < uniforms.Size(); i++) {
     if (uniforms[i].GetName() == name) {
       THROW_ERROR(ERROR.Derived("", "Uniform `" + name +
                                         "` already exists in this shader!"));
@@ -148,7 +148,7 @@ void Shader::AddUniform(const sString &name) {
 Uniform *Shader::GetUniform(const sString &name) {
   IS_DESTROYED(nullptr);
 
-  for (int i = 0; i < uniforms.Size(); i++) {
+  for (sI32 i = 0; i < uniforms.Size(); i++) {
     if (uniforms[i].GetName() == name)
       return &uniforms[i];
   }
@@ -171,8 +171,8 @@ void Shader::SetName(const sString &name) { this->name = name; }
 
 sString &Shader::GetName() { return name; }
 
-bool Shader::IsCompileNotOK(sUint shader, const sString &type) {
-  int success;
+bool Shader::IsCompileNotOK(sU32 shader, const sString &type) {
+  sI32 success;
   char log[1024];
   glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
   if (!success) {

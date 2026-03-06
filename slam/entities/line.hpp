@@ -36,7 +36,7 @@ struct Line : public Entity {
     this->start = start;
     this->end = end;
 
-    points = List<float>();
+    points = List<sF32>();
     points.Add(start.x);
     points.Add(start.y);
     points.Add(start.z);
@@ -51,9 +51,9 @@ struct Line : public Entity {
     vao.Init();
     vao.Bind();
 
-    vbo.Init(points.Pointer(), sizeof(float) * points.Size());
+    vbo.Init(points.Pointer(), sizeof(sF32) * points.Size());
 
-    vao.LinkAttrib(vbo, 0, 3, GL_FLOAT, 3 * sizeof(float), (void *)0);
+    vao.LinkAttrib(vbo, 0, 3, GL_FLOAT, 3 * sizeof(sF32), (void *)0);
 
     vbo.Unbind();
     vao.Unbind();
@@ -69,6 +69,9 @@ struct Line : public Entity {
   void Update() override {
     IS_DESTROYED();
 
+    if (Engine::Get().IsDrawFrame() == false)
+      return;
+
     shader->Bind();
     shader->GetUniform("view")->SetValue(camera->view);
     shader->GetUniform("projection")->SetValue(camera->projection);
@@ -82,7 +85,7 @@ struct Line : public Entity {
   Vec3 end;
 
 private:
-  List<float> points;
+  List<sF32> points;
   Camera *camera;
   VAO vao;
   VBO vbo;

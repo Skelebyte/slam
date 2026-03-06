@@ -1,6 +1,7 @@
 #include "window.hpp"
 #include "../engine.hpp"
 #include <SDL3/SDL_messagebox.h>
+#include <SDL3/SDL_video.h>
 
 using namespace slam;
 using namespace slam::dpy;
@@ -8,7 +9,7 @@ using namespace slam::evt;
 using namespace slam::err;
 using namespace slam::math;
 
-Window::Window(const sString &name, sUint w, sUint h, bool resizable,
+Window::Window(const sString &name, sU32 w, sU32 h, bool resizable,
                bool fullscreen) {
   if (Engine::Get().IsInitialized() == false) {
     THROW_ERROR(
@@ -36,6 +37,8 @@ Window::Window(const sString &name, sUint w, sUint h, bool resizable,
   EventSystem::Get().on_error += dpy::ErrorWindow;
 
   Engine::Get().window = this;
+
+  this->title = name;
 }
 
 bool Window::IsRunning() const { return running; }
@@ -84,14 +87,14 @@ void Window::Update() {
 
   Vec2 dimensions = this->GetDimensions();
 
-  float windowAspect = (float)dimensions.x / dimensions.y;
-  float gameAspect = (float)1920 / 1080;
+  sF32 windowAspect = (sF32)dimensions.x / dimensions.y;
+  sF32 gameAspect = (sF32)1920 / 1080;
 
   this->pillarboxed = false;
   this->letterboxed = false;
 
   if (windowAspect > gameAspect) {
-    this->viewportSize.x = (int)(dimensions.y * gameAspect);
+    this->viewportSize.x = (sI32)(dimensions.y * gameAspect);
     this->viewportSize.y = dimensions.y;
 
     this->viewportPosition.x = (dimensions.x - this->viewportSize.x) / 2;
@@ -99,7 +102,7 @@ void Window::Update() {
     this->pillarboxed = true;
   } else {
     this->viewportSize.x = dimensions.x;
-    this->viewportSize.y = (int)(dimensions.x / gameAspect);
+    this->viewportSize.y = (sI32)(dimensions.x / gameAspect);
 
     this->viewportPosition.x = 0;
     this->viewportPosition.y = (dimensions.y - this->viewportSize.y) / 2;
@@ -113,10 +116,18 @@ void Window::Update() {
   glViewport(this->viewportPosition.x, this->viewportPosition.y,
              this->viewportSize.x, this->viewportSize.y);
   THROW_ERROR_GL(FATAL.Derived("GL_VIEWPORT_FAIL"));
+
+  if (appendFpsToTitle) {
+    SetTitle(title + " (" + std::to_string(Engine::Get().GetFps()) + " fps)");
+  }
 }
 
 void Window::SwapAndClear() {
   IS_DESTROYED();
+
+  if (!Engine::Get().IsDrawFrame()) {
+    return;
+  }
 
   if (SDL_GL_SwapWindow(this->sdlWindow) == false) {
     THROW_ERROR(FATAL.Derived("", "SDL failed to swap buffers. SDL error: " +
@@ -129,8 +140,8 @@ void Window::SwapAndClear() {
 Vec2 Window::GetDimensions() {
   IS_DESTROYED(Vec2());
 
-  int x;
-  int y;
+  sI32 x;
+  sI32 y;
   Vec2 dimensions;
 
   if (SDL_GetWindowSize(this->sdlWindow, &x, &y) == false) {
@@ -164,10 +175,10 @@ Vec2 Window::GetViewportSize() const {
   return viewportSize;
 }
 
-float Window::GetViewportAspect() const {
+sF32 Window::GetViewportAspect() const {
   IS_DESTROYED(0.0f);
 
-  return (float)this->viewportSize.x / (float)this->viewportSize.y;
+  return (sF32)this->viewportSize.x / (sF32)this->viewportSize.y;
 }
 
 void dpy::ErrorWindow() {
@@ -181,4 +192,8 @@ void dpy::ErrorWindow() {
   Engine::Get().window->PopupWindow(ErrorSystem::Get().lastError->GetName(),
                                     ErrorSystem::Get().lastError->GetDesc(),
                                     true);
+}
+
+void Window::SetTitle(const sString &title) {
+  SDL_SetWindowTitle(sdlWindow, title.c_str());
 }

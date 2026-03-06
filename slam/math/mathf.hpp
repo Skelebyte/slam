@@ -23,16 +23,16 @@ typedef glm::quat Quat;
 typedef glm::mat4 Mat4;
 class Mathf {
 public:
-  static float ToRadians(float value);
-  static float ToDegrees(float value);
-  static float Lerp(float a, float b, float t);
-  static float Clamp(float target, float min, float max);
-  static float Wrap(float target, float min, float max);
+  static sF32 ToRadians(sF32 value);
+  static sF32 ToDegrees(sF32 value);
+  static sF32 Lerp(sF32 a, sF32 b, sF32 t);
+  static sF32 Clamp(sF32 target, sF32 min, sF32 max);
+  static sF32 Wrap(sF32 target, sF32 min, sF32 max);
   static sString ToString(const Vec3 &target);
   static Vec3 Normalized(const Vec3 &target);
-  static Vec3 RotateX(const Vec3 &target, float angleDeg);
-  static Vec3 RotateY(const Vec3 &target, float angleDeg);
-  static Vec3 RotateZ(const Vec3 &target, float angleDeg);
+  static Vec3 RotateX(const Vec3 &target, sF32 angleDeg);
+  static Vec3 RotateY(const Vec3 &target, sF32 angleDeg);
+  static Vec3 RotateZ(const Vec3 &target, sF32 angleDeg);
 };
 
 } // namespace slam::math

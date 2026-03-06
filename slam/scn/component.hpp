@@ -35,14 +35,14 @@ struct Component : public ID, public Destroyable {
 
   Transform *transform;
   bool enabled = true;
-  sUint attachedEntityID = 0;
+  sU32 attachedEntityID = 0;
 };
 
 struct ComponentManager : public Singleton<ComponentManager> {
-  sUint GetNextID();
+  sU32 GetNextID();
 
 private:
-  sUint nextID = 1;
+  sU32 nextID = 1;
 };
 
 } // namespace slam::scn

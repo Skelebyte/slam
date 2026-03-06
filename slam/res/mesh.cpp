@@ -10,8 +10,8 @@ using namespace slam::util;
 
 Mesh::Mesh(const sString &path) {
   vertices = List<Vertex>();
-  indices = List<sUint>();
-  data = List<float>();
+  indices = List<sU32>();
+  data = List<sF32>();
 
   if (File::Exists(path) == false) {
     THROW_ERROR(ERROR.Derived("", "File " + path + " does not exist!"));
@@ -36,12 +36,12 @@ Mesh::Mesh(const sString &path) {
     if (node->mesh) {
       ufbx_mesh *fbx_mesh = node->mesh;
 
-      sUint vertCount = 0;
+      sU32 vertCount = 0;
       for (ufbx_face face : fbx_mesh->faces) {
-        for (sUint tri = 1; tri + 1 < face.num_indices; tri++) {
-          sUint corners[3] = {face.index_begin, face.index_begin + tri,
-                              face.index_begin + tri + 1};
-          for (sUint index : corners) {
+        for (sU32 tri = 1; tri + 1 < face.num_indices; tri++) {
+          sU32 corners[3] = {face.index_begin, face.index_begin + tri,
+                             face.index_begin + tri + 1};
+          for (sU32 index : corners) {
             Vec3 pos = Vec3(fbx_mesh->vertex_position[index].x,
                             fbx_mesh->vertex_position[index].y,
                             fbx_mesh->vertex_position[index].z);
@@ -79,8 +79,8 @@ Mesh::Mesh(const sString &path) {
       ufbx_mesh *fbx_mesh = node->mesh;
 
       for (ufbx_face face : fbx_mesh->faces) {
-        for (sUint corner = 0; corner < face.num_indices; corner++) {
-          sUint index = face.index_begin + corner;
+        for (sU32 corner = 0; corner < face.num_indices; corner++) {
+          sU32 index = face.index_begin + corner;
 
           Vec3 pos = Vec3(fbx_mesh->vertex_position[index].x,
                           fbx_mesh->vertex_position[index].y,

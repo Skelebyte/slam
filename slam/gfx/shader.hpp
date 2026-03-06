@@ -11,18 +11,18 @@
 
 namespace slam::gfx {
 struct Uniform {
-  Uniform(const sString &name, sUint shaderID);
+  Uniform(const sString &name, sU32 shaderID);
   sString GetName() const;
-  sUint GetID() const;
+  sU32 GetID() const;
 
   void SetValue(const math::Mat4 &value);
   void SetValue(const math::Vec3 &value);
-  void SetValue(float value);
-  void SetValue(int value);
+  void SetValue(sF32 value);
+  void SetValue(sI32 value);
 
 private:
   sString name;
-  sUint id;
+  sU32 id;
 };
 
 struct Shader : public ID, public Destroyable {
@@ -39,7 +39,7 @@ struct Shader : public ID, public Destroyable {
 private:
   sString name = "";
   List<Uniform> uniforms;
-  bool IsCompileNotOK(sUint shader, const sString &type);
+  bool IsCompileNotOK(sU32 shader, const sString &type);
   bool IsLinkOK();
 };
 

@@ -51,7 +51,7 @@ void ErrorSystem::ThrowError(const Error &error, bool print,
 
 void ErrorSystem::ThrowErrorGL(const Error &error, bool print,
                                const sString &file, const sString &func) {
-  sUint glErr = glGetError();
+  sU32 glErr = glGetError();
   Error err = error.Derived("", error.GetDesc() +
                                     " OpenGL error: " + std::to_string(glErr));
   if (glErr != GL_NO_ERROR) {
