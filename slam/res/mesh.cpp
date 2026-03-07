@@ -8,7 +8,7 @@ using namespace slam::res;
 using namespace slam::err;
 using namespace slam::util;
 
-Mesh::Mesh(const sString &path) {
+Mesh::Mesh(const sString &path, bool blenderFix) {
   vertices = List<Vertex>();
   indices = List<sU32>();
   data = List<sF32>();
@@ -42,9 +42,16 @@ Mesh::Mesh(const sString &path) {
           sU32 corners[3] = {face.index_begin, face.index_begin + tri,
                              face.index_begin + tri + 1};
           for (sU32 index : corners) {
-            Vec3 pos = Vec3(fbx_mesh->vertex_position[index].x,
-                            fbx_mesh->vertex_position[index].y,
-                            fbx_mesh->vertex_position[index].z);
+            Vec3 pos = Vec3();
+            if (blenderFix) {
+              pos = Vec3(fbx_mesh->vertex_position[index].x,
+                         fbx_mesh->vertex_position[index].z,
+                         -fbx_mesh->vertex_position[index].y);
+            } else {
+              pos = Vec3(fbx_mesh->vertex_position[index].x,
+                         fbx_mesh->vertex_position[index].y,
+                         fbx_mesh->vertex_position[index].z);
+            }
             Vec2 uv = Vec2(fbx_mesh->vertex_uv[index].x,
                            fbx_mesh->vertex_uv[index].y);
             Vec3 norm = Vec3(fbx_mesh->vertex_normal[index].x,

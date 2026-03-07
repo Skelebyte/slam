@@ -12,6 +12,7 @@ project "slam"
    filter "system:windows" 
       includedirs { "slam/ext/SDL/include" }
       libdirs { "slam/ext/SDL/lib" }
+   filter {  }
 
    links { "SDL3", "m", }
 

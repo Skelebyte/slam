@@ -52,6 +52,11 @@ sI32 main() {
       Texture("assets/textures/demo/ground.png", slam::gfx::TF_LINEAR);
 
   MeshRenderer cube = MeshRenderer("assets/models/cube.fbx");
+  cube.transform.position = Vec3(4, 0, -3);
+
+  MeshRenderer tree = MeshRenderer("assets/models/TreePodium.fbx");
+  tree.material.diffuse = Texture("assets/textures/TreePodium.png", TF_NEAREST);
+  tree.transform.position.y = -1.0f;
 
   InputAxis horizontal = InputAxis(Keycode::D, Keycode::A);
   InputAxis vertical = InputAxis(Keycode::S, Keycode::W);
@@ -98,6 +103,7 @@ sI32 main() {
     player.Update();
     cam.Update();
     cube.Update();
+    tree.Update();
     ground.Update();
 
     glClearColor(0.05f, 0.1f, 0.05f, 1.0f);

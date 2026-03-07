@@ -12,7 +12,14 @@ namespace slam::res {
 
 struct Mesh {
   Mesh() = default;
-  Mesh(const sString &path);
+  /**
+   * @brief Construct a new Mesh object
+   *
+   * @param path
+   * @param blenderFix if true, will change the way its imported to make +y the
+   * up vector.
+   */
+  Mesh(const sString &path, bool blenderFix = true);
   List<Vertex> vertices;
   List<sU32> indices;
 
