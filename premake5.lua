@@ -9,7 +9,13 @@ project "slam"
 
    files { "src/*.cpp", "slam/**.cpp", "slam/**.hpp", "slam/**.c", "slam/**.h" }
 
-    links { "SDL3", "m", }
+   filter "system:windows" 
+      includedirs { "slam/ext/SDL/include" }
+      libdirs { "slam/ext/SDL/lib" }
+
+   links { "SDL3", "m", }
+
+
 
    filter "configurations:Debug"
       defines { "DEBUG" }

@@ -28,7 +28,7 @@ ifeq ($(origin AR), default)
   AR = ar
 endif
 RESCOMP = windres
-INCLUDES +=
+INCLUDES += -Islam/ext/SDL/include
 FORCE_INCLUDE +=
 ALL_CPPFLAGS += $(CPPFLAGS) -MD -MP $(DEFINES) $(INCLUDES)
 ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
@@ -44,21 +44,21 @@ endef
 
 ifeq ($(config),debug)
 TARGETDIR = bin/Debug
-TARGET = $(TARGETDIR)/slam
+TARGET = $(TARGETDIR)/slam.exe
 OBJDIR = obj/Debug
 DEFINES += -DDEBUG
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -g
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -g
-ALL_LDFLAGS += $(LDFLAGS)
+ALL_LDFLAGS += $(LDFLAGS) -Lslam/ext/SDL/lib
 
 else ifeq ($(config),release)
 TARGETDIR = bin/Release
-TARGET = $(TARGETDIR)/slam
+TARGET = $(TARGETDIR)/slam.exe
 OBJDIR = obj/Release
 DEFINES += -DNDEBUG
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -O2
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -O2
-ALL_LDFLAGS += $(LDFLAGS) -s
+ALL_LDFLAGS += $(LDFLAGS) -Lslam/ext/SDL/lib -s
 
 endif
 
