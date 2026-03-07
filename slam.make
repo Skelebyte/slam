@@ -94,6 +94,7 @@ GENERATED += $(OBJDIR)/mesh.o
 GENERATED += $(OBJDIR)/renderer.o
 GENERATED += $(OBJDIR)/shader.o
 GENERATED += $(OBJDIR)/texture.o
+GENERATED += $(OBJDIR)/time.o
 GENERATED += $(OBJDIR)/ufbx.o
 GENERATED += $(OBJDIR)/vao.o
 GENERATED += $(OBJDIR)/vbo.o
@@ -121,6 +122,7 @@ OBJECTS += $(OBJDIR)/mesh.o
 OBJECTS += $(OBJDIR)/renderer.o
 OBJECTS += $(OBJDIR)/shader.o
 OBJECTS += $(OBJDIR)/texture.o
+OBJECTS += $(OBJDIR)/time.o
 OBJECTS += $(OBJDIR)/ufbx.o
 OBJECTS += $(OBJDIR)/vao.o
 OBJECTS += $(OBJDIR)/vbo.o
@@ -259,6 +261,9 @@ $(OBJDIR)/component.o: slam/scn/component.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/entity.o: slam/scn/entity.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/time.o: slam/time.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/file.o: slam/util/file.cpp

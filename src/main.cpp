@@ -16,6 +16,7 @@
 #include "../slam/res/mesh.hpp"
 #include "../slam/scn/component.hpp"
 #include "../slam/scn/entity.hpp"
+#include "../slam/time.hpp"
 
 using namespace slam::err;
 using namespace slam::evt;
@@ -59,9 +60,9 @@ sI32 main() {
 
   Line line = Line(&cam, Vec3(0, 1, 0), Vec3(4, 0.5, -3));
 
-  sU32 r = 123;
-  sU32 g = 21;
-  sU32 b = 200;
+  sF32 r = 123;
+  sF32 g = 21;
+  sF32 b = 200;
 
   while (window.IsRunning()) {
     Engine::Get().BeginFrame();
@@ -80,21 +81,19 @@ sI32 main() {
         player.transform.Forward() * -((sF32)Input::Get().GetAxis(vertical));
 
     player.transform.position +=
-        Mathf::Normalized(velocity) * Engine::Get().deltaTime;
+        Mathf::Normalized(velocity) * Time::DeltaTime();
 
     player.transform.rotation.y +=
-        Mathf::ToDegrees((sF32)Input::Get().GetAxis(rotY)) *
-        Engine::Get().deltaTime;
+        Mathf::ToDegrees((sF32)Input::Get().GetAxis(rotY)) * Time::DeltaTime();
 
     cam.transform.rotation.x +=
-        Mathf::ToDegrees((sF32)Input::Get().GetAxis(rotX)) *
-        Engine::Get().deltaTime;
+        Mathf::ToDegrees((sF32)Input::Get().GetAxis(rotX)) * Time::DeltaTime();
     cam.transform.rotation.x = Mathf::Clamp(cam.transform.rotation.x, -89, 89);
-    r = Mathf::Wrap(r + 10, 0, 255);
-    g = Mathf::Wrap(g + 5, 0, 255);
-    b = Mathf::Wrap(b + 1, 0, 255);
+    r = Mathf::Wrap(r + 0.5f * Time::DeltaTime(), 0.0f, 1.0f);
+    g = Mathf::Wrap(g + 0.25f * Time::DeltaTime(), 0.0f, 1.0f);
+    b = Mathf::Wrap(b + 0.175f * Time::DeltaTime(), 0.0f, 1.0f);
 
-    cube.material.color = ToRGB(RGB255(r, g, b));
+    cube.material.color = RGB(r, g, b);
 
     player.Update();
     cam.Update();
