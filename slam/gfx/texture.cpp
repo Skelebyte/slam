@@ -17,6 +17,7 @@ Texture::Texture(const sString &path, TextureFilter filter) {
     sU8 *data = Texture::CustomTexture(4, 4, 255, 255, 255, 200, 200, 200);
 
     LoadFromData(data, 3, 4, 4);
+    return;
   }
 
   if (File::Exists(path) == false) {

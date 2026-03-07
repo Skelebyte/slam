@@ -7,6 +7,7 @@
 #include "../list.hpp"
 #include "../math/mathf.hpp"
 #include "../util/file.hpp"
+#include "color.hpp"
 #include <SDL3/SDL.h>
 
 namespace slam::gfx {
@@ -17,6 +18,8 @@ struct Uniform {
 
   void SetValue(const math::Mat4 &value);
   void SetValue(const math::Vec3 &value);
+  void SetValue(const RGB255 &value);
+  void SetValue(const RGB &value);
   void SetValue(sF32 value);
   void SetValue(sI32 value);
 

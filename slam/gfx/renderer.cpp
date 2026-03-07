@@ -46,6 +46,7 @@ void Renderer::Init(dpy::Window *window) {
   GetShader("default")->AddUniform("projection");
   GetShader("default")->AddUniform("diffuse_texture");
   GetShader("default")->AddUniform("light_color");
+  GetShader("default")->AddUniform("color");
 
   GetShader("line")->AddUniform("view");
   GetShader("line")->AddUniform("projection");

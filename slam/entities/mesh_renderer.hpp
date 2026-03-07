@@ -5,9 +5,9 @@
 #include "../err/err_sys.hpp"
 #include "../evt/evt_sys.hpp"
 #include "../gfx/ebo.hpp"
+#include "../gfx/material.hpp"
 #include "../gfx/renderer.hpp"
 #include "../gfx/shader.hpp"
-#include "../gfx/texture.hpp"
 #include "../gfx/vao.hpp"
 #include "../gfx/vbo.hpp"
 #include "../input/input.hpp"
@@ -32,7 +32,7 @@ struct MeshRenderer : public Entity {
   MeshRenderer(const sString &path) {
     this->shader = Renderer::Get().GetShader("default");
     mesh = Mesh(path);
-    texture = Texture();
+    material = Default("", RGB255(255));
 
     model = Mat4();
 
@@ -86,9 +86,7 @@ struct MeshRenderer : public Entity {
 
     shader->Bind();
     shader->GetUniform("model")->SetValue(model);
-    glActiveTexture(GL_TEXTURE0);
-    texture.Bind();
-    shader->GetUniform("diffuse_texture")->SetValue(0);
+    material.Bind();
 
     vao.Bind();
     glDrawElements(GL_TRIANGLES, mesh.indices.Size(), GL_UNSIGNED_INT, 0);
@@ -96,7 +94,7 @@ struct MeshRenderer : public Entity {
   }
 
   Mesh mesh;
-  Texture texture;
+  Default material;
 
 private:
   Shader *shader;

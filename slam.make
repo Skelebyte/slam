@@ -72,6 +72,7 @@ endif
 GENERATED :=
 OBJECTS :=
 
+GENERATED += $(OBJDIR)/color.o
 GENERATED += $(OBJDIR)/common.o
 GENERATED += $(OBJDIR)/component.o
 GENERATED += $(OBJDIR)/ebo.o
@@ -87,6 +88,7 @@ GENERATED += $(OBJDIR)/glm.o
 GENERATED += $(OBJDIR)/gltf_loader.o
 GENERATED += $(OBJDIR)/input.o
 GENERATED += $(OBJDIR)/main.o
+GENERATED += $(OBJDIR)/material.o
 GENERATED += $(OBJDIR)/mathf.o
 GENERATED += $(OBJDIR)/mesh.o
 GENERATED += $(OBJDIR)/renderer.o
@@ -97,6 +99,7 @@ GENERATED += $(OBJDIR)/vao.o
 GENERATED += $(OBJDIR)/vbo.o
 GENERATED += $(OBJDIR)/vertex.o
 GENERATED += $(OBJDIR)/window.o
+OBJECTS += $(OBJDIR)/color.o
 OBJECTS += $(OBJDIR)/common.o
 OBJECTS += $(OBJDIR)/component.o
 OBJECTS += $(OBJDIR)/ebo.o
@@ -112,6 +115,7 @@ OBJECTS += $(OBJDIR)/glm.o
 OBJECTS += $(OBJDIR)/gltf_loader.o
 OBJECTS += $(OBJDIR)/input.o
 OBJECTS += $(OBJDIR)/main.o
+OBJECTS += $(OBJDIR)/material.o
 OBJECTS += $(OBJDIR)/mathf.o
 OBJECTS += $(OBJDIR)/mesh.o
 OBJECTS += $(OBJDIR)/renderer.o
@@ -215,7 +219,13 @@ $(OBJDIR)/glm.o: slam/ext/glm/detail/glm.cpp
 $(OBJDIR)/ufbx.o: slam/ext/ufbx/ufbx.c
 	@echo "$(notdir $<)"
 	$(SILENT) $(CC) $(ALL_CFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/color.o: slam/gfx/color.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/ebo.o: slam/gfx/ebo.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/material.o: slam/gfx/material.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/renderer.o: slam/gfx/renderer.cpp

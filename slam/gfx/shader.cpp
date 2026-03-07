@@ -30,7 +30,19 @@ void Uniform::SetValue(const Mat4 &value) {
 void Uniform::SetValue(const Vec3 &value) {
   glUniform3fv(id, 1, glm::value_ptr(value));
   THROW_ERROR_GL(FATAL.Derived("GL_UNIFORM_3FV_FAIL",
-                               "Failed to set float3 uniform `" + name + "`."));
+                               "Failed to set Vec3 uniform `" + name + "`."));
+}
+
+void Uniform::SetValue(const RGB255 &value) {
+  glUniform3fv(id, 1, ToRGB(value).data);
+  THROW_ERROR_GL(FATAL.Derived("GL_UNIFORM_3FV_FAIL",
+                               "Failed to set RGB255 uniform `" + name + "`."));
+}
+
+void Uniform::SetValue(const RGB &value) {
+  glUniform3fv(id, 1, value.data);
+  THROW_ERROR_GL(FATAL.Derived("GL_UNIFORM_3FV_FAIL",
+                               "Failed to set RGB uniform `" + name + "`."));
 }
 
 void Uniform::SetValue(sF32 value) {

@@ -34,43 +34,23 @@ sI32 main() {
   window.appendFpsToTitle = true;
   Renderer::Get().Init(&window);
 
-  ErrorSystem::Get().silenceWarnings = true;
+  //   ErrorSystem::Get().silenceWarnings = true;
 
   Keybind toggleWireframe = Keybind(Keycode::F1);
 
   Entity player = Entity();
 
   Camera cam = Camera();
+  cam.transform.position.y = 1;
   cam.MakeChildOf(&player);
 
-  MeshRenderer cube = MeshRenderer("assets/models/cube.fbx");
-  cube.transform.position = Vec3(0, -2, 0);
-  cube.transform.scale = Vec3(10, 1, 10);
-  cube.texture =
+  MeshRenderer ground = MeshRenderer("assets/models/cube.fbx");
+  ground.transform.position = Vec3(0, -2, 0);
+  ground.transform.scale = Vec3(10, 1, 10);
+  ground.material.diffuse =
       Texture("assets/textures/demo/ground.png", slam::gfx::TF_LINEAR);
 
-  MeshRenderer slime = MeshRenderer("assets/models/cube.fbx");
-  slime.texture =
-      Texture("assets/textures/demo/damn.png", TextureFilter::TF_NEAREST);
-  slime.transform.scale = Vec3(0.5f);
-  slime.transform.position.z = -5;
-  slime.MakeChildOf(&cam);
-
-  MeshRenderer slime2 = MeshRenderer("assets/models/cube.fbx");
-  slime2.texture =
-      Texture("assets/textures/demo/frank.png", TextureFilter::TF_NEAREST);
-  slime2.transform.position.z = -5;
-  slime2.transform.scale = Vec3(2);
-
-  slime2.MakeChildOf(&slime);
-
-  MeshRenderer gun = MeshRenderer("assets/models/BasicGun.fbx");
-  gun.texture = Texture("assets/textures/texture.png");
-  gun.transform.position.x += .5;
-  gun.transform.position.y -= 0.2;
-  gun.transform.position.z -= .5;
-  gun.transform.scale = Vec3(1.0f);
-  gun.MakeChildOf(&cam);
+  MeshRenderer cube = MeshRenderer("assets/models/cube.fbx");
 
   InputAxis horizontal = InputAxis(Keycode::D, Keycode::A);
   InputAxis vertical = InputAxis(Keycode::S, Keycode::W);
@@ -78,6 +58,10 @@ sI32 main() {
   InputAxis rotX = InputAxis(Keycode::U_ARROW, Keycode::D_ARROW);
 
   Line line = Line(&cam, Vec3(0, 1, 0), Vec3(4, 0.5, -3));
+
+  sU32 r = 123;
+  sU32 g = 21;
+  sU32 b = 200;
 
   while (window.IsRunning()) {
     Engine::Get().BeginFrame();
@@ -106,17 +90,16 @@ sI32 main() {
         Mathf::ToDegrees((sF32)Input::Get().GetAxis(rotX)) *
         Engine::Get().deltaTime;
     cam.transform.rotation.x = Mathf::Clamp(cam.transform.rotation.x, -89, 89);
-    slime.transform.rotation.x += 1.0f * Engine::Get().deltaTime;
-    slime.transform.rotation.y += 1.0f * Engine::Get().deltaTime;
-    slime.transform.rotation.z += 1.0f * Engine::Get().deltaTime;
+    r = Mathf::Wrap(r + 10, 0, 255);
+    g = Mathf::Wrap(g + 5, 0, 255);
+    b = Mathf::Wrap(b + 1, 0, 255);
 
+    cube.material.color = ToRGB(RGB255(r, g, b));
+
+    player.Update();
     cam.Update();
     cube.Update();
-    slime.Update();
-    slime2.Update();
-    gun.Update();
-
-    line.Update();
+    ground.Update();
 
     glClearColor(0.05f, 0.1f, 0.05f, 1.0f);
 
@@ -125,6 +108,7 @@ sI32 main() {
     Engine::Get().EndFrame();
   }
 
+  player.Destroy();
   cam.Destroy();
   cube.Destroy();
 
