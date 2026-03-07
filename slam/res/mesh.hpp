@@ -20,6 +20,7 @@ struct Mesh {
    * up vector.
    */
   Mesh(const sString &path, bool blenderFix = true);
+  static Mesh GeneratePlane(sU32 divisions, const math::Vec2 &dimensions);
   List<Vertex> vertices;
   List<sU32> indices;
 

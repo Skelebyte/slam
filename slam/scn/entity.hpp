@@ -2,55 +2,49 @@
 #define SLAM_ENTITY_HPP
 
 #include "../common.hpp"
+#include "../engine.hpp"
 #include "../err/err_sys.hpp"
+#include "../gfx/ebo.hpp"
+#include "../gfx/renderer.hpp"
+#include "../gfx/texture.hpp"
+#include "../gfx/vao.hpp"
+#include "../gfx/vbo.hpp"
 #include "../list.hpp"
+#include "../res/mesh.hpp"
 #include "component.hpp"
 
 namespace slam::scn {
 
 struct Entity : public ID, public Destroyable {
   Entity();
+  ~Entity();
   void Destroy() override;
   virtual void Update();
-  template <typename T> T *GetComponent() {
-    for (sI32 i = 0; i < this->components.Size(); i++) {
-      if (typeid(this->components[i]) == typeid(T)) {
-        return (T)this->components[i];
-      }
-    }
 
-    err::ErrorSystem::THROW_ERROR(err::ERROR.Derived(
-        "", "Could not get component of type `" +
-                std::string(typeid(T).name()) + "`. Returning `nullptr`."));
-
-    return nullptr;
-  }
-
-  template <typename T> bool HasComponentOfType() {
-    for (sI32 i = 0; i < this->components.Size(); i++) {
-      if (dynamic_cast<T *>(this->components[i]) != nullptr) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  void AddComponent(Component *component);
-  void RemoveComponent(Component *component);
-  sU32 ComponentAmount();
   void MakeChildOf(Entity *entity);
 
   Transform transform;
+  bool drawDebugIcon;
+  gfx::Texture billboardIcon;
 
-protected:
-  List<Component *> components;
+private:
+  gfx::Shader *shader;
+  math::Mat4 model;
+  gfx::VAO vao;
+  gfx::VBO vbo;
+  gfx::EBO ebo;
+  res::Mesh mesh;
 };
 
 struct EntityManager : public Singleton<EntityManager> {
   sU32 GetNextID();
+  void AddEntity(Entity *target);
+  void UpdateAll();
+  void DestroyAll();
 
 private:
   sU32 nextID = 1;
+  List<Entity *> entities;
 };
 
 } // namespace slam::scn

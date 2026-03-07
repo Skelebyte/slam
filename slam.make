@@ -85,7 +85,6 @@ GENERATED += $(OBJDIR)/evt_sys.o
 GENERATED += $(OBJDIR)/file.o
 GENERATED += $(OBJDIR)/glad.o
 GENERATED += $(OBJDIR)/glm.o
-GENERATED += $(OBJDIR)/gltf_loader.o
 GENERATED += $(OBJDIR)/input.o
 GENERATED += $(OBJDIR)/main.o
 GENERATED += $(OBJDIR)/material.o
@@ -113,7 +112,6 @@ OBJECTS += $(OBJDIR)/evt_sys.o
 OBJECTS += $(OBJDIR)/file.o
 OBJECTS += $(OBJDIR)/glad.o
 OBJECTS += $(OBJDIR)/glm.o
-OBJECTS += $(OBJDIR)/gltf_loader.o
 OBJECTS += $(OBJDIR)/input.o
 OBJECTS += $(OBJDIR)/main.o
 OBJECTS += $(OBJDIR)/material.o
@@ -267,9 +265,6 @@ $(OBJDIR)/time.o: slam/time.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/file.o: slam/util/file.cpp
-	@echo "$(notdir $<)"
-	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-$(OBJDIR)/gltf_loader.o: slam/util/gltf_loader.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/main.o: src/main.cpp

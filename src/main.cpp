@@ -3,6 +3,7 @@
 #include "../slam/entities/camera.hpp"
 #include "../slam/entities/line.hpp"
 #include "../slam/entities/mesh_renderer.hpp"
+#include "../slam/entities/rigidbody.hpp"
 #include "../slam/err/err_sys.hpp"
 #include "../slam/evt/evt_sys.hpp"
 #include "../slam/gfx/ebo.hpp"
@@ -38,6 +39,7 @@ sI32 main() {
   //   ErrorSystem::Get().silenceWarnings = true;
 
   Keybind toggleWireframe = Keybind(Keycode::F1);
+  Keybind toggleIcons = Keybind(Keycode::F2);
 
   Entity player = Entity();
 
@@ -69,14 +71,23 @@ sI32 main() {
   sF32 g = 21;
   sF32 b = 200;
 
+  // Entity random = Entity();
+  // random.transform.position.y = 10;
+
+  Keybind spawn = Keybind(Keycode::SPACE);
+
   while (window.IsRunning()) {
     Engine::Get().BeginFrame();
+    Engine::Get().drawEntityIcons = true;
 
     window.Update();
     // window.SetTitle(std::to_string(Engine::Get().GetFps()));
 
     if (Input::Get().GetKeyOnce(&toggleWireframe)) {
       Renderer::Get().ToggleWireframe();
+    }
+    if (Input::Get().GetKeyOnce(&toggleIcons)) {
+      Engine::Get().drawEntityIcons = !Engine::Get().drawEntityIcons;
     }
 
     Vec3 velocity = Vec3();
@@ -86,7 +97,7 @@ sI32 main() {
         player.transform.Forward() * -((sF32)Input::Get().GetAxis(vertical));
 
     player.transform.position +=
-        Mathf::Normalized(velocity) * Time::DeltaTime();
+        Mathf::Normalized(velocity) * 5.0f * Time::DeltaTime();
 
     player.transform.rotation.y +=
         Mathf::ToDegrees((sF32)Input::Get().GetAxis(rotY)) * Time::DeltaTime();
@@ -100,22 +111,29 @@ sI32 main() {
 
     cube.material.color = RGB(r, g, b);
 
-    player.Update();
-    cam.Update();
-    cube.Update();
-    tree.Update();
-    ground.Update();
+    if (Input::Get().GetKey(&spawn)) {
+      Rigidbody *rb = new Rigidbody();
+      rb->transform.scale = Vec3(0.1f);
+      rb->transform.position = player.transform.position;
+      MeshRenderer *instance = new MeshRenderer("assets/models/cube.fbx");
+      // instance->transform.position = rb->transform.position;
+      instance->MakeChildOf(rb);
+
+      // LOG("rb: " << Mathf::ToString(rb->transform.position));
+      // LOG("player: " << Mathf::ToString(player.transform.position));
+    }
+
+    EntityManager::Get().UpdateAll();
 
     glClearColor(0.05f, 0.1f, 0.05f, 1.0f);
 
     window.SwapAndClear();
 
     Engine::Get().EndFrame();
+    // window.Stop();
   }
 
-  player.Destroy();
-  cam.Destroy();
-  cube.Destroy();
+  EntityManager::Get().DestroyAll();
 
   /*
     FIXME:

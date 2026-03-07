@@ -38,6 +38,8 @@ template <typename T> struct List {
 
   auto *Pointer() { return data.data(); }
 
+  std::vector<T> *Vector() { return &data; }
+
   T &operator[](sU32 index) {
     if (index > Size()) {
       err::ErrorSystem::THROW_ERROR(err::FATAL.Derived(

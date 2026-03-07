@@ -33,6 +33,10 @@ struct Camera : public Entity {
     view = Mat4();
     projection = Mat4();
     shader = Renderer::Get().GetShader("default");
+
+    Renderer::Get().cameraPosition = &transform.position;
+    Renderer::Get().cameraView = &view;
+    Renderer::Get().cameraProjection = &projection;
   }
   void Destroy() override {
     DESTROY();
@@ -57,6 +61,8 @@ struct Camera : public Entity {
     shader->Bind();
     shader->GetUniform("view")->SetValue(view);
     shader->GetUniform("projection")->SetValue(projection);
+
+    Entity::Update();
   }
 
   sF32 fov = 75.0f;

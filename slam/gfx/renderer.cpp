@@ -40,6 +40,7 @@ void Renderer::Init(dpy::Window *window) {
   AddShader("default", "fragment.glsl", "vertex.glsl");
   AddShader("line", "line_frag.glsl", "line_vert.glsl");
   AddShader("ui", "ui_frag.glsl", "ui_vert.glsl");
+  AddShader("billboard", "billboard_frag.glsl", "billboard_vert.glsl");
 
   GetShader("default")->AddUniform("model");
   GetShader("default")->AddUniform("view");
@@ -51,6 +52,11 @@ void Renderer::Init(dpy::Window *window) {
   GetShader("line")->AddUniform("view");
   GetShader("line")->AddUniform("projection");
   GetShader("line")->AddUniform("color");
+
+  GetShader("billboard")->AddUniform("view");
+  GetShader("billboard")->AddUniform("projection");
+  GetShader("billboard")->AddUniform("model");
+  GetShader("billboard")->AddUniform("diffuse_texture");
 
   initialized = true;
 }

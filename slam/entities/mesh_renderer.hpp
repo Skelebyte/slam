@@ -30,6 +30,7 @@ namespace slam::entities {
 
 struct MeshRenderer : public Entity {
   MeshRenderer(const sString &path) {
+
     this->shader = Renderer::Get().GetShader("default");
     mesh = Mesh(path);
     material = Default("", RGB255(255));
@@ -76,7 +77,8 @@ struct MeshRenderer : public Entity {
 
     model = glm::translate(model, transform.GetInheritedPosition());
 
-    model *= glm::mat4_cast(transform.GetInheritedRotation());
+    model *= glm::mat4_cast(
+        transform.GetInheritedRotation()); // convert to mat4x4 rotation
 
     model = glm::scale(model, transform.GetInheritedScale());
 
@@ -91,6 +93,8 @@ struct MeshRenderer : public Entity {
     vao.Bind();
     glDrawElements(GL_TRIANGLES, mesh.indices.Size(), GL_UNSIGNED_INT, 0);
     THROW_ERROR_GL(FATAL.Derived("GL_DRAW_ELEMENTS_FAIL"));
+
+    Entity::Update();
   }
 
   Mesh mesh;

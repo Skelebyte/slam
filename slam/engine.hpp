@@ -23,6 +23,7 @@ struct Engine : public Singleton<Engine> {
   dpy::Window *window = nullptr;
   sF32 deltaTime;
   sF32 timeScale = 1.0f;
+  bool drawEntityIcons;
 
 private:
   bool isDrawFrame = true;

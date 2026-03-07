@@ -5,6 +5,7 @@
 #include "../dpy/window.hpp"
 #include "../ext/glad/glad.h"
 #include "../list.hpp"
+#include "../math/mathf.hpp"
 #include "../util/file.hpp"
 #include "shader.hpp"
 #include <SDL3/SDL.h>
@@ -21,6 +22,10 @@ struct Renderer : public Singleton<Renderer> {
   Shader *GetShader(const sString &name);
 
   sString shaderPath = "assets/shaders/";
+  math::Vec3 *cameraPosition = nullptr;
+  math::Vec3 *cameraRotation = nullptr;
+  math::Mat4 *cameraView = nullptr;
+  math::Mat4 *cameraProjection = nullptr;
 
 private:
   List<Shader> shaders;
