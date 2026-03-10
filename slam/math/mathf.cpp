@@ -52,6 +52,10 @@ sString Mathf::ToString(const Vec3 &target) {
          std::to_string(target.z);
 }
 
+sF32 Mathf::Distance(const Vec3 &a, const Vec3 &b) {
+  return glm::distance(a, b);
+}
+
 Vec3 Mathf::Normalized(const Vec3 &target) {
   if (glm::length(target) == 0) {
     return Vec3(0);

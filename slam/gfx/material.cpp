@@ -23,17 +23,20 @@ void Material::Bind() {
 Default::Default() : Material("default") {
   diffuse = Texture();
   color = RGB(1.0f);
+  faceCulling = FaceCullingStyle::BACK;
 }
 
 Default::Default(const sString &texturePath, RGB255 color)
     : Material("default") {
-  diffuse = Texture(texturePath, TF_LINEAR);
+  diffuse = Texture(texturePath, LINEAR);
   this->color = ToRGB(color);
+  faceCulling = FaceCullingStyle::BACK;
 }
 
 Default::Default(const sString &texturePath, RGB color) : Material("default") {
-  diffuse = Texture(texturePath, TF_LINEAR);
+  diffuse = Texture(texturePath, LINEAR);
   this->color = color;
+  faceCulling = FaceCullingStyle::BACK;
 }
 
 void Default::Destroy() {
@@ -45,6 +48,24 @@ void Default::Destroy() {
 
 void Default::Bind() {
   IS_DESTROYED();
+
+  switch (faceCulling) {
+  case OFF:
+    glDisable(GL_CULL_FACE);
+    break;
+  case FRONT:
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_FRONT);
+    break;
+  case BACK:
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
+    break;
+  case BOTH:
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_FRONT_AND_BACK);
+    break;
+  }
 
   glActiveTexture(GL_TEXTURE0);
   diffuse.Bind();

@@ -13,7 +13,6 @@
 #include "../input/input.hpp"
 #include "../math/mathf.hpp"
 #include "../res/mesh.hpp"
-#include "../scn/component.hpp"
 #include "../scn/entity.hpp"
 
 using namespace slam::err;

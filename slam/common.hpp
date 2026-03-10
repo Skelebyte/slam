@@ -27,6 +27,8 @@ private:
 };
 
 template <typename T> struct Singleton {
+  // Singleton(const Singleton &) = delete;
+
   static T &Get() {
     static T instance;
     return instance;

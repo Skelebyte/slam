@@ -13,7 +13,6 @@
 #include "../input/input.hpp"
 #include "../math/mathf.hpp"
 #include "../res/mesh.hpp"
-#include "../scn/component.hpp"
 #include "../scn/entity.hpp"
 #include "camera.hpp"
 
@@ -30,11 +29,13 @@ using namespace slam;
 namespace slam::entities {
 
 struct Line : public Entity {
-  Line(Camera *camera, const Vec3 &start, const Vec3 &end) {
+  Line(const Vec3 &start, const Vec3 &end) {
+
     shader = Renderer::Get().GetShader("line");
-    this->camera = camera;
     this->start = start;
     this->end = end;
+
+    model = Mat4(1.0f);
 
     points = List<sF32>();
     points.Add(start.x);
@@ -63,7 +64,6 @@ struct Line : public Entity {
     DESTROY();
 
     shader = nullptr;
-    camera = nullptr;
   }
 
   void Update() override {
@@ -72,9 +72,20 @@ struct Line : public Entity {
     if (Engine::Get().IsDrawFrame() == false)
       return;
 
+    model = Mat4(1.0f);
+
+    model = glm::translate(model, transform.GetInheritedPosition());
+
+    model *= glm::mat4_cast(
+        transform.GetInheritedRotation()); // convert to mat4x4 rotation
+
+    model = glm::scale(model, transform.GetInheritedScale());
+
     shader->Bind();
-    shader->GetUniform("view")->SetValue(camera->view);
-    shader->GetUniform("projection")->SetValue(camera->projection);
+    shader->GetUniform("model")->SetValue(model);
+    shader->GetUniform("view")->SetValue(*Renderer::Get().cameraView);
+    shader->GetUniform("projection")
+        ->SetValue(*Renderer::Get().cameraProjection);
     shader->GetUniform("color")->SetValue(color);
 
     vao.Bind();
@@ -85,8 +96,8 @@ struct Line : public Entity {
   Vec3 end;
 
 private:
+  Mat4 model;
   List<sF32> points;
-  Camera *camera;
   VAO vao;
   VBO vbo;
   Shader *shader;

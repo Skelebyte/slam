@@ -29,6 +29,7 @@ public:
   static sF32 Clamp(sF32 target, sF32 min, sF32 max);
   static sF32 Wrap(sF32 target, sF32 min, sF32 max);
   static sString ToString(const Vec3 &target);
+  static sF32 Distance(const Vec3 &a, const Vec3 &b);
   static Vec3 Normalized(const Vec3 &target);
   static Vec3 RotateX(const Vec3 &target, sF32 angleDeg);
   static Vec3 RotateY(const Vec3 &target, sF32 angleDeg);

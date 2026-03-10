@@ -78,7 +78,7 @@ void Texture::LoadFromData(sU8 *data, sU32 channels, sU32 width, sU32 height,
   THROW_ERROR_GL(
       FATAL.Derived("", " Setting GL_TEXTURE_WRAP_T parameter failed."));
 
-  if (filter == TF_NEAREST) {
+  if (filter == NEAREST) {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     THROW_ERROR_GL(FATAL.Derived("", "Setting MIN_FILTER failed."));
 

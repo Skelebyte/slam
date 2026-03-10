@@ -10,17 +10,17 @@
 namespace slam::gfx {
 
 enum TextureFilter {
-  TF_LINEAR = 0,
-  TF_NEAREST = 1,
+  LINEAR = 0,
+  NEAREST = 1,
 };
 
 struct Texture : public Destroyable, public ID {
   Texture();
-  Texture(const sString &path, TextureFilter filter = TF_NEAREST);
+  Texture(const sString &path, TextureFilter filter = NEAREST);
   void Destroy() override;
   void TextureFallback();
   void LoadFromData(sU8 *data, sU32 channels, sU32 width, sU32 height,
-                    TextureFilter filter = TF_NEAREST);
+                    TextureFilter filter = NEAREST);
   static sU8 *CustomTexture(sU32 width, sU32 height, sU32 r1, sU32 g1, sU32 b1,
                             sU32 r2, sU32 g2, sU32 b2);
   void Bind();

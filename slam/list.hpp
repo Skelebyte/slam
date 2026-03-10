@@ -41,7 +41,7 @@ template <typename T> struct List {
   std::vector<T> *Vector() { return &data; }
 
   T &operator[](sU32 index) {
-    if (index > Size()) {
+    if (index >= Size()) {
       err::ErrorSystem::THROW_ERROR(err::FATAL.Derived(
           "INDEX_OUT_OF_BOUNDS", "Index " + std::to_string(index) +
                                      " is out of bounds. Size of list: " +

@@ -3,7 +3,6 @@
 #include "../slam/entities/camera.hpp"
 #include "../slam/entities/line.hpp"
 #include "../slam/entities/mesh_renderer.hpp"
-#include "../slam/entities/rigidbody.hpp"
 #include "../slam/err/err_sys.hpp"
 #include "../slam/evt/evt_sys.hpp"
 #include "../slam/gfx/ebo.hpp"
@@ -15,7 +14,6 @@
 #include "../slam/input/input.hpp"
 #include "../slam/math/mathf.hpp"
 #include "../slam/res/mesh.hpp"
-#include "../slam/scn/component.hpp"
 #include "../slam/scn/entity.hpp"
 #include "../slam/time.hpp"
 
@@ -47,25 +45,28 @@ sI32 main() {
   cam.transform.position.y = 1;
   cam.MakeChildOf(&player);
 
-  MeshRenderer ground = MeshRenderer("assets/models/cube.fbx");
+  Entity ground = Entity();
   ground.transform.position = Vec3(0, -2, 0);
   ground.transform.scale = Vec3(10, 1, 10);
-  ground.material.diffuse =
-      Texture("assets/textures/demo/ground.png", slam::gfx::TF_LINEAR);
+
+  MeshRenderer groundMesh = MeshRenderer("assets/models/cube.fbx");
+  groundMesh.MakeChildOf(&ground);
+  groundMesh.material.diffuse =
+      Texture("assets/textures/demo/ground.png", TextureFilter::NEAREST);
 
   MeshRenderer cube = MeshRenderer("assets/models/cube.fbx");
   cube.transform.position = Vec3(4, 0, -3);
 
   MeshRenderer tree = MeshRenderer("assets/models/TreePodium.fbx");
-  tree.material.diffuse = Texture("assets/textures/TreePodium.png", TF_NEAREST);
-  tree.transform.position.y = -1.0f;
+  tree.material.diffuse = Texture("assets/textures/TreePodium.png", LINEAR);
+  tree.transform.position.y = -1.5f;
 
   InputAxis horizontal = InputAxis(Keycode::D, Keycode::A);
   InputAxis vertical = InputAxis(Keycode::S, Keycode::W);
   InputAxis rotY = InputAxis(Keycode::L_ARROW, Keycode::R_ARROW);
   InputAxis rotX = InputAxis(Keycode::U_ARROW, Keycode::D_ARROW);
 
-  Line line = Line(&cam, Vec3(0, 1, 0), Vec3(4, 0.5, -3));
+  Line line = Line(Vec3(0, 1, 0), Vec3(4, 0.5, -3));
 
   sF32 r = 123;
   sF32 g = 21;
@@ -75,6 +76,8 @@ sI32 main() {
   // random.transform.position.y = 10;
 
   Keybind spawn = Keybind(Keycode::SPACE);
+
+  // player.drawDebugIcon = true;
 
   while (window.IsRunning()) {
     Engine::Get().BeginFrame();
@@ -111,18 +114,17 @@ sI32 main() {
 
     cube.material.color = RGB(r, g, b);
 
-    if (Input::Get().GetKey(&spawn)) {
-      Rigidbody *rb = new Rigidbody();
-      rb->transform.scale = Vec3(0.1f);
-      rb->transform.position = player.transform.position;
+    // ground.transform.rotation.x += 1.0f * Time::DeltaTime();
+
+    if (Input::Get().GetKeyOnce(&spawn)) {
+
       MeshRenderer *instance = new MeshRenderer("assets/models/cube.fbx");
-      // instance->transform.position = rb->transform.position;
-      instance->MakeChildOf(rb);
-
-      // LOG("rb: " << Mathf::ToString(rb->transform.position));
-      // LOG("player: " << Mathf::ToString(player.transform.position));
+      instance->transform.position = cam.transform.GetInheritedPosition() +
+                                     cam.transform.InheritedForward() * 2.0f;
+      instance->material.diffuse =
+          Texture("assets/textures/demo/transparency.png");
+      instance->material.faceCulling = FaceCullingStyle::OFF;
     }
-
     EntityManager::Get().UpdateAll();
 
     glClearColor(0.05f, 0.1f, 0.05f, 1.0f);

@@ -49,7 +49,12 @@ void Entity::Destroy() { DESTROY(); }
 void Entity::Update() {
   IS_DESTROYED();
 
-  if (!Engine::Get().drawEntityIcons || !drawDebugIcon)
+  transform.Process();
+
+  // if (!Engine::Get().drawEntityIcons || !drawDebugIcon)
+  //   return;
+
+  if (!drawDebugIcon)
     return;
 
   if (Renderer::Get().cameraPosition == nullptr ||
@@ -157,6 +162,7 @@ void EntityManager::DestroyAll() {
 
 void EntityManager::UpdateAll() {
   for (Entity *entity : *entities.Vector()) {
+
     entity->Update();
   }
 }

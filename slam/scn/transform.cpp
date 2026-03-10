@@ -1,4 +1,4 @@
-#include "component.hpp"
+#include "transform.hpp"
 #include "entity.hpp"
 
 using namespace slam;
@@ -64,7 +64,6 @@ Quat Transform::GetInheritedRotation() const {
   if (parent == nullptr) {
     return local;
   }
-
   return parent->GetInheritedRotation() * local;
 }
 
@@ -74,12 +73,4 @@ Vec3 Transform::GetInheritedScale() const {
     value *= parent->scale;
   }
   return value;
-}
-
-Component::Component() { SetID(ComponentManager::Get().GetNextID()); }
-
-sU32 ComponentManager::GetNextID() {
-  nextID++;
-
-  return nextID - 1;
 }

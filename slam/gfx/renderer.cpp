@@ -48,9 +48,12 @@ void Renderer::Init(dpy::Window *window) {
   GetShader("default")->AddUniform("diffuse_texture");
   GetShader("default")->AddUniform("light_color");
   GetShader("default")->AddUniform("color");
+  GetShader("default")->AddUniform("light_position");
+  GetShader("default")->AddUniform("ambient_color");
 
   GetShader("line")->AddUniform("view");
   GetShader("line")->AddUniform("projection");
+  GetShader("line")->AddUniform("model");
   GetShader("line")->AddUniform("color");
 
   GetShader("billboard")->AddUniform("view");

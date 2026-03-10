@@ -11,7 +11,7 @@
 #include "../gfx/vbo.hpp"
 #include "../list.hpp"
 #include "../res/mesh.hpp"
-#include "component.hpp"
+#include "transform.hpp"
 
 namespace slam::scn {
 

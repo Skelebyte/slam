@@ -8,6 +8,8 @@
 
 namespace slam::gfx {
 
+enum FaceCullingStyle { OFF = 0, FRONT = 1, BACK = 2, BOTH = 3 };
+
 struct Material : public Destroyable {
   Material(const sString &shaderName);
   void Destroy() override;
@@ -27,6 +29,7 @@ struct Default : public Material {
 
   Texture diffuse;
   RGB color;
+  FaceCullingStyle faceCulling = FaceCullingStyle::BACK;
 };
 
 } // namespace slam::gfx

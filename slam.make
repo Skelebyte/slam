@@ -74,7 +74,6 @@ OBJECTS :=
 
 GENERATED += $(OBJDIR)/color.o
 GENERATED += $(OBJDIR)/common.o
-GENERATED += $(OBJDIR)/component.o
 GENERATED += $(OBJDIR)/ebo.o
 GENERATED += $(OBJDIR)/engine.o
 GENERATED += $(OBJDIR)/entity.o
@@ -94,6 +93,7 @@ GENERATED += $(OBJDIR)/renderer.o
 GENERATED += $(OBJDIR)/shader.o
 GENERATED += $(OBJDIR)/texture.o
 GENERATED += $(OBJDIR)/time.o
+GENERATED += $(OBJDIR)/transform.o
 GENERATED += $(OBJDIR)/ufbx.o
 GENERATED += $(OBJDIR)/vao.o
 GENERATED += $(OBJDIR)/vbo.o
@@ -101,7 +101,6 @@ GENERATED += $(OBJDIR)/vertex.o
 GENERATED += $(OBJDIR)/window.o
 OBJECTS += $(OBJDIR)/color.o
 OBJECTS += $(OBJDIR)/common.o
-OBJECTS += $(OBJDIR)/component.o
 OBJECTS += $(OBJDIR)/ebo.o
 OBJECTS += $(OBJDIR)/engine.o
 OBJECTS += $(OBJDIR)/entity.o
@@ -121,6 +120,7 @@ OBJECTS += $(OBJDIR)/renderer.o
 OBJECTS += $(OBJDIR)/shader.o
 OBJECTS += $(OBJDIR)/texture.o
 OBJECTS += $(OBJDIR)/time.o
+OBJECTS += $(OBJDIR)/transform.o
 OBJECTS += $(OBJDIR)/ufbx.o
 OBJECTS += $(OBJDIR)/vao.o
 OBJECTS += $(OBJDIR)/vbo.o
@@ -255,10 +255,10 @@ $(OBJDIR)/mesh.o: slam/res/mesh.cpp
 $(OBJDIR)/vertex.o: slam/res/vertex.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-$(OBJDIR)/component.o: slam/scn/component.cpp
+$(OBJDIR)/entity.o: slam/scn/entity.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-$(OBJDIR)/entity.o: slam/scn/entity.cpp
+$(OBJDIR)/transform.o: slam/scn/transform.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/time.o: slam/time.cpp
