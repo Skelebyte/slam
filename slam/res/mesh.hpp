@@ -19,12 +19,12 @@ struct Mesh {
    * @param blenderFix if true, will change the way its imported to make +y the
    * up vector.
    */
-  Mesh(const sString &path, bool blenderFix = true);
-  static Mesh GeneratePlane(sU32 divisions, const math::Vec2 &dimensions);
+  Mesh(const str &path, bool blenderFix = true);
+  static Mesh GeneratePlane(u32 divisions, const math::Vec2 &dimensions);
   List<Vertex> vertices;
-  List<sU32> indices;
+  List<u32> indices;
 
-  List<sF32> data;
+  List<f32> data;
 };
 
 } // namespace slam::res

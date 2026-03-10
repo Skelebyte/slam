@@ -37,7 +37,7 @@ struct Line : public Entity {
 
     model = Mat4(1.0f);
 
-    points = List<sF32>();
+    points = List<f32>();
     points.Add(start.x);
     points.Add(start.y);
     points.Add(start.z);
@@ -52,9 +52,9 @@ struct Line : public Entity {
     vao.Init();
     vao.Bind();
 
-    vbo.Init(points.Pointer(), sizeof(sF32) * points.Size());
+    vbo.Init(points.Pointer(), sizeof(f32) * points.Size());
 
-    vao.LinkAttrib(vbo, 0, 3, GL_FLOAT, 3 * sizeof(sF32), (void *)0);
+    vao.LinkAttrib(vbo, 0, 3, GL_FLOAT, 3 * sizeof(f32), (void *)0);
 
     vbo.Unbind();
     vao.Unbind();
@@ -97,7 +97,7 @@ struct Line : public Entity {
 
 private:
   Mat4 model;
-  List<sF32> points;
+  List<f32> points;
   VAO vao;
   VBO vbo;
   Shader *shader;

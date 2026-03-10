@@ -37,13 +37,13 @@ private:
 };
 
 struct EntityManager : public Singleton<EntityManager> {
-  sU32 GetNextID();
+  u32 GetNextID();
   void AddEntity(Entity *target);
   void UpdateAll();
   void DestroyAll();
 
 private:
-  sU32 nextID = 1;
+  u32 nextID = 1;
   List<Entity *> entities;
 };
 

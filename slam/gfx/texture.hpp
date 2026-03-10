@@ -16,13 +16,13 @@ enum TextureFilter {
 
 struct Texture : public Destroyable, public ID {
   Texture();
-  Texture(const sString &path, TextureFilter filter = NEAREST);
+  Texture(const str &path, TextureFilter filter = NEAREST);
   void Destroy() override;
   void TextureFallback();
-  void LoadFromData(sU8 *data, sU32 channels, sU32 width, sU32 height,
+  void LoadFromData(u8 *data, u32 channels, u32 width, u32 height,
                     TextureFilter filter = NEAREST);
-  static sU8 *CustomTexture(sU32 width, sU32 height, sU32 r1, sU32 g1, sU32 b1,
-                            sU32 r2, sU32 g2, sU32 b2);
+  static u8 *CustomTexture(u32 width, u32 height, u32 r1, u32 g1, u32 b1,
+                           u32 r2, u32 g2, u32 b2);
   void Bind();
   void Unbind();
 };

@@ -10,10 +10,10 @@
 
 namespace slam::util {
 struct File {
-  static sString Read(const sString &path);
-  static void Write(const sString &path, const sString &content,
+  static str Read(const str &path);
+  static void Write(const str &path, const str &content,
                     bool overwrite = false);
-  static bool Exists(const sString &path);
+  static bool Exists(const str &path);
 };
 } // namespace slam::util
 

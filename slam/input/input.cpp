@@ -14,7 +14,7 @@ InputAxis::InputAxis(Keycode pos, Keycode neg) {
   this->negative = neg;
 }
 
-sI32 Input::GetAxis(const InputAxis &axis) {
+i32 Input::GetAxis(const InputAxis &axis) {
   SDL_MouseButtonFlags flags = SDL_GetMouseState(NULL, NULL);
 
   if (axis.positive < 0 && axis.negative < 0) {
@@ -128,8 +128,8 @@ void Input::SetCursor(bool locked, bool hidden) {
   if (locked) {
     SDL_SetWindowRelativeMouseMode(Engine::Get().window->GetSDLWindow(), true);
     SDL_WarpMouseInWindow(Engine::Get().window->GetSDLWindow(),
-                          (sF32)Engine::Get().window->GetDimensions().x / 2,
-                          (sF32)Engine::Get().window->GetDimensions().y / 2);
+                          (f32)Engine::Get().window->GetDimensions().x / 2,
+                          (f32)Engine::Get().window->GetDimensions().y / 2);
   } else {
     SDL_SetWindowRelativeMouseMode(Engine::Get().window->GetSDLWindow(), false);
   }

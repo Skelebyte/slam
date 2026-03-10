@@ -12,28 +12,28 @@
 namespace slam {
 
 struct Engine : public Singleton<Engine> {
-  void Init(sU32 fps = 60);
+  void Init(u32 fps = 60);
   void Shutdown();
   void BeginFrame();
   void EndFrame();
   bool IsDrawFrame() const;
-  void SetTargetFps(sU32 fps);
-  sU32 GetFps() const;
+  void SetTargetFps(u32 fps);
+  u32 GetFps() const;
 
   dpy::Window *window = nullptr;
-  sF32 deltaTime;
-  sF32 timeScale = 1.0f;
+  f32 deltaTime;
+  f32 timeScale = 1.0f;
   bool drawEntityIcons;
 
 private:
   bool isDrawFrame = true;
-  sF32 targetFps;
-  sU32 fps;
-  sU32 frames;
-  sF32 frameTime;
-  sF32 processedDeltaTime;
-  sF32 first;
-  sF32 last;
+  f32 targetFps;
+  u32 fps;
+  u32 frames;
+  f32 frameTime;
+  f32 processedDeltaTime;
+  f32 first;
+  f32 last;
 };
 
 } // namespace slam

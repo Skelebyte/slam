@@ -10,14 +10,14 @@
 namespace slam::evt {
 struct Event : public Destroyable {
   Event() = default;
-  Event(const sString &name);
+  Event(const str &name);
   void Invoke();
   void AddListener(const std::function<void()> &listener);
   void Destroy() override;
   void operator+=(const std::function<void()> &listener);
 
 private:
-  sString name;
+  str name;
   List<std::function<void()>> listeners;
 };
 } // namespace slam::evt

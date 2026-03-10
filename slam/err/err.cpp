@@ -3,13 +3,13 @@
 using namespace slam;
 using namespace slam::err;
 
-Error::Error(const sString &name, const sString &desc, ErrorSeverity severity) {
+Error::Error(const str &name, const str &desc, ErrorSeverity severity) {
   this->name = name;
   this->desc = desc;
   this->severity = severity;
 }
 
-Error Error::Derived(const sString &newName, const sString &newDesc) const {
+Error Error::Derived(const str &newName, const str &newDesc) const {
   Error newError = *this;
 
   if (!newName.empty())
@@ -20,6 +20,6 @@ Error Error::Derived(const sString &newName, const sString &newDesc) const {
   return newError;
 }
 
-sString Error::GetName() const { return name; }
-sString Error::GetDesc() const { return desc; }
+str Error::GetName() const { return name; }
+str Error::GetDesc() const { return desc; }
 ErrorSeverity Error::GetSeverity() const { return severity; }

@@ -7,14 +7,14 @@ using namespace slam::err;
 using namespace slam::util;
 
 Texture::Texture() {
-  sU8 *data = Texture::CustomTexture(4, 4, 255, 255, 255, 200, 200, 200);
+  u8 *data = Texture::CustomTexture(4, 4, 255, 255, 255, 200, 200, 200);
 
   LoadFromData(data, 3, 4, 4);
 }
 
-Texture::Texture(const sString &path, TextureFilter filter) {
+Texture::Texture(const str &path, TextureFilter filter) {
   if (path.empty() == true) {
-    sU8 *data = Texture::CustomTexture(4, 4, 255, 255, 255, 200, 200, 200);
+    u8 *data = Texture::CustomTexture(4, 4, 255, 255, 255, 200, 200, 200);
 
     LoadFromData(data, 3, 4, 4);
     return;
@@ -30,9 +30,9 @@ Texture::Texture(const sString &path, TextureFilter filter) {
 
   stbi_set_flip_vertically_on_load(1);
 
-  sI32 width, height, channels;
+  i32 width, height, channels;
 
-  sU8 *data;
+  u8 *data;
 
   data = stbi_load(path.c_str(), &width, &height, &channels, 0);
   if (!data) {
@@ -52,12 +52,12 @@ void Texture::Destroy() {
 }
 
 void Texture::TextureFallback() {
-  sU8 *data = Texture::CustomTexture(4, 4, 255, 0, 255, 0, 0, 0);
+  u8 *data = Texture::CustomTexture(4, 4, 255, 0, 255, 0, 0, 0);
 
   LoadFromData(data, 3, 4, 4);
 }
 
-void Texture::LoadFromData(sU8 *data, sU32 channels, sU32 width, sU32 height,
+void Texture::LoadFromData(u8 *data, u32 channels, u32 width, u32 height,
                            TextureFilter filter) {
   if (!data) {
     THROW_ERROR(ERROR.Derived("", "The `data` parameter is not valid!"));
@@ -92,7 +92,7 @@ void Texture::LoadFromData(sU8 *data, sU32 channels, sU32 width, sU32 height,
     THROW_ERROR_GL(FATAL.Derived("", "Setting MAG_FILTER failed."));
   }
 
-  sU32 format = channels == 4 ? GL_RGBA : GL_RGB;
+  u32 format = channels == 4 ? GL_RGBA : GL_RGB;
 
   glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format,
                GL_UNSIGNED_BYTE, data);
@@ -104,16 +104,16 @@ void Texture::LoadFromData(sU8 *data, sU32 channels, sU32 width, sU32 height,
   free(data);
 }
 
-sU8 *Texture::CustomTexture(sU32 width, sU32 height, sU32 r1, sU32 g1, sU32 b1,
-                            sU32 r2, sU32 g2, sU32 b2) {
-  sU8 *data = (sU8 *)malloc(width * height * 3);
-  for (sI32 y = 0; y < height; y++) {
-    for (sI32 x = 0; x < width; x++) {
-      sF32 t = (sF32)x / width;
-      sF32 s = (sF32)y / height;
+u8 *Texture::CustomTexture(u32 width, u32 height, u32 r1, u32 g1, u32 b1,
+                           u32 r2, u32 g2, u32 b2) {
+  u8 *data = (u8 *)malloc(width * height * 3);
+  for (i32 y = 0; y < height; y++) {
+    for (i32 x = 0; x < width; x++) {
+      f32 t = (f32)x / width;
+      f32 s = (f32)y / height;
 
-      sI32 index = (y * width + x) * 3;
-      if (((sI32)(s * height) + (sI32)(t * width)) % 2 == 0) {
+      i32 index = (y * width + x) * 3;
+      if (((i32)(s * height) + (i32)(t * width)) % 2 == 0) {
         data[index] = r1;
         data[index + 1] = g1;
         data[index + 2] = b1;

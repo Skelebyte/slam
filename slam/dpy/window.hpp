@@ -11,11 +11,11 @@
 namespace slam::dpy {
 
 struct Window : public Destroyable {
-  Window(const sString &title = "SLAM", sU32 w = 800, sU32 h = 600,
+  Window(const str &title = "SLAM", u32 w = 800, u32 h = 600,
          bool resizable = true, bool fullscreen = false);
   bool IsRunning() const;
   void Destroy() override;
-  void PopupWindow(const sString &title, const sString &message,
+  void PopupWindow(const str &title, const str &message,
                    bool isErrorWindow = false);
   SDL_Window *GetSDLWindow() const;
   void Update();
@@ -24,8 +24,8 @@ struct Window : public Destroyable {
   void Stop();
   math::Vec2 GetViewportPosition() const;
   math::Vec2 GetViewportSize() const;
-  sF32 GetViewportAspect() const;
-  void SetTitle(const sString &title);
+  f32 GetViewportAspect() const;
+  void SetTitle(const str &title);
 
   bool appendFpsToTitle;
 
@@ -36,7 +36,7 @@ private:
   bool letterboxed;
   math::Vec2 viewportPosition;
   math::Vec2 viewportSize;
-  sString title;
+  str title;
 };
 
 static void ErrorWindow();

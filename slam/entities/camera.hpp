@@ -64,9 +64,9 @@ struct Camera : public Entity {
     Entity::Update();
   }
 
-  sF32 fov = 75.0f;
-  sF32 near = 0.1f;
-  sF32 far = 100.0f;
+  f32 fov = 75.0f;
+  f32 near = 0.1f;
+  f32 far = 100.0f;
   Mat4 view;
   Mat4 projection;
 

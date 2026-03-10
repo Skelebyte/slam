@@ -4,27 +4,27 @@ using namespace slam;
 using namespace slam::gfx;
 using namespace slam::math;
 
-RGB255::RGB255(sU32 rgb) {
-  sU32 value = Mathf::Wrap(rgb, 0, 255);
+RGB255::RGB255(u32 rgb) {
+  u32 value = Mathf::Wrap(rgb, 0, 255);
   r = value;
   g = value;
   b = value;
 }
 
-RGB255::RGB255(sU32 r, sU32 g, sU32 b) {
+RGB255::RGB255(u32 r, u32 g, u32 b) {
   this->r = Mathf::Wrap(r, 0, 255);
   this->g = Mathf::Wrap(g, 0, 255);
   this->b = Mathf::Wrap(b, 0, 255);
 }
 
-RGB::RGB(sF32 rgb) {
-  sF32 value = Mathf::Wrap(rgb, 0.0f, 1.0f);
+RGB::RGB(f32 rgb) {
+  f32 value = Mathf::Wrap(rgb, 0.0f, 1.0f);
   r = rgb;
   g = rgb;
   b = rgb;
 }
 
-RGB::RGB(sF32 r, sF32 g, sF32 b) {
+RGB::RGB(f32 r, f32 g, f32 b) {
   this->r = Mathf::Wrap(r, 0.0f, 1.0f);
   this->g = Mathf::Wrap(g, 0.0f, 1.0f);
   this->b = Mathf::Wrap(b, 0.0f, 1.0f);

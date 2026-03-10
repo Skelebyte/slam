@@ -9,8 +9,7 @@ using namespace slam::evt;
 using namespace slam::err;
 using namespace slam::math;
 
-Window::Window(const sString &name, sU32 w, sU32 h, bool resizable,
-               bool fullscreen) {
+Window::Window(const str &name, u32 w, u32 h, bool resizable, bool fullscreen) {
   if (Engine::Get().IsInitialized() == false) {
     THROW_ERROR(
         FATAL.Derived("", "Engine is not initialized! Please initialize with "
@@ -28,7 +27,7 @@ Window::Window(const sString &name, sU32 w, sU32 h, bool resizable,
   sdlWindow = SDL_CreateWindow(name.c_str(), w, h, flags);
   if (sdlWindow == nullptr) {
     THROW_ERROR(FATAL.Derived("", "SDL failed to create window! SDL error: " +
-                                      sString(SDL_GetError())));
+                                      str(SDL_GetError())));
     return;
   }
 
@@ -51,7 +50,7 @@ void Window::Destroy() {
   Engine::Get().window = nullptr;
 }
 
-void Window::PopupWindow(const sString &title, const sString &message,
+void Window::PopupWindow(const str &title, const str &message,
                          bool isErrorWindow) {
   if (isErrorWindow) {
     switch (ErrorSystem::Get().lastError->GetSeverity()) {
@@ -87,14 +86,14 @@ void Window::Update() {
 
   Vec2 dimensions = this->GetDimensions();
 
-  sF32 windowAspect = (sF32)dimensions.x / dimensions.y;
-  sF32 gameAspect = (sF32)1920 / 1080;
+  f32 windowAspect = (f32)dimensions.x / dimensions.y;
+  f32 gameAspect = (f32)1920 / 1080;
 
   this->pillarboxed = false;
   this->letterboxed = false;
 
   if (windowAspect > gameAspect) {
-    this->viewportSize.x = (sI32)(dimensions.y * gameAspect);
+    this->viewportSize.x = (i32)(dimensions.y * gameAspect);
     this->viewportSize.y = dimensions.y;
 
     this->viewportPosition.x = (dimensions.x - this->viewportSize.x) / 2;
@@ -102,7 +101,7 @@ void Window::Update() {
     this->pillarboxed = true;
   } else {
     this->viewportSize.x = dimensions.x;
-    this->viewportSize.y = (sI32)(dimensions.x / gameAspect);
+    this->viewportSize.y = (i32)(dimensions.x / gameAspect);
 
     this->viewportPosition.x = 0;
     this->viewportPosition.y = (dimensions.y - this->viewportSize.y) / 2;
@@ -131,7 +130,7 @@ void Window::SwapAndClear() {
 
   if (SDL_GL_SwapWindow(this->sdlWindow) == false) {
     THROW_ERROR(FATAL.Derived("", "SDL failed to swap buffers. SDL error: " +
-                                      sString(SDL_GetError())));
+                                      str(SDL_GetError())));
   }
 
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -140,13 +139,13 @@ void Window::SwapAndClear() {
 Vec2 Window::GetDimensions() {
   IS_DESTROYED(Vec2());
 
-  sI32 x;
-  sI32 y;
+  i32 x;
+  i32 y;
   Vec2 dimensions;
 
   if (SDL_GetWindowSize(this->sdlWindow, &x, &y) == false) {
     THROW_ERROR(ERROR.Derived("", "SDL failed to get window size! SDL error: " +
-                                      sString(SDL_GetError())));
+                                      str(SDL_GetError())));
     dimensions.x = 0;
     dimensions.y = 0;
   } else {
@@ -175,10 +174,10 @@ Vec2 Window::GetViewportSize() const {
   return viewportSize;
 }
 
-sF32 Window::GetViewportAspect() const {
+f32 Window::GetViewportAspect() const {
   IS_DESTROYED(0.0f);
 
-  return (sF32)this->viewportSize.x / (sF32)this->viewportSize.y;
+  return (f32)this->viewportSize.x / (f32)this->viewportSize.y;
 }
 
 void dpy::ErrorWindow() {
@@ -194,6 +193,6 @@ void dpy::ErrorWindow() {
                                     true);
 }
 
-void Window::SetTitle(const sString &title) {
+void Window::SetTitle(const str &title) {
   SDL_SetWindowTitle(sdlWindow, title.c_str());
 }

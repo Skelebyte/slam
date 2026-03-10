@@ -16,11 +16,10 @@ struct Renderer : public Singleton<Renderer> {
   void Init(dpy::Window *window);
   void Shutdown();
   void ToggleWireframe();
-  void AddShader(const sString &name, const sString &fragPath,
-                 const sString &vertPath);
-  Shader *GetShader(const sString &name);
+  void AddShader(const str &name, const str &fragPath, const str &vertPath);
+  Shader *GetShader(const str &name);
 
-  sString shaderPath = "assets/shaders/";
+  str shaderPath = "assets/shaders/";
   math::Vec3 *cameraPosition = nullptr;
   math::Vec3 *cameraRotation = nullptr;
   math::Mat4 *cameraView = nullptr;

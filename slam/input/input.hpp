@@ -95,7 +95,7 @@ struct InputAxis {
 };
 
 struct Input : public Singleton<Input> {
-  sI32 GetAxis(const InputAxis &axis);
+  i32 GetAxis(const InputAxis &axis);
   bool GetKey(Keybind *keybind);
   bool GetKeyOnce(Keybind *keybind);
   math::Vec2 GetRawMousePosition();

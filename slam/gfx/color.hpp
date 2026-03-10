@@ -6,29 +6,29 @@
 
 namespace slam::gfx {
 
-// RGB as `sU32`, ranging from `0` to `255`
+// RGB as `u32`, ranging from `0` to `255`
 union RGB255 {
   struct {
-    sU32 r;
-    sU32 g;
-    sU32 b;
+    u32 r;
+    u32 g;
+    u32 b;
   };
-  sU32 data[3];
+  u32 data[3];
 
-  RGB255(sU32 rgb = 255);
-  RGB255(sU32 r, sU32 g, sU32 b);
+  RGB255(u32 rgb = 255);
+  RGB255(u32 r, u32 g, u32 b);
 };
 
-// RGB as `sF32`, ranging from `0.0f` to `1.0f`.
+// RGB as `f32`, ranging from `0.0f` to `1.0f`.
 union RGB {
   struct {
-    sF32 r;
-    sF32 g;
-    sF32 b;
+    f32 r;
+    f32 g;
+    f32 b;
   };
-  sF32 data[3];
-  RGB(sF32 rgb = 1.0f);
-  RGB(sF32 r, sF32 g, sF32 b);
+  f32 data[3];
+  RGB(f32 rgb = 1.0f);
+  RGB(f32 r, f32 g, f32 b);
 };
 
 RGB ToRGB(const RGB255 &color);

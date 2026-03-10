@@ -9,14 +9,14 @@
 #include <vector>
 
 namespace slam {
-typedef int32_t sI32;
-typedef uint32_t sU32;
-typedef int64_t sI64;
-typedef uint64_t sU64;
-typedef float sF32;
-typedef double sF64;
-typedef unsigned char sU8;
-typedef std::string sString;
+typedef int32_t i32;
+typedef uint32_t u32;
+typedef int64_t i64;
+typedef uint64_t u64;
+typedef float f32;
+typedef double f64;
+typedef unsigned char u8;
+typedef std::string str;
 
 struct Destroyable {
   virtual void Destroy() { destroyed = true; };
@@ -40,14 +40,14 @@ protected:
 };
 
 struct ID {
-  sU32 GetID() { return id; }
+  u32 GetID() { return id; }
 
 protected:
-  sU32 *GetID_Ptr() { return &id; }
-  void SetID(sU32 newID) { id = newID; }
+  u32 *GetID_Ptr() { return &id; }
+  void SetID(u32 newID) { id = newID; }
 
 private:
-  sU32 id;
+  u32 id;
 };
 
 /**

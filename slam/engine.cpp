@@ -5,7 +5,7 @@ using namespace slam;
 using namespace slam::evt;
 using namespace slam::err;
 
-void Engine::Init(sU32 fps) {
+void Engine::Init(u32 fps) {
   if (initialized) {
     THROW_ERROR(WARNING.Derived("", "Engine is already initialized!"));
     return;
@@ -13,7 +13,7 @@ void Engine::Init(sU32 fps) {
 
   if (SDL_Init(SDL_INIT_VIDEO) == false) {
     THROW_ERROR(FATAL.Derived("", "SDL failed to initialize! SDL error: " +
-                                      sString(SDL_GetError())));
+                                      str(SDL_GetError())));
     return;
   }
 
@@ -65,12 +65,12 @@ void Engine::EndFrame() {
 
 bool Engine::IsDrawFrame() const { return isDrawFrame; }
 
-void Engine::SetTargetFps(sU32 fps) {
+void Engine::SetTargetFps(u32 fps) {
 
   LOG("fps: " << fps);
 
-  targetFps = 1.0f / (sF32)fps;
+  targetFps = 1.0f / (f32)fps;
   LOG("tfps: " << targetFps);
 }
 
-sU32 Engine::GetFps() const { return fps; }
+u32 Engine::GetFps() const { return fps; }

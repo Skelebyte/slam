@@ -28,7 +28,7 @@ using namespace slam::input;
 using namespace slam::entities;
 using namespace slam;
 
-sI32 main() {
+i32 main() {
   Engine::Get().Init(144);
   Window window = Window("Hi mum!");
   window.appendFpsToTitle = true;
@@ -68,9 +68,9 @@ sI32 main() {
 
   Line line = Line(Vec3(0, 1, 0), Vec3(4, 0.5, -3));
 
-  sF32 r = 123;
-  sF32 g = 21;
-  sF32 b = 200;
+  f32 r = 123;
+  f32 g = 21;
+  f32 b = 200;
 
   // Entity random = Entity();
   // random.transform.position.y = 10;
@@ -95,18 +95,18 @@ sI32 main() {
 
     Vec3 velocity = Vec3();
     velocity +=
-        player.transform.Right() * ((sF32)Input::Get().GetAxis(horizontal));
+        player.transform.Right() * ((f32)Input::Get().GetAxis(horizontal));
     velocity +=
-        player.transform.Forward() * -((sF32)Input::Get().GetAxis(vertical));
+        player.transform.Forward() * -((f32)Input::Get().GetAxis(vertical));
 
     player.transform.position +=
         Mathf::Normalized(velocity) * 5.0f * Time::DeltaTime();
 
     player.transform.rotation.y +=
-        Mathf::ToDegrees((sF32)Input::Get().GetAxis(rotY)) * Time::DeltaTime();
+        Mathf::ToDegrees((f32)Input::Get().GetAxis(rotY)) * Time::DeltaTime();
 
     cam.transform.rotation.x +=
-        Mathf::ToDegrees((sF32)Input::Get().GetAxis(rotX)) * Time::DeltaTime();
+        Mathf::ToDegrees((f32)Input::Get().GetAxis(rotX)) * Time::DeltaTime();
     cam.transform.rotation.x = Mathf::Clamp(cam.transform.rotation.x, -89, 89);
     r = Mathf::Wrap(r + 0.5f * Time::DeltaTime(), 0.0f, 1.0f);
     g = Mathf::Wrap(g + 0.25f * Time::DeltaTime(), 0.0f, 1.0f);

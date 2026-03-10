@@ -8,10 +8,10 @@ using namespace slam::res;
 using namespace slam::err;
 using namespace slam::util;
 
-Mesh::Mesh(const sString &path, bool blenderFix) {
+Mesh::Mesh(const str &path, bool blenderFix) {
   vertices = List<Vertex>();
-  indices = List<sU32>();
-  data = List<sF32>();
+  indices = List<u32>();
+  data = List<f32>();
 
   if (File::Exists(path) == false) {
     THROW_ERROR(ERROR.Derived("", "File " + path + " does not exist!"));
@@ -36,12 +36,12 @@ Mesh::Mesh(const sString &path, bool blenderFix) {
     if (node->mesh) {
       ufbx_mesh *fbx_mesh = node->mesh;
 
-      sU32 vertCount = 0;
+      u32 vertCount = 0;
       for (ufbx_face face : fbx_mesh->faces) {
-        for (sU32 tri = 1; tri + 1 < face.num_indices; tri++) {
-          sU32 corners[3] = {face.index_begin, face.index_begin + tri,
-                             face.index_begin + tri + 1};
-          for (sU32 index : corners) {
+        for (u32 tri = 1; tri + 1 < face.num_indices; tri++) {
+          u32 corners[3] = {face.index_begin, face.index_begin + tri,
+                            face.index_begin + tri + 1};
+          for (u32 index : corners) {
             Vec3 pos = Vec3();
             if (blenderFix) {
               pos = Vec3(fbx_mesh->vertex_position[index].x,
@@ -76,7 +76,7 @@ Mesh::Mesh(const sString &path, bool blenderFix) {
   ufbx_free_scene(scene);
 }
 
-Mesh Mesh::GeneratePlane(sU32 divisions, const Vec2 &dimensions) {
+Mesh Mesh::GeneratePlane(u32 divisions, const Vec2 &dimensions) {
   Vec2 planeDimensions;
 
   if (divisions == 0)
@@ -90,16 +90,16 @@ Mesh Mesh::GeneratePlane(sU32 divisions, const Vec2 &dimensions) {
 
   Mesh mesh;
 
-  sF32 triangleSideX = planeDimensions.x / divisions;
-  sF32 triangleSideY = planeDimensions.y / divisions;
+  f32 triangleSideX = planeDimensions.x / divisions;
+  f32 triangleSideY = planeDimensions.y / divisions;
 
-  for (sU32 row = 0; row <= divisions;
+  for (u32 row = 0; row <= divisions;
        row++) { // possibly may need to use divisions + 1
-    for (sU32 col = 0; col <= divisions;
+    for (u32 col = 0; col <= divisions;
          col++) { // possibly may need to use divisions + 1
 
       if (row < divisions && col < divisions) {
-        sU32 index = row * (divisions + 1) + col;
+        u32 index = row * (divisions + 1) + col;
 
         // top triangle
         mesh.indices.Add(index);
@@ -114,7 +114,7 @@ Mesh Mesh::GeneratePlane(sU32 divisions, const Vec2 &dimensions) {
 
       Vec3 pos = Vec3((col * triangleSideX) - dimensions.x / 2, 0.0f,
                       (row * -triangleSideY) + dimensions.y / 2);
-      Vec2 uv = Vec2((sF32)col / divisions, (sF32)row / divisions);
+      Vec2 uv = Vec2((f32)col / divisions, (f32)row / divisions);
       Vec3 normal = Vec3(0, 1, 0);
       mesh.vertices.Add(Vertex(pos, uv, normal));
 

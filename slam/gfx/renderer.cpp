@@ -17,7 +17,7 @@ void Renderer::Init(dpy::Window *window) {
   if (gl == nullptr) {
     THROW_ERROR(
         FATAL.Derived("", "Create to create OpenGL context. SDL error: " +
-                              sString(SDL_GetError())));
+                              str(SDL_GetError())));
     return;
   }
 
@@ -67,7 +67,7 @@ void Renderer::Init(dpy::Window *window) {
 void Renderer::Shutdown() {
   SDL_GL_DestroyContext(gl);
 
-  for (sU32 i = 0; i < shaders.Size(); i++) {
+  for (u32 i = 0; i < shaders.Size(); i++) {
     shaders[i].Destroy();
   }
 
@@ -87,8 +87,8 @@ void Renderer::ToggleWireframe() {
   }
 }
 
-void Renderer::AddShader(const sString &name, const sString &fragPath,
-                         const sString &vertPath) {
+void Renderer::AddShader(const str &name, const str &fragPath,
+                         const str &vertPath) {
   bool silence = ErrorSystem::Get().silenceWarnings;
 
   ErrorSystem::Get().silenceWarnings = true;
@@ -103,8 +103,8 @@ void Renderer::AddShader(const sString &name, const sString &fragPath,
   shaders.Add(Shader(name, shaderPath + fragPath, shaderPath + vertPath));
 }
 
-Shader *Renderer::GetShader(const sString &name) {
-  for (sU32 i = 0; i < shaders.Size(); i++) {
+Shader *Renderer::GetShader(const str &name) {
+  for (u32 i = 0; i < shaders.Size(); i++) {
     if (name == shaders[i].GetName()) {
       return &shaders[i];
     }

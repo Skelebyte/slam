@@ -12,37 +12,36 @@
 
 namespace slam::gfx {
 struct Uniform {
-  Uniform(const sString &name, sU32 shaderID);
-  sString GetName() const;
-  sU32 GetID() const;
+  Uniform(const str &name, u32 shaderID);
+  str GetName() const;
+  u32 GetID() const;
 
   void SetValue(const math::Mat4 &value);
   void SetValue(const math::Vec3 &value);
   void SetValue(const RGB255 &value);
   void SetValue(const RGB &value);
-  void SetValue(sF32 value);
-  void SetValue(sI32 value);
+  void SetValue(f32 value);
+  void SetValue(i32 value);
 
 private:
-  sString name;
-  sU32 id;
+  str name;
+  u32 id;
 };
 
 struct Shader : public ID, public Destroyable {
-  Shader(const sString &name,
-         const sString &fragPath = "assets/shaders/fragment.glsl",
-         const sString &vertPath = "assets/shaders/vertex.glsl");
+  Shader(const str &name, const str &fragPath = "assets/shaders/fragment.glsl",
+         const str &vertPath = "assets/shaders/vertex.glsl");
   void Destroy() override;
-  void AddUniform(const sString &name);
-  Uniform *GetUniform(const sString &name);
+  void AddUniform(const str &name);
+  Uniform *GetUniform(const str &name);
   void Bind();
-  void SetName(const sString &name);
-  sString &GetName();
+  void SetName(const str &name);
+  str &GetName();
 
 private:
-  sString name = "";
+  str name = "";
   List<Uniform> uniforms;
-  bool IsCompileNotOK(sU32 shader, const sString &type);
+  bool IsCompileNotOK(u32 shader, const str &type);
   bool IsLinkOK();
 };
 

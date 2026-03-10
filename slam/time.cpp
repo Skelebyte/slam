@@ -2,8 +2,8 @@
 
 using namespace slam;
 
-sF32 Time::DeltaTime() {
+f32 Time::DeltaTime() {
   return Engine::Get().deltaTime * Engine::Get().timeScale;
 }
 
-void Time::SetTimeScale(sF32 scale) { Engine::Get().timeScale = scale; }
+void Time::SetTimeScale(f32 scale) { Engine::Get().timeScale = scale; }

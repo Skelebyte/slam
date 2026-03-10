@@ -10,15 +10,15 @@ enum ErrorSeverity { ES_MSG = 0, ES_WARNING = 1, ES_ERROR = 2, ES_FATAL = 3 };
 
 struct Error {
   Error() = default;
-  Error(const sString &name, const sString &desc, ErrorSeverity severity);
-  Error Derived(const sString &newName = "", const sString &newDesc = "") const;
-  sString GetName() const;
-  sString GetDesc() const;
+  Error(const str &name, const str &desc, ErrorSeverity severity);
+  Error Derived(const str &newName = "", const str &newDesc = "") const;
+  str GetName() const;
+  str GetDesc() const;
   ErrorSeverity GetSeverity() const;
 
 private:
-  sString name;
-  sString desc;
+  str name;
+  str desc;
   ErrorSeverity severity;
 };
 

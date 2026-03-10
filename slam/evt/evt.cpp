@@ -2,7 +2,7 @@
 
 using namespace slam::evt;
 
-Event::Event(const sString &name) {
+Event::Event(const str &name) {
   this->name = name;
   listeners = List<std::function<void()>>();
 }
@@ -10,7 +10,7 @@ Event::Event(const sString &name) {
 void Event::Invoke() {
   IS_DESTROYED();
 
-  for (sU32 i = 0; i < listeners.Size(); i++) {
+  for (u32 i = 0; i < listeners.Size(); i++) {
     listeners[i]();
   }
 }

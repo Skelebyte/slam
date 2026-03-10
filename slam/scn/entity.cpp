@@ -24,14 +24,14 @@ Entity::Entity() {
   vao.Init();
   vao.Bind();
 
-  vbo.Init(mesh.data.Pointer(), sizeof(sF32) * mesh.data.Size());
-  ebo.Init(mesh.indices.Pointer(), sizeof(sU32) * mesh.indices.Size());
+  vbo.Init(mesh.data.Pointer(), sizeof(f32) * mesh.data.Size());
+  ebo.Init(mesh.indices.Pointer(), sizeof(u32) * mesh.indices.Size());
 
-  vao.LinkAttrib(vbo, 0, 3, GL_FLOAT, 8 * sizeof(sF32), (void *)0);
-  vao.LinkAttrib(vbo, 1, 2, GL_FLOAT, 8 * sizeof(sF32),
-                 (void *)(3 * sizeof(sF32)));
-  vao.LinkAttrib(vbo, 2, 3, GL_FLOAT, 8 * sizeof(sF32),
-                 (void *)(5 * sizeof(sF32)));
+  vao.LinkAttrib(vbo, 0, 3, GL_FLOAT, 8 * sizeof(f32), (void *)0);
+  vao.LinkAttrib(vbo, 1, 2, GL_FLOAT, 8 * sizeof(f32),
+                 (void *)(3 * sizeof(f32)));
+  vao.LinkAttrib(vbo, 2, 3, GL_FLOAT, 8 * sizeof(f32),
+                 (void *)(5 * sizeof(f32)));
 
   vbo.Unbind();
   vao.Unbind();
@@ -99,7 +99,7 @@ void Entity::Update() {
 }
 
 // template <typename T> T *Entity::GetComponent() {
-//   for (sI32 i = 0; i < this->components.Size(); i++) {
+//   for (i32 i = 0; i < this->components.Size(); i++) {
 //     if (typeid(this->components[i]) == typeid(T)) {
 //       return (T)this->components[i];
 //     }
@@ -113,7 +113,7 @@ void Entity::Update() {
 // }
 
 // template <typename T> bool Entity::HasComponentOfType() {
-//   for (sI32 i = 0; i < this->components.Size(); i++) {
+//   for (i32 i = 0; i < this->components.Size(); i++) {
 //     if (typeid(this->components[i]) == typeid(T)) {
 //       return true;
 //     }
@@ -130,7 +130,7 @@ void Entity::MakeChildOf(Entity *entity) {
   transform.parent = &entity->transform;
 }
 
-sU32 EntityManager::GetNextID() {
+u32 EntityManager::GetNextID() {
   nextID++;
 
   return nextID - 1;

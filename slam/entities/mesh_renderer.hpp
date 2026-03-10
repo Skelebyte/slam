@@ -28,7 +28,7 @@ using namespace slam;
 namespace slam::entities {
 
 struct MeshRenderer : public Entity {
-  MeshRenderer(const sString &path) {
+  MeshRenderer(const str &path) {
 
     this->shader = Renderer::Get().GetShader("default");
     mesh = Mesh(path);
@@ -43,14 +43,14 @@ struct MeshRenderer : public Entity {
     vao.Init();
     vao.Bind();
 
-    vbo.Init(mesh.data.Pointer(), sizeof(sF32) * mesh.data.Size());
-    ebo.Init(mesh.indices.Pointer(), sizeof(sU32) * mesh.indices.Size());
+    vbo.Init(mesh.data.Pointer(), sizeof(f32) * mesh.data.Size());
+    ebo.Init(mesh.indices.Pointer(), sizeof(u32) * mesh.indices.Size());
 
-    vao.LinkAttrib(vbo, 0, 3, GL_FLOAT, 8 * sizeof(sF32), (void *)0);
-    vao.LinkAttrib(vbo, 1, 2, GL_FLOAT, 8 * sizeof(sF32),
-                   (void *)(3 * sizeof(sF32)));
-    vao.LinkAttrib(vbo, 2, 3, GL_FLOAT, 8 * sizeof(sF32),
-                   (void *)(5 * sizeof(sF32)));
+    vao.LinkAttrib(vbo, 0, 3, GL_FLOAT, 8 * sizeof(f32), (void *)0);
+    vao.LinkAttrib(vbo, 1, 2, GL_FLOAT, 8 * sizeof(f32),
+                   (void *)(3 * sizeof(f32)));
+    vao.LinkAttrib(vbo, 2, 3, GL_FLOAT, 8 * sizeof(f32),
+                   (void *)(5 * sizeof(f32)));
 
     vbo.Unbind();
     vao.Unbind();

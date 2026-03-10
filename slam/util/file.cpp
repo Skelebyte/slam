@@ -4,7 +4,7 @@ using namespace slam;
 using namespace slam::util;
 using namespace slam::err;
 
-sString File::Read(const sString &path) {
+str File::Read(const str &path) {
   if (File::Exists(path) == false) {
     THROW_ERROR(ERROR.Derived("", "File " + path + " does not exist!"));
     return "";
@@ -33,14 +33,13 @@ sString File::Read(const sString &path) {
 
   file.close();
 
-  sString data = buffer;
+  str data = buffer;
   delete[] buffer;
 
   return data;
 }
 
-void Write(const sString &path, const sString &content,
-           bool overwrite = false) {
+void Write(const str &path, const str &content, bool overwrite = false) {
   std::ofstream file;
 
   if (overwrite) {
@@ -53,4 +52,4 @@ void Write(const sString &path, const sString &content,
   file.close();
 }
 
-bool File::Exists(const sString &path) { return std::filesystem::exists(path); }
+bool File::Exists(const str &path) { return std::filesystem::exists(path); }

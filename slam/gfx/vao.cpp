@@ -30,7 +30,7 @@ void VAO::Unbind() {
   glBindVertexArray(0);
 }
 
-void VAO::LinkAttrib(VBO &vbo, sU32 layout, sU32 components, sU32 type,
+void VAO::LinkAttrib(VBO &vbo, u32 layout, u32 components, u32 type,
                      size_t stride, void *offset) {
   IS_DESTROYED();
 

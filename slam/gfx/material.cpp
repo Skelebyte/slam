@@ -3,7 +3,7 @@
 using namespace slam;
 using namespace slam::gfx;
 
-Material::Material(const sString &shaderName) {
+Material::Material(const str &shaderName) {
   shader = Renderer::Get().GetShader(shaderName);
 }
 
@@ -26,14 +26,13 @@ Default::Default() : Material("default") {
   faceCulling = FaceCullingStyle::BACK;
 }
 
-Default::Default(const sString &texturePath, RGB255 color)
-    : Material("default") {
+Default::Default(const str &texturePath, RGB255 color) : Material("default") {
   diffuse = Texture(texturePath, LINEAR);
   this->color = ToRGB(color);
   faceCulling = FaceCullingStyle::BACK;
 }
 
-Default::Default(const sString &texturePath, RGB color) : Material("default") {
+Default::Default(const str &texturePath, RGB color) : Material("default") {
   diffuse = Texture(texturePath, LINEAR);
   this->color = color;
   faceCulling = FaceCullingStyle::BACK;
