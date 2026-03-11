@@ -16,6 +16,7 @@
 #include "../slam/gfx/vbo.hpp"
 #include "../slam/input/input.hpp"
 #include "../slam/math/mathf.hpp"
+#include "../slam/phys/system.hpp"
 #include "../slam/res/mesh.hpp"
 #include "../slam/scn/entity.hpp"
 #include "../slam/time.hpp"
@@ -29,6 +30,7 @@ using namespace slam::scn;
 using namespace slam::res;
 using namespace slam::input;
 using namespace slam::entities;
+using namespace slam::phys;
 using namespace slam;
 
 i32 main() {
@@ -54,8 +56,6 @@ i32 main() {
 
   InputAxis horizontal = InputAxis(Keycode::D, Keycode::A);
   InputAxis vertical = InputAxis(Keycode::S, Keycode::W);
-  InputAxis rotY = InputAxis(Keycode::L_ARROW, Keycode::R_ARROW);
-  InputAxis rotX = InputAxis(Keycode::U_ARROW, Keycode::D_ARROW);
 
   // Entity random = Entity();
   // random.transform.position.y = 10;
@@ -90,12 +90,22 @@ i32 main() {
 
   io.Fonts->AddFontFromFileTTF("assets/fonts/RobotoMono.ttf", 18);
 
+  Body *physEntity = System::CreateSphere();
+  physEntity->transform.position = Vec3(0, 5, -5);
+
+  MeshRenderer physMesh = MeshRenderer("assets/models/cube.fbx");
+  physMesh.MakeChildOf(physEntity);
+  physMesh.material.color = RGB(1.0f, 0, 0);
+  LOG("physE: " << Mathf::ToString(
+          physEntity->transform.GetInheritedPosition()));
+
+  LOG("physM: " << Mathf::ToString(physMesh.transform.GetInheritedPosition()));
+
   while (window.IsRunning()) {
     Engine::Get().BeginFrame();
     Engine::Get().drawEntityIcons = true;
 
     window.Update();
-    // window.SetTitle(std::to_string(Engine::Get().GetFps()));
 
     if (Input::GetKeyOnce(&toggleWireframe)) {
       Renderer::Get().ToggleWireframe();
@@ -120,12 +130,6 @@ i32 main() {
     player.transform.position +=
         Mathf::Normalized(velocity) * 5.0f * Time::DeltaTime();
 
-    player.transform.rotation.y +=
-        Mathf::ToDegrees((f32)Input::GetAxis(rotY)) * Time::DeltaTime();
-
-    cam.transform.rotation.x +=
-        Mathf::ToDegrees((f32)Input::GetAxis(rotX)) * Time::DeltaTime();
-    cam.transform.rotation.x = Mathf::Clamp(cam.transform.rotation.x, -89, 89);
     r = Mathf::Wrap(r + Mathf::Random(100) / 100.0f * Time::DeltaTime(), 0.0f,
                     1.0f);
     g = Mathf::Wrap(g + Mathf::Random(100) / 100.0f * Time::DeltaTime(), 0.0f,
@@ -144,6 +148,7 @@ i32 main() {
       instance->transform.position.y = 0;
       instance->material.color = RGB(r, g, b);
     }
+
     EntityManager::Get().UpdateAll();
 
     glClearColor(0.1f, 0.1f, 0.1f, 1.0f);

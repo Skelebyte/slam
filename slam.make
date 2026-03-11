@@ -72,6 +72,7 @@ endif
 GENERATED :=
 OBJECTS :=
 
+GENERATED += $(OBJDIR)/body.o
 GENERATED += $(OBJDIR)/color.o
 GENERATED += $(OBJDIR)/common.o
 GENERATED += $(OBJDIR)/ebo.o
@@ -98,6 +99,7 @@ GENERATED += $(OBJDIR)/mathf.o
 GENERATED += $(OBJDIR)/mesh.o
 GENERATED += $(OBJDIR)/renderer.o
 GENERATED += $(OBJDIR)/shader.o
+GENERATED += $(OBJDIR)/system.o
 GENERATED += $(OBJDIR)/texture.o
 GENERATED += $(OBJDIR)/time.o
 GENERATED += $(OBJDIR)/transform.o
@@ -106,6 +108,7 @@ GENERATED += $(OBJDIR)/vao.o
 GENERATED += $(OBJDIR)/vbo.o
 GENERATED += $(OBJDIR)/vertex.o
 GENERATED += $(OBJDIR)/window.o
+OBJECTS += $(OBJDIR)/body.o
 OBJECTS += $(OBJDIR)/color.o
 OBJECTS += $(OBJDIR)/common.o
 OBJECTS += $(OBJDIR)/ebo.o
@@ -132,6 +135,7 @@ OBJECTS += $(OBJDIR)/mathf.o
 OBJECTS += $(OBJDIR)/mesh.o
 OBJECTS += $(OBJDIR)/renderer.o
 OBJECTS += $(OBJDIR)/shader.o
+OBJECTS += $(OBJDIR)/system.o
 OBJECTS += $(OBJDIR)/texture.o
 OBJECTS += $(OBJDIR)/time.o
 OBJECTS += $(OBJDIR)/transform.o
@@ -282,6 +286,12 @@ $(OBJDIR)/input.o: slam/input/input.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/mathf.o: slam/math/mathf.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/body.o: slam/phys/body.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/system.o: slam/phys/system.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/mesh.o: slam/res/mesh.cpp
