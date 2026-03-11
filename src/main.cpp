@@ -35,6 +35,8 @@ i32 main() {
   Renderer::Get().Init(&window);
 
   //   ErrorSystem::Get().silenceWarnings = true;
+  ErrorSystem::Get().enablePopupOnErrors =
+      ErrorSeverity::ES_ERROR | ErrorSeverity::ES_FATAL;
 
   Keybind toggleWireframe = Keybind(Keycode::F1);
   Keybind toggleIcons = Keybind(Keycode::F2);
@@ -47,7 +49,7 @@ i32 main() {
 
   Entity ground = Entity();
   ground.transform.position = Vec3(0, -2, 0);
-  ground.transform.scale = Vec3(10, 1, 10);
+  ground.transform.scale = Vec3(100, 1, 100);
 
   MeshRenderer groundMesh = MeshRenderer("assets/models/cube.fbx");
   groundMesh.MakeChildOf(&ground);
@@ -60,6 +62,13 @@ i32 main() {
   MeshRenderer tree = MeshRenderer("assets/models/TreePodium.fbx");
   tree.material.diffuse = Texture("assets/textures/TreePodium.png", LINEAR);
   tree.transform.position.y = -1.5f;
+
+  MeshRenderer skybox = MeshRenderer("assets/models/cube.fbx");
+  skybox.transform.scale = Vec3(100);
+  skybox.material.color = ToRGB(RGB255(21, 27, 31));
+  skybox.material.faceCulling = FaceCullingStyle::FRONT;
+  skybox.material.fog = false;
+  skybox.material.unlit = true;
 
   InputAxis horizontal = InputAxis(Keycode::D, Keycode::A);
   InputAxis vertical = InputAxis(Keycode::S, Keycode::W);
@@ -121,13 +130,12 @@ i32 main() {
       MeshRenderer *instance = new MeshRenderer("assets/models/cube.fbx");
       instance->transform.position = cam.transform.GetInheritedPosition() +
                                      cam.transform.InheritedForward() * 2.0f;
-      instance->material.diffuse =
-          Texture("assets/textures/demo/transparency.png");
-      instance->material.faceCulling = FaceCullingStyle::OFF;
+      instance->material.diffuse = Texture("assets/textures/demo/s.png");
+      instance->material.unlit = true;
     }
     EntityManager::Get().UpdateAll();
 
-    glClearColor(0.05f, 0.1f, 0.05f, 1.0f);
+    glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 
     window.SwapAndClear();
 

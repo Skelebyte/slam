@@ -57,6 +57,12 @@ void Uniform::SetValue(i32 value) {
                                "Failed to set int1 uniform `" + name + "`."));
 }
 
+void Uniform::SetValue(bool value) {
+  glUniform1i(id, value);
+  THROW_ERROR_GL(FATAL.Derived("GL_UNIFORM_1I_FAIL",
+                               "Failed to set int1 uniform `" + name + "`."));
+}
+
 Shader::Shader(const str &name, const str &fragPath, const str &vertPath) {
   if (File::Exists(fragPath) == false) {
     THROW_ERROR(FATAL.Derived("", "No file " + fragPath + " found."));

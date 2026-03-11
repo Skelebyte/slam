@@ -22,6 +22,7 @@ struct Uniform {
   void SetValue(const RGB &value);
   void SetValue(f32 value);
   void SetValue(i32 value);
+  void SetValue(bool value);
 
 private:
   str name;

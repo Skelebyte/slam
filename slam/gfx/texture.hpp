@@ -25,6 +25,10 @@ struct Texture : public Destroyable, public ID {
                            u32 r2, u32 g2, u32 b2);
   void Bind();
   void Unbind();
+  bool IsValid() const;
+
+private:
+  bool isValid;
 };
 
 } // namespace slam::gfx

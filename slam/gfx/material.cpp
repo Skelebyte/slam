@@ -24,18 +24,24 @@ Default::Default() : Material("default") {
   diffuse = Texture();
   color = RGB(1.0f);
   faceCulling = FaceCullingStyle::BACK;
+  fog = true;
+  unlit = false;
 }
 
 Default::Default(const str &texturePath, RGB255 color) : Material("default") {
   diffuse = Texture(texturePath, LINEAR);
   this->color = ToRGB(color);
   faceCulling = FaceCullingStyle::BACK;
+  fog = true;
+  unlit = false;
 }
 
 Default::Default(const str &texturePath, RGB color) : Material("default") {
   diffuse = Texture(texturePath, LINEAR);
   this->color = color;
   faceCulling = FaceCullingStyle::BACK;
+  fog = true;
+  unlit = false;
 }
 
 void Default::Destroy() {
@@ -47,6 +53,13 @@ void Default::Destroy() {
 
 void Default::Bind() {
   IS_DESTROYED();
+
+  if (diffuse.IsValid() == false) {
+    color = RGB(1.0);
+    faceCulling = FaceCullingStyle::BACK;
+    unlit = true;
+    fog = false;
+  }
 
   switch (faceCulling) {
   case OFF:
@@ -70,4 +83,6 @@ void Default::Bind() {
   diffuse.Bind();
   shader->GetUniform("diffuse_texture")->SetValue(0);
   shader->GetUniform("color")->SetValue(color);
+  shader->GetUniform("affected_by_fog")->SetValue(fog);
+  shader->GetUniform("unlit")->SetValue(unlit);
 }

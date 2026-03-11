@@ -8,14 +8,14 @@ using namespace slam::util;
 
 Texture::Texture() {
   u8 *data = Texture::CustomTexture(4, 4, 255, 255, 255, 200, 200, 200);
-
+  isValid = true;
   LoadFromData(data, 3, 4, 4);
 }
 
 Texture::Texture(const str &path, TextureFilter filter) {
   if (path.empty() == true) {
     u8 *data = Texture::CustomTexture(4, 4, 255, 255, 255, 200, 200, 200);
-
+    isValid = true;
     LoadFromData(data, 3, 4, 4);
     return;
   }
@@ -41,7 +41,7 @@ Texture::Texture(const str &path, TextureFilter filter) {
     TextureFallback();
     return;
   }
-
+  isValid = true;
   LoadFromData(data, channels, width, height, filter);
 }
 
@@ -53,7 +53,7 @@ void Texture::Destroy() {
 
 void Texture::TextureFallback() {
   u8 *data = Texture::CustomTexture(4, 4, 255, 0, 255, 0, 0, 0);
-
+  isValid = false;
   LoadFromData(data, 3, 4, 4);
 }
 
@@ -140,3 +140,5 @@ void Texture::Unbind() {
 
   glBindTexture(GL_TEXTURE_2D, 0);
 }
+
+bool Texture::IsValid() const { return isValid; }

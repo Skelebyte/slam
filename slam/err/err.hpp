@@ -6,7 +6,12 @@
 
 namespace slam::err {
 
-enum ErrorSeverity { ES_MSG = 0, ES_WARNING = 1, ES_ERROR = 2, ES_FATAL = 3 };
+enum ErrorSeverity {
+  ES_MSG = 1 << 0,
+  ES_WARNING = 1 << 1,
+  ES_ERROR = 1 << 2,
+  ES_FATAL = 1 << 3
+};
 
 struct Error {
   Error() = default;

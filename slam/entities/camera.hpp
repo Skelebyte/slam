@@ -60,6 +60,8 @@ struct Camera : public Entity {
     shader->Bind();
     shader->GetUniform("view")->SetValue(view);
     shader->GetUniform("projection")->SetValue(projection);
+    shader->GetUniform("camera_position")
+        ->SetValue(transform.GetInheritedPosition());
 
     Entity::Update();
   }

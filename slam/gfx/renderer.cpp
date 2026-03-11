@@ -50,6 +50,13 @@ void Renderer::Init(dpy::Window *window) {
   GetShader("default")->AddUniform("color");
   GetShader("default")->AddUniform("light_position");
   GetShader("default")->AddUniform("ambient_color");
+  GetShader("default")->AddUniform("sky_color");
+  GetShader("default")->AddUniform("camera_position");
+  GetShader("default")->AddUniform("density");
+  GetShader("default")->AddUniform("gradient");
+  GetShader("default")->AddUniform("affected_by_fog");
+  GetShader("default")->AddUniform("unlit");
+  // GetShader("default")->AddUniform("");
 
   GetShader("line")->AddUniform("view");
   GetShader("line")->AddUniform("projection");

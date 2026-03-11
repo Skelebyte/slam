@@ -30,6 +30,8 @@ struct Default : public Material {
   Texture diffuse;
   RGB color;
   FaceCullingStyle faceCulling = FaceCullingStyle::BACK;
+  bool fog = true;
+  bool unlit = false;
 };
 
 } // namespace slam::gfx

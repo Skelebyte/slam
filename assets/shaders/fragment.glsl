@@ -16,6 +16,24 @@ uniform vec3 color = vec3(1.0, 1.0, 1.0);
 uniform vec3 light_position = vec3(10, 10, 10);
 uniform vec3 ambient_color = vec3(0.1, 0.1, 0.1);
 
+uniform vec3 sky_color = vec3(0.1, 0.1, 0.1);
+
+uniform vec3 camera_position;
+
+uniform float density = 0.025;
+uniform float gradient = 1.5;
+
+uniform bool affected_by_fog = true;
+uniform bool unlit = false;
+
+vec4 fog(vec4 mixer) {
+  float distance = length(camera_position - pos);
+  float visibility = exp(-pow((distance * density), gradient));
+  visibility = clamp(visibility, 0.0, 1.0);
+
+  return mix(vec4(sky_color, 1.0), mixer, visibility);
+}
+
 void main() {
   if (texture(diffuse_texture, texture_coord).w < 1.0)
     discard;
@@ -29,6 +47,15 @@ void main() {
 
   vec3 result = (ambient_color + diffuse) * color;
 
-  FragColor = (texture(diffuse_texture, texture_coord)) * vec4(result, 1.0);
-  // FragColor = texture(diffuse_texture, texture_coord) * vec4(color, 0.0);
+  if (unlit) {
+    FragColor = texture(diffuse_texture, texture_coord) * vec4(color, 1.0);
+
+  } else {
+    vec4 final = (texture(diffuse_texture, texture_coord)) * vec4(result, 1.0);
+    if (affected_by_fog == true) {
+      FragColor = fog(final);
+    } else {
+      FragColor = final;
+    }
+  }
 }
