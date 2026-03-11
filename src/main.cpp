@@ -34,10 +34,6 @@ i32 main() {
   window.appendFpsToTitle = true;
   Renderer::Get().Init(&window);
 
-  //   ErrorSystem::Get().silenceWarnings = true;
-  ErrorSystem::Get().enablePopupOnErrors =
-      ErrorSeverity::ES_ERROR | ErrorSeverity::ES_FATAL;
-
   Keybind toggleWireframe = Keybind(Keycode::F1);
   Keybind toggleIcons = Keybind(Keycode::F2);
 
@@ -48,10 +44,10 @@ i32 main() {
   cam.transform.position.y = 1;
   cam.MakeChildOf(&player);
 
-  MeshRenderer cube = MeshRenderer("assets/models/TreePodium.fbx");
-  cube.material.diffuse = Texture("assets/textures/TreePodium.png", NEAREST);
-  cube.transform.position = Vec3(0, 0, 0);
-  cube.material.fog = false;
+  MeshRenderer cube = MeshRenderer("assets/models/cube.fbx");
+  cube.transform.position = Vec3(0, -1, 0);
+  cube.transform.scale = Vec3(100, 1, 100);
+  cube.material.color = RGB(0, 0.1, 0);
 
   InputAxis horizontal = InputAxis(Keycode::D, Keycode::A);
   InputAxis vertical = InputAxis(Keycode::S, Keycode::W);
@@ -71,11 +67,6 @@ i32 main() {
 
   f32 defaultZoom = 75.0f;
   f32 fullZoom = 5.0f;
-
-  MeshRenderer lightCube = MeshRenderer("assets/models/cube.fbx");
-  lightCube.material.unlit = true;
-  lightCube.transform.position = Vec3(1, 1, -1);
-  lightCube.transform.scale = Vec3(0.5);
 
   // player.drawDebugIcon = true;
 
@@ -118,19 +109,16 @@ i32 main() {
     g = Mathf::Wrap(g + 0.25f * Time::DeltaTime(), 0.0f, 1.0f);
     b = Mathf::Wrap(b + 0.175f * Time::DeltaTime(), 0.0f, 1.0f);
 
-    // cube.material.color = RGB(r, g, b);
-
-    cube.transform.rotation.x += 45.0f * Time::DeltaTime();
-    cube.transform.rotation.y += 45.0f * Time::DeltaTime();
-    cube.transform.rotation.z += 45.0f * Time::DeltaTime();
-
     if (Input::Get().GetKeyOnce(&spawn)) {
-
+      i32 r = Mathf::Random(255);
       MeshRenderer *instance = new MeshRenderer("assets/models/cube.fbx");
+      i32 g = Mathf::Random(255);
       instance->transform.position = cam.transform.GetInheritedPosition() +
                                      cam.transform.InheritedForward() * 2.0f;
-      instance->material.diffuse = Texture("assets/textures/demo/s.png");
-      instance->material.unlit = true;
+      instance->transform.position.y = 0;
+
+      i32 b = Mathf::Random(255);
+      instance->material.color = ToRGB(RGB255(r, g, b));
     }
     EntityManager::Get().UpdateAll();
 

@@ -20,7 +20,7 @@ uniform vec3 sky_color = vec3(0.1, 0.1, 0.1);
 
 uniform vec3 camera_position;
 
-uniform float density = 0.025;
+uniform float density = 0.05;
 uniform float gradient = 1.5;
 
 uniform bool affected_by_fog = true;

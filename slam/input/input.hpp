@@ -95,12 +95,12 @@ struct InputAxis {
 };
 
 struct Input : public Singleton<Input> {
-  i32 GetAxis(const InputAxis &axis);
-  bool GetKey(Keybind *keybind);
-  bool GetKeyOnce(Keybind *keybind);
-  math::Vec2 GetRawMousePosition();
-  math::Vec2 GetMousePosition();
-  void SetCursor(bool locked, bool hidden);
+  static i32 GetAxis(const InputAxis &axis);
+  static bool GetKey(Keybind *keybind);
+  static bool GetKeyOnce(Keybind *keybind);
+  static math::Vec2 GetRawMousePosition();
+  static math::Vec2 GetMousePosition();
+  static void SetCursor(bool locked, bool hidden);
 
 private:
   bool mouseHidden;

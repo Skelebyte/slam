@@ -52,10 +52,6 @@ struct MeshRenderer : public Entity {
     vao.LinkAttrib(vbo, 2, 3, GL_FLOAT, 8 * sizeof(f32),
                    (void *)(5 * sizeof(f32)));
 
-    LOG("53:" << mesh.data[53]);
-    LOG("54:" << mesh.data[54]);
-    LOG("55:" << mesh.data[55]);
-
     vbo.Unbind();
     vao.Unbind();
     ebo.Unbind();

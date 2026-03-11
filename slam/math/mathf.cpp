@@ -81,8 +81,10 @@ Vec3 Mathf::RotateZ(const Vec3 &target, f32 angleDeg) {
   return glm::rotateZ(target, Mathf::ToRadians(angleDeg));
 }
 
-// Vec2 Fmath::v3_to_v2(Vec3 value) { return Vec2(value.x, value.y); }
+i32 Mathf::Random(i32 max) {
+  srand(SDL_GetTicksNS());
 
-// Vec3 Fmath::v2_to_v3(Vec2 value, f32 z_value) {
-//   return vec3(value.x, value.y, z_value);
-// }
+  i32 value = rand() % max;
+
+  return value;
+}

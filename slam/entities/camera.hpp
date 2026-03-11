@@ -14,6 +14,7 @@
 #include "../math/mathf.hpp"
 #include "../res/mesh.hpp"
 #include "../scn/entity.hpp"
+#include "../time.hpp"
 
 using namespace slam::err;
 using namespace slam::evt;
@@ -28,7 +29,7 @@ using namespace slam;
 namespace slam::entities {
 
 struct Camera : public Entity {
-  Camera() {
+  Camera() : pauseLook(Keycode::ESC) {
     view = Mat4();
     projection = Mat4();
     shader = Renderer::Get().GetShader("default");
@@ -47,6 +48,7 @@ struct Camera : public Entity {
     IS_DESTROYED();
 
     transform.Process();
+    MouseLook();
 
     view = glm::lookAt(transform.GetInheritedPosition(),
                        transform.GetInheritedPosition() +
@@ -62,9 +64,36 @@ struct Camera : public Entity {
     shader->GetUniform("projection")->SetValue(projection);
     shader->GetUniform("camera_position")
         ->SetValue(transform.GetInheritedPosition());
-    // shader->GetUniform("light_position")
-    //     ->SetValue(transform.GetInheritedPosition());
+    shader->GetUniform("light_position")
+        ->SetValue(transform.GetInheritedPosition());
     Entity::Update();
+  }
+
+  void MouseLook() {
+    if (Input::GetKeyOnce(&pauseLook)) {
+      allowMouseLook = !allowMouseLook;
+    }
+
+    if (!allowMouseLook) {
+      Input::SetCursor(false, false);
+      return;
+    }
+
+    Input::SetCursor(true, true);
+
+    Vec2 mouse = Input::GetMousePosition();
+
+    f32 x = (-mouse.y) * sens * Time::DeltaTime();
+    f32 y = (-mouse.x) * sens * Time::DeltaTime();
+
+    transform.rotation.x += Mathf::ToDegrees(x);
+    if (transform.parent != nullptr) {
+      transform.parent->rotation.y += Mathf::ToDegrees(y);
+    } else {
+      transform.rotation.y += Mathf::ToDegrees(y);
+    }
+
+    transform.rotation.x = Mathf::Clamp(transform.rotation.x, -89.0f, 89.0f);
   }
 
   f32 fov = 75.0f;
@@ -72,9 +101,12 @@ struct Camera : public Entity {
   f32 far = 1000.0f;
   Mat4 view;
   Mat4 projection;
+  bool allowMouseLook;
+  f32 sens = 0.1f;
 
 private:
   Shader *shader;
+  Keybind pauseLook;
 };
 
 } // namespace slam::entities

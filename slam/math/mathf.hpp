@@ -9,6 +9,9 @@
 #include "../ext/glm/glm.hpp"
 #include "../ext/glm/gtc/type_ptr.hpp"
 #include "../ext/glm/gtx/rotate_vector.hpp"
+#include <SDL3/SDL.h>
+#include <cstdlib>
+#include <ctime>
 // #include "../ext/gtx/rotate_vector.hpp"
 
 namespace slam::math {
@@ -35,6 +38,13 @@ public:
   static Vec3 RotateX(const Vec3 &target, f32 angleDeg);
   static Vec3 RotateY(const Vec3 &target, f32 angleDeg);
   static Vec3 RotateZ(const Vec3 &target, f32 angleDeg);
+  /**
+   * @brief Generates a random number.
+   *
+   * @param max Largest nubmer it can regenerate (inclusive)
+   * @return i32
+   */
+  static i32 Random(i32 max);
 };
 
 } // namespace slam::math
