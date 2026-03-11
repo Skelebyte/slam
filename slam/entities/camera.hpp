@@ -62,13 +62,14 @@ struct Camera : public Entity {
     shader->GetUniform("projection")->SetValue(projection);
     shader->GetUniform("camera_position")
         ->SetValue(transform.GetInheritedPosition());
-
+    // shader->GetUniform("light_position")
+    //     ->SetValue(transform.GetInheritedPosition());
     Entity::Update();
   }
 
   f32 fov = 75.0f;
   f32 near = 0.1f;
-  f32 far = 100.0f;
+  f32 far = 1000.0f;
   Mat4 view;
   Mat4 projection;
 

@@ -1,4 +1,4 @@
-#version 450 core
+#version 330 core
 
 out vec4 FragColor;
 
@@ -13,7 +13,7 @@ uniform vec3 color = vec3(1.0, 1.0, 1.0);
 
 // uniform float specular_strength = 0.5;
 
-uniform vec3 light_position = vec3(10, 10, 10);
+uniform vec3 light_position = vec3(1, 1, -1);
 uniform vec3 ambient_color = vec3(0.1, 0.1, 0.1);
 
 uniform vec3 sky_color = vec3(0.1, 0.1, 0.1);
@@ -38,6 +38,7 @@ void main() {
   if (texture(diffuse_texture, texture_coord).w < 1.0)
     discard;
 
+  // vec3 norm = vec3(0, 1, 0);
   vec3 norm = normalize(normal);
   vec3 light_dir = normalize(light_position - pos);
 
@@ -46,6 +47,8 @@ void main() {
   vec3 diffuse = diff * light_color;
 
   vec3 result = (ambient_color + diffuse) * color;
+
+  // FragColor = vec4(normal, 1.0);
 
   if (unlit) {
     FragColor = texture(diffuse_texture, texture_coord) * vec4(color, 1.0);

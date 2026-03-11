@@ -55,8 +55,8 @@ Mesh::Mesh(const str &path, bool blenderFix) {
             Vec2 uv = Vec2(fbx_mesh->vertex_uv[index].x,
                            fbx_mesh->vertex_uv[index].y);
             Vec3 norm = Vec3(fbx_mesh->vertex_normal[index].x,
-                             fbx_mesh->vertex_normal[index].y,
-                             fbx_mesh->vertex_normal[index].z);
+                             fbx_mesh->vertex_normal[index].z,
+                             -fbx_mesh->vertex_normal[index].y);
             vertices.Add(Vertex(pos, uv, norm));
             indices.Add(vertCount++);
             data.Add(pos.x);

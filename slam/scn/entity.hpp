@@ -28,12 +28,12 @@ struct Entity : public ID, public Destroyable {
   gfx::Texture billboardIcon;
 
 private:
-  gfx::Shader *shader;
-  math::Mat4 model;
-  gfx::VAO vao;
-  gfx::VBO vbo;
-  gfx::EBO ebo;
-  res::Mesh mesh;
+  gfx::Shader *shaderBillboard;
+  math::Mat4 modelBillboard;
+  gfx::VAO vaoBillboard;
+  gfx::VBO vboBillboard;
+  gfx::EBO eboBillboard;
+  res::Mesh meshBillboard;
 };
 
 struct EntityManager : public Singleton<EntityManager> {

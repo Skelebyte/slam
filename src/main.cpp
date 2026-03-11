@@ -42,40 +42,21 @@ i32 main() {
   Keybind toggleIcons = Keybind(Keycode::F2);
 
   Entity player = Entity();
+  // player.transform.position.y = -5;
 
   Camera cam = Camera();
   cam.transform.position.y = 1;
   cam.MakeChildOf(&player);
 
-  Entity ground = Entity();
-  ground.transform.position = Vec3(0, -2, 0);
-  ground.transform.scale = Vec3(100, 1, 100);
-
-  MeshRenderer groundMesh = MeshRenderer("assets/models/cube.fbx");
-  groundMesh.MakeChildOf(&ground);
-  groundMesh.material.diffuse =
-      Texture("assets/textures/demo/ground.png", TextureFilter::NEAREST);
-
-  MeshRenderer cube = MeshRenderer("assets/models/cube.fbx");
-  cube.transform.position = Vec3(4, 0, -3);
-
-  MeshRenderer tree = MeshRenderer("assets/models/TreePodium.fbx");
-  tree.material.diffuse = Texture("assets/textures/TreePodium.png", LINEAR);
-  tree.transform.position.y = -1.5f;
-
-  MeshRenderer skybox = MeshRenderer("assets/models/cube.fbx");
-  skybox.transform.scale = Vec3(100);
-  skybox.material.color = ToRGB(RGB255(21, 27, 31));
-  skybox.material.faceCulling = FaceCullingStyle::FRONT;
-  skybox.material.fog = false;
-  skybox.material.unlit = true;
+  MeshRenderer cube = MeshRenderer("assets/models/TreePodium.fbx");
+  cube.material.diffuse = Texture("assets/textures/TreePodium.png", NEAREST);
+  cube.transform.position = Vec3(0, 0, 0);
+  cube.material.fog = false;
 
   InputAxis horizontal = InputAxis(Keycode::D, Keycode::A);
   InputAxis vertical = InputAxis(Keycode::S, Keycode::W);
   InputAxis rotY = InputAxis(Keycode::L_ARROW, Keycode::R_ARROW);
   InputAxis rotX = InputAxis(Keycode::U_ARROW, Keycode::D_ARROW);
-
-  Line line = Line(Vec3(0, 1, 0), Vec3(4, 0.5, -3));
 
   f32 r = 123;
   f32 g = 21;
@@ -85,6 +66,16 @@ i32 main() {
   // random.transform.position.y = 10;
 
   Keybind spawn = Keybind(Keycode::SPACE);
+
+  Keybind zoom = Keybind(Keycode::RMB);
+
+  f32 defaultZoom = 75.0f;
+  f32 fullZoom = 5.0f;
+
+  MeshRenderer lightCube = MeshRenderer("assets/models/cube.fbx");
+  lightCube.material.unlit = true;
+  lightCube.transform.position = Vec3(1, 1, -1);
+  lightCube.transform.scale = Vec3(0.5);
 
   // player.drawDebugIcon = true;
 
@@ -100,6 +91,12 @@ i32 main() {
     }
     if (Input::Get().GetKeyOnce(&toggleIcons)) {
       Engine::Get().drawEntityIcons = !Engine::Get().drawEntityIcons;
+    }
+
+    if (Input::Get().GetKey(&zoom)) {
+      cam.fov = Mathf::Lerp(cam.fov, fullZoom, 5.0f * Time::DeltaTime());
+    } else {
+      cam.fov = Mathf::Lerp(cam.fov, defaultZoom, 5.0f * Time::DeltaTime());
     }
 
     Vec3 velocity = Vec3();
@@ -121,9 +118,11 @@ i32 main() {
     g = Mathf::Wrap(g + 0.25f * Time::DeltaTime(), 0.0f, 1.0f);
     b = Mathf::Wrap(b + 0.175f * Time::DeltaTime(), 0.0f, 1.0f);
 
-    cube.material.color = RGB(r, g, b);
+    // cube.material.color = RGB(r, g, b);
 
-    // ground.transform.rotation.x += 1.0f * Time::DeltaTime();
+    cube.transform.rotation.x += 45.0f * Time::DeltaTime();
+    cube.transform.rotation.y += 45.0f * Time::DeltaTime();
+    cube.transform.rotation.z += 45.0f * Time::DeltaTime();
 
     if (Input::Get().GetKeyOnce(&spawn)) {
 

@@ -11,31 +11,34 @@ Entity::Entity() {
   transform = Transform();
   SetID(EntityManager::Get().GetNextID());
 
-  shader = Renderer::Get().GetShader("billboard");
+  shaderBillboard = Renderer::Get().GetShader("billboard");
 
   billboardIcon = Texture();
 
-  mesh = Mesh::GeneratePlane(1, Vec2(1));
+  meshBillboard = Mesh::GeneratePlane(1, Vec2(1));
 
-  vao = VAO();
-  vbo = VBO();
-  ebo = EBO();
+  vaoBillboard = VAO();
+  vboBillboard = VBO();
+  eboBillboard = EBO();
 
-  vao.Init();
-  vao.Bind();
+  vaoBillboard.Init();
+  vaoBillboard.Bind();
 
-  vbo.Init(mesh.data.Pointer(), sizeof(f32) * mesh.data.Size());
-  ebo.Init(mesh.indices.Pointer(), sizeof(u32) * mesh.indices.Size());
+  vboBillboard.Init(meshBillboard.data.Pointer(),
+                    sizeof(f32) * meshBillboard.data.Size());
+  eboBillboard.Init(meshBillboard.indices.Pointer(),
+                    sizeof(u32) * meshBillboard.indices.Size());
 
-  vao.LinkAttrib(vbo, 0, 3, GL_FLOAT, 8 * sizeof(f32), (void *)0);
-  vao.LinkAttrib(vbo, 1, 2, GL_FLOAT, 8 * sizeof(f32),
-                 (void *)(3 * sizeof(f32)));
-  vao.LinkAttrib(vbo, 2, 3, GL_FLOAT, 8 * sizeof(f32),
-                 (void *)(5 * sizeof(f32)));
+  vaoBillboard.LinkAttrib(vboBillboard, 0, 3, GL_FLOAT, 8 * sizeof(f32),
+                          (void *)0);
+  vaoBillboard.LinkAttrib(vboBillboard, 1, 2, GL_FLOAT, 8 * sizeof(f32),
+                          (void *)(3 * sizeof(f32)));
+  vaoBillboard.LinkAttrib(vboBillboard, 2, 3, GL_FLOAT, 8 * sizeof(f32),
+                          (void *)(5 * sizeof(f32)));
 
-  vbo.Unbind();
-  vao.Unbind();
-  ebo.Unbind();
+  vboBillboard.Unbind();
+  vaoBillboard.Unbind();
+  eboBillboard.Unbind();
 
   EntityManager::Get().AddEntity(this);
 
@@ -63,33 +66,35 @@ void Entity::Update() {
     return;
   }
 
-  model = Mat4(1.0f);
+  modelBillboard = Mat4(1.0f);
 
-  model = glm::translate(model, transform.position);
+  modelBillboard = glm::translate(modelBillboard, transform.position);
 
   // model *= glm::lookAt(transform.GetInheritedPosition(),
   //                      transform.GetInheritedPosition() +
   //                          *Renderer::Get().cameraPosition,
   //                      Vec3(0, 1, 0));
 
-  model *= glm::mat4_cast(
+  modelBillboard *= glm::mat4_cast(
       transform.GetInheritedRotation()); // convert to mat4x4 rotation
 
-  model = glm::scale(model, Vec3(1.0f));
+  modelBillboard = glm::scale(modelBillboard, Vec3(1.0f));
 
-  shader->Bind();
-  shader->GetUniform("view")->SetValue(*Renderer::Get().cameraView);
-  shader->GetUniform("projection")->SetValue(*Renderer::Get().cameraProjection);
-  shader->GetUniform("model")->SetValue(model);
+  shaderBillboard->Bind();
+  shaderBillboard->GetUniform("view")->SetValue(*Renderer::Get().cameraView);
+  shaderBillboard->GetUniform("projection")
+      ->SetValue(*Renderer::Get().cameraProjection);
+  shaderBillboard->GetUniform("model")->SetValue(modelBillboard);
   glActiveTexture(GL_TEXTURE0);
   billboardIcon.Bind();
-  shader->GetUniform("diffuse_texture")->SetValue(0);
+  shaderBillboard->GetUniform("diffuse_texture")->SetValue(0);
 
   // LOG("ip" << Mathf::ToString(transform.GetInheritedPosition()));
-  vao.Bind();
+  vaoBillboard.Bind();
   glDisable(GL_CULL_FACE);
   glDisable(GL_DEPTH_TEST);
-  glDrawElements(GL_TRIANGLES, mesh.indices.Size(), GL_UNSIGNED_INT, 0);
+  glDrawElements(GL_TRIANGLES, meshBillboard.indices.Size(), GL_UNSIGNED_INT,
+                 0);
   THROW_ERROR_GL(
       FATAL.Derived("GL_DRAW_ELEMENTS_FAIL (Entity Icon Billboard)"));
   glEnable(GL_DEPTH_TEST);

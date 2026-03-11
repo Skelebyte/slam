@@ -52,6 +52,11 @@ str Mathf::ToString(const Vec3 &target) {
          std::to_string(target.z);
 }
 
+str Mathf::ToString(const Quat &target) {
+  return std::to_string(target.x) + "," + std::to_string(target.y) + "," +
+         std::to_string(target.z) + "," + std::to_string(target.w);
+}
+
 f32 Mathf::Distance(const Vec3 &a, const Vec3 &b) {
   return glm::distance(a, b);
 }
