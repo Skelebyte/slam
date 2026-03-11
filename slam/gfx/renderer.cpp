@@ -121,3 +121,5 @@ Shader *Renderer::GetShader(const str &name) {
                                       name + "`!"));
   return nullptr;
 }
+
+SDL_GLContext *Renderer::GetGLContext() { return &Get().gl; }

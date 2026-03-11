@@ -4,6 +4,9 @@
 #include "../common.hpp"
 #include "../err/err_sys.hpp"
 #include "../evt/evt_sys.hpp"
+#include "../ext/imgui/imgui.h"
+#include "../ext/imgui/imgui_impl_opengl3.h"
+#include "../ext/imgui/imgui_impl_sdl3.h"
 #include "../math/mathf.hpp"
 #include <SDL3/SDL.h>
 #include <string>
@@ -26,6 +29,7 @@ struct Window : public Destroyable {
   math::Vec2 GetViewportSize() const;
   f32 GetViewportAspect() const;
   void SetTitle(const str &title);
+  void ToggleFullscreen();
 
   bool appendFpsToTitle;
 
@@ -37,6 +41,7 @@ private:
   math::Vec2 viewportPosition;
   math::Vec2 viewportSize;
   str title;
+  bool fullscreen;
 };
 
 static void ErrorWindow();

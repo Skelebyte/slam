@@ -172,4 +172,4 @@ void EntityManager::UpdateAll() {
   }
 }
 
-// trying to draw billboards, but cant see them event when the bool is on.
+u32 EntityManager::GetNumberOfEntities() { return Get().entities.Size(); }

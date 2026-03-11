@@ -38,6 +38,7 @@ Window::Window(const str &name, u32 w, u32 h, bool resizable, bool fullscreen) {
   Engine::Get().window = this;
 
   this->title = name;
+  this->fullscreen = fullscreen;
 }
 
 bool Window::IsRunning() const { return running; }
@@ -79,6 +80,7 @@ void Window::Update() {
   SDL_Event sdlEvent;
 
   while (SDL_PollEvent(&sdlEvent)) {
+    ImGui_ImplSDL3_ProcessEvent(&sdlEvent);
     if (sdlEvent.type == SDL_EVENT_QUIT) {
       this->Stop();
     }
@@ -119,10 +121,17 @@ void Window::Update() {
   if (appendFpsToTitle) {
     SetTitle(title + " (" + std::to_string(Engine::Get().GetFps()) + " fps)");
   }
+
+  ImGui_ImplOpenGL3_NewFrame();
+  ImGui_ImplSDL3_NewFrame();
+  ImGui::NewFrame();
 }
 
 void Window::SwapAndClear() {
   IS_DESTROYED();
+
+  ImGui::Render();
+  ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
   if (!Engine::Get().IsDrawFrame()) {
     return;
@@ -195,4 +204,10 @@ void dpy::ErrorWindow() {
 
 void Window::SetTitle(const str &title) {
   SDL_SetWindowTitle(sdlWindow, title.c_str());
+}
+
+void Window::ToggleFullscreen() {
+  fullscreen = !fullscreen;
+
+  SDL_SetWindowFullscreen(sdlWindow, fullscreen);
 }

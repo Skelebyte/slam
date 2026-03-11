@@ -41,6 +41,7 @@ struct EntityManager : public Singleton<EntityManager> {
   void AddEntity(Entity *target);
   void UpdateAll();
   void DestroyAll();
+  static u32 GetNumberOfEntities();
 
 private:
   u32 nextID = 1;

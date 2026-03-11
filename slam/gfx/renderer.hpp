@@ -18,6 +18,7 @@ struct Renderer : public Singleton<Renderer> {
   void ToggleWireframe();
   void AddShader(const str &name, const str &fragPath, const str &vertPath);
   Shader *GetShader(const str &name);
+  static SDL_GLContext *GetGLContext();
 
   str shaderPath = "assets/shaders/";
   math::Vec3 *cameraPosition = nullptr;

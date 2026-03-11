@@ -72,6 +72,7 @@ struct Camera : public Entity {
   void MouseLook() {
     if (Input::GetKeyOnce(&pauseLook)) {
       allowMouseLook = !allowMouseLook;
+      LOG("allowMouseLook: " << allowMouseLook);
     }
 
     if (!allowMouseLook) {
@@ -101,7 +102,7 @@ struct Camera : public Entity {
   f32 far = 1000.0f;
   Mat4 view;
   Mat4 projection;
-  bool allowMouseLook;
+  bool allowMouseLook = false;
   f32 sens = 0.1f;
 
 private:
