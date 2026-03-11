@@ -33,7 +33,7 @@ using namespace slam;
 
 i32 main() {
   Engine::Get().Init(144);
-  Window window = Window("Hi mum!");
+  Window window = Window("Hi mum!", 800, 600, true, true);
   window.appendFpsToTitle = true;
   Renderer::Get().Init(&window);
 
@@ -57,10 +57,6 @@ i32 main() {
   InputAxis rotY = InputAxis(Keycode::L_ARROW, Keycode::R_ARROW);
   InputAxis rotX = InputAxis(Keycode::U_ARROW, Keycode::D_ARROW);
 
-  f32 r = 123;
-  f32 g = 21;
-  f32 b = 200;
-
   // Entity random = Entity();
   // random.transform.position.y = 10;
 
@@ -76,6 +72,12 @@ i32 main() {
   MeshRenderer tree = MeshRenderer("assets/models/TreePodium.fbx");
   tree.material.diffuse = Texture("assets/textures/TreePodium.png");
   tree.transform.position = Vec3(24, -0.5, -20);
+
+  MeshRenderer colorCube = MeshRenderer("assets/models/cube.fbx");
+  colorCube.transform.position.y = 10;
+  f32 r = 0.0f;
+  f32 g = 0.0f;
+  f32 b = 0.0f;
 
   IMGUI_CHECKVERSION();
   ImGui::CreateContext();
@@ -124,9 +126,14 @@ i32 main() {
     cam.transform.rotation.x +=
         Mathf::ToDegrees((f32)Input::GetAxis(rotX)) * Time::DeltaTime();
     cam.transform.rotation.x = Mathf::Clamp(cam.transform.rotation.x, -89, 89);
-    r = Mathf::Wrap(r + 0.5f * Time::DeltaTime(), 0.0f, 1.0f);
-    g = Mathf::Wrap(g + 0.25f * Time::DeltaTime(), 0.0f, 1.0f);
-    b = Mathf::Wrap(b + 0.175f * Time::DeltaTime(), 0.0f, 1.0f);
+    r = Mathf::Wrap(r + Mathf::Random(100) / 100.0f * Time::DeltaTime(), 0.0f,
+                    1.0f);
+    g = Mathf::Wrap(g + Mathf::Random(100) / 100.0f * Time::DeltaTime(), 0.0f,
+                    1.0f);
+    b = Mathf::Wrap(b + Mathf::Random(100) / 100.0f * Time::DeltaTime(), 0.0f,
+                    1.0f);
+
+    colorCube.material.color = RGB(r, g, b);
 
     if (Input::Get().GetKeyOnce(&spawn)) {
 
@@ -135,10 +142,7 @@ i32 main() {
       instance->transform.position = cam.transform.GetInheritedPosition() +
                                      cam.transform.InheritedForward() * 2.0f;
       instance->transform.position.y = 0;
-      i32 r = Mathf::Random(255);
-      i32 g = Mathf::Random(255);
-      i32 b = Mathf::Random(255);
-      instance->material.color = ToRGB(RGB255(r, g, b));
+      instance->material.color = RGB(r, g, b);
     }
     EntityManager::Get().UpdateAll();
 
@@ -150,9 +154,10 @@ i32 main() {
         ImVec2(window.GetViewportPosition().x, window.GetViewportPosition().y));
     ImGui::SetNextWindowSize(ImVec2(0, 0));
 
-    ImGui::Begin("##viewport", nullptr,
+    ImGui::Begin("viewport", nullptr,
                  ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoBackground);
     ImGui::Text("FPS: %d", Engine::Get().GetFps());
+    ImGui::Text("Delta Time: %f", Time::DeltaTime());
     ImGui::Text("Entities: %d", EntityManager::GetNumberOfEntities());
     ImGui::DragFloat3("Player Position",
                       glm::value_ptr(player.transform.position));
