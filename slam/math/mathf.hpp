@@ -34,6 +34,9 @@ public:
   static str ToString(const Vec3 &target);
   static str ToString(const Quat &target);
   static f32 Distance(const Vec3 &a, const Vec3 &b);
+  static f32 Dot(CRef<Vec3> a, CRef<Vec3> b);
+  static i32 Abs(i32 value);
+  static f32 Abs(f32 value);
   static Vec3 Normalized(const Vec3 &target);
   static Vec3 RotateX(const Vec3 &target, f32 angleDeg);
   static Vec3 RotateY(const Vec3 &target, f32 angleDeg);

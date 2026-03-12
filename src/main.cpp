@@ -33,8 +33,18 @@ using namespace slam::entities;
 using namespace slam::phys;
 using namespace slam;
 
+void SpawnBalls(CRef<Vec3> pos) {
+  for (u32 i = 0; i < 10; i++) {
+    Ptr<SphereBody> physEntity2 = System::CreateSphere();
+    physEntity2->transform.position = Vec3(pos.x, pos.y + i * 2 + 10, pos.z);
+    Ptr<MeshRenderer> physMesh2 = new MeshRenderer("assets/models/sphere.fbx");
+    physMesh2->MakeChildOf(physEntity2);
+    physMesh2->material.color = RGB(0, 1, 0);
+  }
+}
+
 i32 main() {
-  Engine::Get().Init(144);
+  Engine::Get().Init(-1);
   Window window = Window("Hi mum!", 800, 600, true, true);
   window.appendFpsToTitle = true;
   Renderer::Get().Init(&window);
@@ -53,6 +63,7 @@ i32 main() {
   cube.transform.position = Vec3(0, -1, 0);
   cube.transform.scale = Vec3(100, 1, 100);
   cube.material.color = RGB(0, 0.1, 0);
+  cube.allowViewCulling = false;
 
   InputAxis horizontal = InputAxis(Keycode::D, Keycode::A);
   InputAxis vertical = InputAxis(Keycode::S, Keycode::W);
@@ -60,8 +71,7 @@ i32 main() {
   // Entity random = Entity();
   // random.transform.position.y = 10;
 
-  Keybind fall = Keybind(Keycode::SPACE);
-  Keybind fly = Keybind(Keycode::L_SHIFT);
+  Keybind spawn = Keybind(Keycode::SPACE);
 
   Keybind zoom = Keybind(Keycode::RMB);
 
@@ -92,26 +102,16 @@ i32 main() {
   io.Fonts->AddFontFromFileTTF("assets/fonts/RobotoMono.ttf", 18);
 
   SphereBody *physEntity = System::CreateSphere();
-  physEntity->transform.position = Vec3(5, 1, -5);
+  physEntity->transform.position = Vec3(0, 0, -5);
+  // physEntity->freeze = true;
 
   MeshRenderer physMesh = MeshRenderer("assets/models/sphere.fbx");
   physMesh.MakeChildOf(physEntity);
   physMesh.material.color = RGB(1, 0, 0);
-  LOG("physE: " << Mathf::ToString(
-          physEntity->transform.GetInheritedPosition()));
-
-  LOG("physM: " << Mathf::ToString(physMesh.transform.GetInheritedPosition()));
-
-  SphereBody *physEntity2 = System::CreateSphere();
-  physEntity2->transform.position = Vec3(0, 1, -5);
-
-  MeshRenderer physMesh2 = MeshRenderer("assets/models/sphere.fbx");
-  physMesh2.MakeChildOf(physEntity2);
-  physMesh2.material.color = RGB(0, 1, 0);
 
   SphereBody *playerCol = System::CreateSphere();
-  playerCol->MakeChildOf(&cam);
   playerCol->freeze = true;
+  playerCol->MakeChildOf(&player);
 
   while (window.IsRunning()) {
     Engine::Get().BeginFrame();
@@ -151,12 +151,8 @@ i32 main() {
 
     colorCube.material.color = RGB(r, g, b);
 
-    if (Input::GetKey(&fall) && physEntity->freeze != true) {
-      physEntity->Move(Vec3(1 * Time::DeltaTime(), 0, 0));
-    }
-
-    if (Input::GetKey(&fly) && physEntity->freeze != true) {
-      physEntity->Move(Vec3(-1 * Time::DeltaTime(), 0, 0));
+    if (Input::GetKeyOnce(&spawn)) {
+      SpawnBalls(cam.transform.GetInheritedPosition());
     }
 
     EntityManager::Get().UpdateAll();
@@ -175,8 +171,13 @@ i32 main() {
     ImGui::Text("FPS: %d", Engine::Get().GetFps());
     ImGui::Text("Delta Time: %f", Time::DeltaTime());
     ImGui::Text("Entities: %d", EntityManager::GetNumberOfEntities());
+    ImGui::Text("Bodies: %d", System::GetNumberOfBodies());
     ImGui::DragFloat3("Player Position",
                       glm::value_ptr(player.transform.position));
+    ImGui::DragFloat("Culling Angle", &cam.cullingAngle, 0.05f, -1.0f, 1.0f);
+    ImGui::DragFloat("Culling Distance", &cam.cullingDistance, 0.5f, 0.0f,
+                     100.0f);
+    ImGui::Text("Press SPACE to spawn 10 spheres in the sky");
     if (ImGui::Button("Quit")) {
       window.Stop();
     }

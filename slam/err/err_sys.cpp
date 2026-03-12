@@ -42,7 +42,7 @@ void ErrorSystem::ThrowError(const Error &error, bool print, const str &file,
 
   lastError = &error;
 
-  EventSystem::Get().on_error.Invoke();
+  EventSystem::Get().OnError.Invoke();
 
   if (error.GetSeverity() == ErrorSeverity::ES_FATAL) {
     exit(ErrorSeverity::ES_FATAL);

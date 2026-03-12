@@ -2,6 +2,7 @@
 #define SLAM_BODY_HPP
 
 #include "../common.hpp"
+#include "../evt/evt_sys.hpp"
 #include "../math/mathf.hpp"
 #include "../scn/entity.hpp"
 
@@ -14,11 +15,19 @@ enum ShapeType {
 
 struct Shape {
   virtual ~Shape() = default;
+  // virtual math::Vec3 GetFurthestPoint(CRef<math::Vec3> direction) = 0;
 };
 
 struct BoxShape : public Shape {
-  BoxShape(const math::Vec3 &d = math::Vec3(1.0f));
+  BoxShape(CRef<math::Vec3> d = math::Vec3(1.0f));
+  List<math::Vec3> GetVertices() const;
+  List<math::Vec3> GetTransformedVertices(CRef<scn::Transform> transform);
   math::Vec3 dimensions;
+  bool transformedUpdateReq;
+
+protected:
+  List<math::Vec3> vertices;
+  List<math::Vec3> transformedVertices;
 };
 
 struct SphereShape : public Shape {
@@ -28,13 +37,16 @@ struct SphereShape : public Shape {
 
 struct Body : public scn::Entity {
   Body(f32 mass = 1.0f, f32 bounciness = 0.1f);
-  void Move(const math::Vec3 &amount);
-  void MoveTo(const math::Vec3 &position);
+  void Destroy() override;
+  virtual void Move(CRef<math::Vec3> amount, bool force = false);
+  virtual void MoveTo(CRef<math::Vec3> position, bool force = false);
+  virtual void Rotate(CRef<math::Vec3> angles) = 0;
 
   bool freeze;
   f32 mass;
   f32 bounciness;
   ShapeType GetShapeType() const;
+  evt::Event OnCollision;
 
 protected:
   ShapeType type;
@@ -44,11 +56,15 @@ protected:
 struct BoxBody : public Body {
   BoxBody(f32 mass = 1.0f, f32 bounciness = 0.1f, BoxShape shape = BoxShape());
   BoxShape shape;
+  void Move(CRef<math::Vec3> amount, bool force = false) override;
+  void MoveTo(CRef<math::Vec3> position, bool force = false) override;
+  void Rotate(CRef<math::Vec3> angles) override;
 };
 
 struct SphereBody : public Body {
   SphereBody(f32 mass = 1.0f, f32 bounciness = 0.1f,
              SphereShape shape = SphereShape());
+  void Rotate(CRef<math::Vec3> angles) override {}
   SphereShape shape;
 };
 

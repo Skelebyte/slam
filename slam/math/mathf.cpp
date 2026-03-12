@@ -61,6 +61,12 @@ f32 Mathf::Distance(const Vec3 &a, const Vec3 &b) {
   return glm::distance(a, b);
 }
 
+f32 Mathf::Dot(CRef<Vec3> a, CRef<Vec3> b) { return glm::dot(a, b); }
+
+i32 Mathf::Abs(i32 value) { return abs(value); }
+
+f32 Mathf::Abs(f32 value) { return abs(value); }
+
 Vec3 Mathf::Normalized(const Vec3 &target) {
   if (glm::length(target) == 0) {
     return Vec3(0);

@@ -8,9 +8,9 @@ namespace slam::evt {
 struct EventSystem : public Singleton<EventSystem> {
   EventSystem() = default;
 
-  Event on_quit;
-  Event on_update;
-  Event on_error;
+  Event OnQuit;
+  Event OnUpdate;
+  Event OnError;
 };
 
 } // namespace slam::evt

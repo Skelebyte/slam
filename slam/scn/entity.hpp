@@ -37,15 +37,16 @@ private:
 };
 
 struct EntityManager : public Singleton<EntityManager> {
-  u32 GetNextID();
-  void AddEntity(Entity *target);
-  void UpdateAll();
-  void DestroyAll();
+  static u32 GetNextID();
+  static void AddEntity(Ptr<Entity> target);
+  static void RemoveEntity(Ptr<Entity> target);
+  static void UpdateAll();
+  static void DestroyAll();
   static u32 GetNumberOfEntities();
 
 private:
   u32 nextID = 1;
-  List<Entity *> entities;
+  List<Ptr<Entity>> entities;
 };
 
 } // namespace slam::scn

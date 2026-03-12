@@ -28,7 +28,7 @@ using namespace slam;
 namespace slam::entities {
 
 struct MeshRenderer : public Entity {
-  MeshRenderer(const str &path) {
+  MeshRenderer(const str &path) : Entity() {
 
     this->shader = Renderer::Get().GetShader("default");
     mesh = Mesh(path);
@@ -59,7 +59,7 @@ struct MeshRenderer : public Entity {
 
   void Destroy() override {
     DESTROY();
-
+    Entity::Destroy();
     shader = nullptr;
   }
 
@@ -68,7 +68,22 @@ struct MeshRenderer : public Entity {
 
     transform.Process();
 
-    if (!Engine::Get().IsDrawFrame()) {
+    if (!Engine::Get().IsProcessFrame()) {
+      return;
+    }
+
+    Vec3 direction = Mathf::Normalized(
+        transform.GetInheritedPosition() -
+        Renderer::Get().cameraTransform->GetInheritedPosition());
+
+    if (Mathf::Dot(direction,
+                   Renderer::Get().cameraTransform->InheritedForward()) <
+            *Renderer::Get().cameraCullingAngle &&
+        Mathf::Distance(
+            transform.GetInheritedPosition(),
+            Renderer::Get().cameraTransform->GetInheritedPosition()) >=
+            *Renderer::Get().cameraCullingDistance &&
+        allowViewCulling) {
       return;
     }
 
@@ -94,6 +109,7 @@ struct MeshRenderer : public Entity {
 
   Mesh mesh;
   Default material;
+  bool allowViewCulling = true;
 
 private:
   Shader *shader;

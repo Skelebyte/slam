@@ -5,6 +5,7 @@
 #include "ext/glm/glm.hpp"
 #include <cstdint>
 #include <iostream>
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -17,6 +18,15 @@ typedef float f32;
 typedef double f64;
 typedef unsigned char u8;
 typedef std::string str;
+
+// T &
+template <typename T> using Ref = T &;
+// const T &
+template <typename T> using CRef = const T &;
+// T *
+template <typename T> using Ptr = T *;
+template <typename T> using UPtr = std::unique_ptr<T>;
+template <typename T> using SPtr = std::shared_ptr<T>;
 
 struct Destroyable {
   virtual void Destroy() { destroyed = true; };

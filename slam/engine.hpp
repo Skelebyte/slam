@@ -16,17 +16,17 @@ struct Engine : public Singleton<Engine> {
   void Shutdown();
   void BeginFrame();
   void EndFrame();
-  bool IsDrawFrame() const;
+  static bool IsProcessFrame();
   void SetTargetFps(u32 fps);
   u32 GetFps() const;
 
-  dpy::Window *window = nullptr;
+  Ptr<dpy::Window> window = nullptr;
   f32 deltaTime;
   f32 timeScale = 1.0f;
   bool drawEntityIcons;
 
 private:
-  bool isDrawFrame = true;
+  bool isProcessFrame = true;
   f32 targetFps;
   u32 fps;
   u32 frames;

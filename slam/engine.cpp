@@ -28,10 +28,10 @@ void Engine::Init(u32 fps) {
   SetTargetFps(fps);
 }
 
-void Engine::Shutdown() { EventSystem::Get().on_quit.Invoke(); }
+void Engine::Shutdown() { EventSystem::Get().OnQuit.Invoke(); }
 
 void Engine::BeginFrame() {
-  isDrawFrame = false;
+  isProcessFrame = false;
   first = SDL_GetTicks() / 1000.0f;
 
   deltaTime = first - last;
@@ -43,7 +43,7 @@ void Engine::BeginFrame() {
 
   while (processedDeltaTime >= targetFps) {
     processedDeltaTime -= targetFps;
-    isDrawFrame = true;
+    isProcessFrame = true;
 
     if (frameTime >= 1.0f) {
       frameTime = 0.0f;
@@ -52,18 +52,18 @@ void Engine::BeginFrame() {
     }
   }
 
-  if (isDrawFrame) {
+  if (isProcessFrame) {
     frames++;
   }
 }
 
 void Engine::EndFrame() {
-  if (!isDrawFrame) {
+  if (!isProcessFrame) {
     SDL_Delay(10);
   }
 }
 
-bool Engine::IsDrawFrame() const { return isDrawFrame; }
+bool Engine::IsProcessFrame() { return Get().isProcessFrame; }
 
 void Engine::SetTargetFps(u32 fps) {
 

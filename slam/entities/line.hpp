@@ -62,14 +62,14 @@ struct Line : public Entity {
 
   void Destroy() override {
     DESTROY();
-
+    Entity::Destroy();
     shader = nullptr;
   }
 
   void Update() override {
     IS_DESTROYED();
 
-    if (Engine::Get().IsDrawFrame() == false)
+    if (Engine::Get().IsProcessFrame() == false)
       return;
 
     model = Mat4(1.0f);

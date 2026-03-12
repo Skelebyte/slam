@@ -33,7 +33,7 @@ Window::Window(const str &name, u32 w, u32 h, bool resizable, bool fullscreen) {
 
   running = true;
 
-  EventSystem::Get().on_error += dpy::ErrorWindow;
+  EventSystem::Get().OnError += dpy::ErrorWindow;
 
   Engine::Get().window = this;
 
@@ -133,7 +133,7 @@ void Window::SwapAndClear() {
   ImGui::Render();
   ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
-  if (!Engine::Get().IsDrawFrame()) {
+  if (!Engine::Get().IsProcessFrame()) {
     return;
   }
 

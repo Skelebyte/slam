@@ -6,6 +6,7 @@
 #include "../ext/glad/glad.h"
 #include "../list.hpp"
 #include "../math/mathf.hpp"
+#include "../scn/transform.hpp"
 #include "../util/file.hpp"
 #include "shader.hpp"
 #include <SDL3/SDL.h>
@@ -21,8 +22,9 @@ struct Renderer : public Singleton<Renderer> {
   static SDL_GLContext *GetGLContext();
 
   str shaderPath = "assets/shaders/";
-  math::Vec3 *cameraPosition = nullptr;
-  math::Vec3 *cameraRotation = nullptr;
+  Ptr<scn::Transform> cameraTransform = nullptr;
+  Ptr<f32> cameraCullingAngle = nullptr;
+  Ptr<f32> cameraCullingDistance = nullptr;
   math::Mat4 *cameraView = nullptr;
   math::Mat4 *cameraProjection = nullptr;
 

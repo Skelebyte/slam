@@ -34,13 +34,15 @@ struct Camera : public Entity {
     projection = Mat4();
     shader = Renderer::Get().GetShader("default");
 
-    Renderer::Get().cameraPosition = &transform.position;
+    Renderer::Get().cameraTransform = &transform;
     Renderer::Get().cameraView = &view;
     Renderer::Get().cameraProjection = &projection;
+    Renderer::Get().cameraCullingAngle = &cullingAngle;
+    Renderer::Get().cameraCullingDistance = &cullingDistance;
   }
   void Destroy() override {
     DESTROY();
-
+    Entity::Destroy();
     shader = nullptr;
     // deleting stuff/freeing memory
   }
@@ -64,8 +66,8 @@ struct Camera : public Entity {
     shader->GetUniform("projection")->SetValue(projection);
     shader->GetUniform("camera_position")
         ->SetValue(transform.GetInheritedPosition());
-    shader->GetUniform("light_position")
-        ->SetValue(transform.GetInheritedPosition());
+    // shader->GetUniform("light_position")
+    //     ->SetValue(transform.GetInheritedPosition());
     Entity::Update();
   }
 
@@ -104,6 +106,9 @@ struct Camera : public Entity {
   Mat4 projection;
   bool allowMouseLook = false;
   f32 sens = 0.1f;
+  f32 cullingAngle = 0.0f;
+  // minimum distance before culling
+  f32 cullingDistance = 0.0f;
 
 private:
   Shader *shader;

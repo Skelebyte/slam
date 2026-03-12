@@ -47,7 +47,11 @@ Entity::Entity() {
 
 Entity::~Entity() { Destroy(); }
 
-void Entity::Destroy() { DESTROY(); }
+void Entity::Destroy() {
+
+  // DESTROY();
+  EntityManager::Get().RemoveEntity(this);
+}
 
 void Entity::Update() {
   IS_DESTROYED();
@@ -60,7 +64,7 @@ void Entity::Update() {
   if (!drawDebugIcon)
     return;
 
-  if (Renderer::Get().cameraPosition == nullptr ||
+  if (Renderer::Get().cameraTransform == nullptr ||
       Renderer::Get().cameraView == nullptr ||
       Renderer::Get().cameraProjection == nullptr) {
     return;
@@ -136,18 +140,18 @@ void Entity::MakeChildOf(Entity *entity) {
 }
 
 u32 EntityManager::GetNextID() {
-  nextID++;
+  Get().nextID++;
 
-  return nextID - 1;
+  return Get().nextID - 1;
 }
 
-void EntityManager::AddEntity(Entity *target) {
+void EntityManager::AddEntity(Ptr<Entity> target) {
   if (target == nullptr) {
     THROW_ERROR(WARNING.Derived(
         "NULL_REFERENCE", "Can not add `nullptr` to the entity manager!"));
     return;
   }
-  for (Entity *entity : *entities.Vector()) {
+  for (Ptr<Entity> entity : *Get().entities.Vector()) {
     if (entity->GetID() == target->GetID()) {
       THROW_ERROR(WARNING.Derived(
           "", "Can not add an entity twice to the entity manager!"));
@@ -155,18 +159,32 @@ void EntityManager::AddEntity(Entity *target) {
     }
   }
 
-  entities.Add(target);
+  Get().entities.Add(target);
+}
+
+void EntityManager::RemoveEntity(Ptr<Entity> target) {
+  if (target == nullptr) {
+    THROW_ERROR(WARNING.Derived(
+        "NULL_REFERENCE", "Can not remove `nullptr` from the entity manager!"));
+    return;
+  }
+
+  for (u32 i = 0; i < Get().entities.Size(); i++) {
+    if (Get().entities[i]->GetID() == target->GetID()) {
+      Get().entities.Remove(i);
+      break;
+    }
+  }
 }
 
 void EntityManager::DestroyAll() {
-  LOG("Destroying " << entities.Size() << " entities.");
-  for (Entity *entity : *entities.Vector()) {
+  for (Ptr<Entity> entity : *Get().entities.Vector()) {
     entity->Destroy();
   }
 }
 
 void EntityManager::UpdateAll() {
-  for (Entity *entity : *entities.Vector()) {
+  for (Ptr<Entity> entity : *Get().entities.Vector()) {
 
     entity->Update();
   }

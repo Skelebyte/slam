@@ -89,15 +89,15 @@ struct Keybind {
 };
 
 struct InputAxis {
-  InputAxis(Keycode pos, Keycode neg);
+  InputAxis(CRef<Keycode> pos, CRef<Keycode> neg);
   Keycode positive;
   Keycode negative;
 };
 
 struct Input : public Singleton<Input> {
-  static i32 GetAxis(const InputAxis &axis);
-  static bool GetKey(Keybind *keybind);
-  static bool GetKeyOnce(Keybind *keybind);
+  static i32 GetAxis(CRef<InputAxis> axis);
+  static bool GetKey(Ptr<Keybind> keybind);
+  static bool GetKeyOnce(Ptr<Keybind> keybind);
   static math::Vec2 GetRawMousePosition();
   static math::Vec2 GetMousePosition();
   static void SetCursor(bool locked, bool hidden);

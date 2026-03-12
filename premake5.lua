@@ -20,8 +20,12 @@ project "slam"
 
    filter "configurations:Debug"
       defines { "DEBUG" }
+      optimize "Full"
+      linktimeoptimization "On"
       symbols "On"
 
    filter "configurations:Release"
       defines { "NDEBUG" }
+      optimize "Full"
+      linktimeoptimization "On"
       optimize "On"

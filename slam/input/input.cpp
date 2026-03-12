@@ -9,12 +9,12 @@ Keybind::Keybind(Keycode code) {
   pressed = false;
 }
 
-InputAxis::InputAxis(Keycode pos, Keycode neg) {
+InputAxis::InputAxis(CRef<Keycode> pos, CRef<Keycode> neg) {
   this->positive = pos;
   this->negative = neg;
 }
 
-i32 Input::GetAxis(const InputAxis &axis) {
+i32 Input::GetAxis(CRef<InputAxis> axis) {
   SDL_MouseButtonFlags flags = SDL_GetMouseState(NULL, NULL);
 
   if (axis.positive < 0 && axis.negative < 0) {
@@ -52,7 +52,7 @@ i32 Input::GetAxis(const InputAxis &axis) {
   return 0;
 }
 
-bool Input::GetKey(Keybind *keybind) {
+bool Input::GetKey(Ptr<Keybind> keybind) {
   SDL_MouseButtonFlags flags = SDL_GetMouseState(NULL, NULL);
 
   if (keybind->keycode < 0) { // checking mouse keys
@@ -78,7 +78,7 @@ bool Input::GetKey(Keybind *keybind) {
   return false;
 }
 
-bool Input::GetKeyOnce(Keybind *keybind) {
+bool Input::GetKeyOnce(Ptr<Keybind> keybind) {
   SDL_MouseButtonFlags flags = SDL_GetMouseState(NULL, NULL);
 
   if (keybind->keycode < 0) { // checking mouse keys

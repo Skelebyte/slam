@@ -14,7 +14,7 @@ template <typename T> struct List {
    * @return u32
    */
   u32 Size() { return data.size(); }
-  void Add(const T &value, bool first = false) {
+  void Add(CRef<T> value, bool first = false) {
     if (first) {
       data.insert(data.begin(), value);
     } else {
@@ -34,9 +34,18 @@ template <typename T> struct List {
     data.erase(data.begin() + index);
   }
 
+  void RemoveElement(T element) {
+    for (u32 i = 0; i < Size(); i++) {
+      if (data[i] == element) {
+        Remove(i);
+        break;
+      }
+    }
+  }
+
   void Clear() { data.clear(); }
 
-  auto *Pointer() { return data.data(); }
+  T *Pointer() { return data.data(); }
 
   std::vector<T> *Vector() { return &data; }
 
