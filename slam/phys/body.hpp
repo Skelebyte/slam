@@ -7,7 +7,14 @@
 
 namespace slam::phys {
 
-struct Shape {};
+enum ShapeType {
+  BOX = 0,
+  SPHERE = 1,
+};
+
+struct Shape {
+  virtual ~Shape() = default;
+};
 
 struct BoxShape : public Shape {
   BoxShape(const math::Vec3 &d = math::Vec3(1.0f));
@@ -20,17 +27,29 @@ struct SphereShape : public Shape {
 };
 
 struct Body : public scn::Entity {
-  Body(f32 mass = 1.0f, f32 bounciness = 0.1f, const Shape &shape = BoxShape());
+  Body(f32 mass = 1.0f, f32 bounciness = 0.1f);
+  void Move(const math::Vec3 &amount);
+  void MoveTo(const math::Vec3 &position);
 
   bool freeze;
-
   f32 mass;
   f32 bounciness;
+  ShapeType GetShapeType() const;
 
-  Shape shape;
-
-private:
+protected:
+  ShapeType type;
   math::Vec3 linearVelocity;
+};
+
+struct BoxBody : public Body {
+  BoxBody(f32 mass = 1.0f, f32 bounciness = 0.1f, BoxShape shape = BoxShape());
+  BoxShape shape;
+};
+
+struct SphereBody : public Body {
+  SphereBody(f32 mass = 1.0f, f32 bounciness = 0.1f,
+             SphereShape shape = SphereShape());
+  SphereShape shape;
 };
 
 } // namespace slam::phys

@@ -60,7 +60,8 @@ i32 main() {
   // Entity random = Entity();
   // random.transform.position.y = 10;
 
-  Keybind spawn = Keybind(Keycode::SPACE);
+  Keybind fall = Keybind(Keycode::SPACE);
+  Keybind fly = Keybind(Keycode::L_SHIFT);
 
   Keybind zoom = Keybind(Keycode::RMB);
 
@@ -90,16 +91,27 @@ i32 main() {
 
   io.Fonts->AddFontFromFileTTF("assets/fonts/RobotoMono.ttf", 18);
 
-  Body *physEntity = System::CreateSphere();
-  physEntity->transform.position = Vec3(0, 5, -5);
+  SphereBody *physEntity = System::CreateSphere();
+  physEntity->transform.position = Vec3(5, 1, -5);
 
-  MeshRenderer physMesh = MeshRenderer("assets/models/cube.fbx");
+  MeshRenderer physMesh = MeshRenderer("assets/models/sphere.fbx");
   physMesh.MakeChildOf(physEntity);
-  physMesh.material.color = RGB(1.0f, 0, 0);
+  physMesh.material.color = RGB(1, 0, 0);
   LOG("physE: " << Mathf::ToString(
           physEntity->transform.GetInheritedPosition()));
 
   LOG("physM: " << Mathf::ToString(physMesh.transform.GetInheritedPosition()));
+
+  SphereBody *physEntity2 = System::CreateSphere();
+  physEntity2->transform.position = Vec3(0, 1, -5);
+
+  MeshRenderer physMesh2 = MeshRenderer("assets/models/sphere.fbx");
+  physMesh2.MakeChildOf(physEntity2);
+  physMesh2.material.color = RGB(0, 1, 0);
+
+  SphereBody *playerCol = System::CreateSphere();
+  playerCol->MakeChildOf(&cam);
+  playerCol->freeze = true;
 
   while (window.IsRunning()) {
     Engine::Get().BeginFrame();
@@ -139,17 +151,16 @@ i32 main() {
 
     colorCube.material.color = RGB(r, g, b);
 
-    if (Input::Get().GetKeyOnce(&spawn)) {
+    if (Input::GetKey(&fall) && physEntity->freeze != true) {
+      physEntity->Move(Vec3(1 * Time::DeltaTime(), 0, 0));
+    }
 
-      MeshRenderer *instance = new MeshRenderer("assets/models/cube.fbx");
-
-      instance->transform.position = cam.transform.GetInheritedPosition() +
-                                     cam.transform.InheritedForward() * 2.0f;
-      instance->transform.position.y = 0;
-      instance->material.color = RGB(r, g, b);
+    if (Input::GetKey(&fly) && physEntity->freeze != true) {
+      physEntity->Move(Vec3(-1 * Time::DeltaTime(), 0, 0));
     }
 
     EntityManager::Get().UpdateAll();
+    System::CheckCollisions();
 
     glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 
