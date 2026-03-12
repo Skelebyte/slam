@@ -44,7 +44,7 @@ void SpawnBalls(CRef<Vec3> pos) {
 }
 
 i32 main() {
-  Engine::Get().Init(-1);
+  Engine::Get().Init(999);
   Window window = Window("Hi mum!", 800, 600, true, true);
   window.appendFpsToTitle = true;
   Renderer::Get().Init(&window);

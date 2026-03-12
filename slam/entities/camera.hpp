@@ -106,9 +106,9 @@ struct Camera : public Entity {
   Mat4 projection;
   bool allowMouseLook = false;
   f32 sens = 0.1f;
-  f32 cullingAngle = 0.0f;
+  f32 cullingAngle = 0.4f;
   // minimum distance before culling
-  f32 cullingDistance = 0.0f;
+  f32 cullingDistance = 10.0f;
 
 private:
   Shader *shader;
