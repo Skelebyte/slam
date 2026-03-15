@@ -14,18 +14,17 @@ project "slam"
       libdirs { "slam/ext/SDL/lib" }
    filter {  }
 
-   links { "SDL3", "m", }
+   links { "SDL3", "m", "reactphysics3d" }
 
 
 
    filter "configurations:Debug"
       defines { "DEBUG" }
-      optimize "Full"
-      linktimeoptimization "On"
       symbols "On"
+   filter {}
 
    filter "configurations:Release"
       defines { "NDEBUG" }
       optimize "Full"
       linktimeoptimization "On"
-      optimize "On"
+   filter {}

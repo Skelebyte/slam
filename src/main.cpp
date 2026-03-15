@@ -16,10 +16,10 @@
 #include "../slam/gfx/vbo.hpp"
 #include "../slam/input/input.hpp"
 #include "../slam/math/mathf.hpp"
-#include "../slam/phys/system.hpp"
 #include "../slam/res/mesh.hpp"
 #include "../slam/scn/entity.hpp"
 #include "../slam/time.hpp"
+#include <reactphysics3d/reactphysics3d.h>
 
 using namespace slam::err;
 using namespace slam::evt;
@@ -30,18 +30,9 @@ using namespace slam::scn;
 using namespace slam::res;
 using namespace slam::input;
 using namespace slam::entities;
-using namespace slam::phys;
 using namespace slam;
 
-void SpawnBalls(CRef<Vec3> pos) {
-  for (u32 i = 0; i < 10; i++) {
-    Ptr<SphereBody> physEntity2 = System::CreateSphere();
-    physEntity2->transform.position = Vec3(pos.x, pos.y + i * 2 + 10, pos.z);
-    Ptr<MeshRenderer> physMesh2 = new MeshRenderer("assets/models/sphere.fbx");
-    physMesh2->MakeChildOf(physEntity2);
-    physMesh2->material.color = RGB(0, 1, 0);
-  }
-}
+namespace rp3d = reactphysics3d;
 
 i32 main() {
   Engine::Get().Init(999);
@@ -101,18 +92,23 @@ i32 main() {
 
   io.Fonts->AddFontFromFileTTF("assets/fonts/RobotoMono.ttf", 18);
 
-  SphereBody *physEntity = System::CreateSphere();
-  physEntity->transform.position = Vec3(0, 0, -5);
-  // physEntity->freeze = true;
+  rp3d::PhysicsCommon physicsCommon;
+
+  rp3d::PhysicsWorld *world = physicsCommon.createPhysicsWorld();
+
+  rp3d::Vector3 pos(0, 5, -5);
+  rp3d::Quaternion orientation = rp3d::Quaternion::identity();
+  rp3d::Transform transform(pos, orientation);
+
+  rp3d::RigidBody *body = world->createRigidBody(transform);
+
+  const f32 timeStep = 1.0f / 60.0f;
 
   MeshRenderer physMesh = MeshRenderer("assets/models/sphere.fbx");
-  physMesh.MakeChildOf(physEntity);
+  // physMesh.MakeChildOf(physEntity);
   physMesh.material.color = RGB(1, 0, 0);
 
-  SphereBody *playerCol = System::CreateSphere();
-  playerCol->freeze = true;
-  playerCol->MakeChildOf(&player);
-
+  f32 accumulator = 0.0f;
   while (window.IsRunning()) {
     Engine::Get().BeginFrame();
     Engine::Get().drawEntityIcons = true;
@@ -152,11 +148,19 @@ i32 main() {
     colorCube.material.color = RGB(r, g, b);
 
     if (Input::GetKeyOnce(&spawn)) {
-      SpawnBalls(cam.transform.GetInheritedPosition());
+      // SpawnBalls(cam.transform.GetInheritedPosition());
     }
 
     EntityManager::Get().UpdateAll();
-    System::CheckCollisions();
+    accumulator += Time::DeltaTime();
+    while (accumulator >= timeStep) {
+      world->update(timeStep);
+      accumulator -= timeStep;
+    }
+
+    physMesh.transform.position = Vec3(body->getTransform().getPosition().x,
+                                       body->getTransform().getPosition().y,
+                                       body->getTransform().getPosition().z);
 
     glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 
@@ -171,7 +175,7 @@ i32 main() {
     ImGui::Text("FPS: %d", Engine::Get().GetFps());
     ImGui::Text("Delta Time: %f", Time::DeltaTime());
     ImGui::Text("Entities: %d", EntityManager::GetNumberOfEntities());
-    ImGui::Text("Bodies: %d", System::GetNumberOfBodies());
+    // ImGui::Text("Bodies: %d", System::GetNumberOfBodies());
     ImGui::DragFloat3("Player Position",
                       glm::value_ptr(player.transform.position));
     ImGui::DragFloat("Culling Angle", &cam.cullingAngle, 0.05f, -1.0f, 1.0f);
