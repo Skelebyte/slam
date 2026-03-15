@@ -16,6 +16,7 @@
 #include "../slam/gfx/vbo.hpp"
 #include "../slam/input/input.hpp"
 #include "../slam/math/mathf.hpp"
+#include "../slam/phys/physics.hpp"
 #include "../slam/res/mesh.hpp"
 #include "../slam/scn/entity.hpp"
 #include "../slam/time.hpp"
@@ -30,9 +31,8 @@ using namespace slam::scn;
 using namespace slam::res;
 using namespace slam::input;
 using namespace slam::entities;
+using namespace slam::phys;
 using namespace slam;
-
-namespace rp3d = reactphysics3d;
 
 i32 main() {
   Engine::Get().Init(999);
@@ -92,15 +92,13 @@ i32 main() {
 
   io.Fonts->AddFontFromFileTTF("assets/fonts/RobotoMono.ttf", 18);
 
-  rp3d::PhysicsCommon physicsCommon;
+  Physics physics = Physics();
 
-  rp3d::PhysicsWorld *world = physicsCommon.createPhysicsWorld();
+  rp::Vector3 pos(0, 5, -5);
+  rp::Quaternion orientation = rp3d::Quaternion::identity();
+  rp::Transform transform(pos, orientation);
 
-  rp3d::Vector3 pos(0, 5, -5);
-  rp3d::Quaternion orientation = rp3d::Quaternion::identity();
-  rp3d::Transform transform(pos, orientation);
-
-  rp3d::RigidBody *body = world->createRigidBody(transform);
+  // rp3d::RigidBody *body = world->createRigidBody(transform);
 
   const f32 timeStep = 1.0f / 60.0f;
 
@@ -152,15 +150,10 @@ i32 main() {
     }
 
     EntityManager::Get().UpdateAll();
-    accumulator += Time::DeltaTime();
-    while (accumulator >= timeStep) {
-      world->update(timeStep);
-      accumulator -= timeStep;
-    }
 
-    physMesh.transform.position = Vec3(body->getTransform().getPosition().x,
-                                       body->getTransform().getPosition().y,
-                                       body->getTransform().getPosition().z);
+    // physMesh.transform.position = Vec3(body->getTransform().getPosition().x,
+    //                                    body->getTransform().getPosition().y,
+    //                                    body->getTransform().getPosition().z);
 
     glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 
