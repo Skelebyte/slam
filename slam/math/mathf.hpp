@@ -1,17 +1,22 @@
 #ifndef SLAM_MATHF_HPP
 #define SLAM_MATHF_HPP
 
-#define GLM_ENABLE_EXPERIMENTAL
 #include "../common.hpp"
-#include "../ext/glm/ext/matrix_transform.hpp"
-#include "../ext/glm/ext/quaternion_geometric.hpp"
-#include "../ext/glm/geometric.hpp"
-#include "../ext/glm/glm.hpp"
-#include "../ext/glm/gtc/type_ptr.hpp"
-#include "../ext/glm/gtx/rotate_vector.hpp"
 #include <SDL3/SDL.h>
 #include <cstdlib>
 #include <ctime>
+
+// clang-format off
+#define GLM_ENABLE_EXPERIMENTAL
+#include <glm/glm.hpp>
+#include <glm/ext/matrix_transform.hpp>
+#include <glm/ext/quaternion_geometric.hpp>
+#include <glm/geometric.hpp>
+#include <glm/gtc/type_ptr.hpp>
+#include <glm/gtx/euler_angles.hpp>
+#include <glm/gtx/rotate_vector.hpp>
+// clang-format on
+
 // #include "../ext/gtx/rotate_vector.hpp"
 
 namespace slam::math {
@@ -41,6 +46,8 @@ public:
   static Vec3 RotateX(const Vec3 &target, f32 angleDeg);
   static Vec3 RotateY(const Vec3 &target, f32 angleDeg);
   static Vec3 RotateZ(const Vec3 &target, f32 angleDeg);
+  static Vec3 ToEuler(const Quat &target);
+  static Quat ToQuat(const Vec3 &target);
   /**
    * @brief Generates a random number.
    *

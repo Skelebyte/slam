@@ -60,7 +60,7 @@ Vec3 Transform::GetInheritedPosition() const {
 }
 
 Quat Transform::GetInheritedRotation() const {
-  Quat local = Quat(glm::radians(rotation));
+  Quat local = Mathf::ToQuat(rotation);
   if (parent == nullptr) {
     return local;
   }

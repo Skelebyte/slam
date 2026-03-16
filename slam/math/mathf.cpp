@@ -87,6 +87,18 @@ Vec3 Mathf::RotateZ(const Vec3 &target, f32 angleDeg) {
   return glm::rotateZ(target, Mathf::ToRadians(angleDeg));
 }
 
+Vec3 Mathf::ToEuler(const Quat &target) {
+
+  Mat4 matrix = glm::mat4_cast(target);
+
+  float y, p, r;
+  glm::extractEulerAngleYXZ(matrix, y, p, r);
+
+  return Vec3(y, p, r);
+}
+
+Quat Mathf::ToQuat(const Vec3 &target) { return Quat(glm::radians(target)); }
+
 i32 Mathf::Random(i32 max) {
   srand(SDL_GetTicksNS());
 

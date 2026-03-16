@@ -39,12 +39,13 @@ i32 main() {
   Window window = Window("Hi mum!", 800, 600, true, true);
   window.appendFpsToTitle = true;
   Renderer::Get().Init(&window);
+  Physics::Init();
 
   Keybind toggleWireframe = Keybind(Keycode::F1);
   Keybind toggleIcons = Keybind(Keycode::F2);
 
   Entity player = Entity();
-  // player.transform.position.y = -5;
+  player.transform.position.z = 5;
 
   Camera cam = Camera();
   cam.transform.position.y = 1;
@@ -92,21 +93,14 @@ i32 main() {
 
   io.Fonts->AddFontFromFileTTF("assets/fonts/RobotoMono.ttf", 18);
 
-  Physics physics = Physics();
-
-  rp::Vector3 pos(0, 5, -5);
-  rp::Quaternion orientation = rp3d::Quaternion::identity();
-  rp::Transform transform(pos, orientation);
-
-  // rp3d::RigidBody *body = world->createRigidBody(transform);
-
-  const f32 timeStep = 1.0f / 60.0f;
+  Rigidbody rb = Rigidbody();
+  rb.transform.position = Vec3(0, 5, -5);
+  rb.Sync();
 
   MeshRenderer physMesh = MeshRenderer("assets/models/sphere.fbx");
-  // physMesh.MakeChildOf(physEntity);
+  physMesh.MakeChildOf(&rb);
   physMesh.material.color = RGB(1, 0, 0);
 
-  f32 accumulator = 0.0f;
   while (window.IsRunning()) {
     Engine::Get().BeginFrame();
     Engine::Get().drawEntityIcons = true;
@@ -149,11 +143,9 @@ i32 main() {
       // SpawnBalls(cam.transform.GetInheritedPosition());
     }
 
+    // LOG(Mathf::ToString(rb.transform.position));
     EntityManager::Get().UpdateAll();
-
-    // physMesh.transform.position = Vec3(body->getTransform().getPosition().x,
-    //                                    body->getTransform().getPosition().y,
-    //                                    body->getTransform().getPosition().z);
+    Physics::Update();
 
     glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 
@@ -168,7 +160,7 @@ i32 main() {
     ImGui::Text("FPS: %d", Engine::Get().GetFps());
     ImGui::Text("Delta Time: %f", Time::DeltaTime());
     ImGui::Text("Entities: %d", EntityManager::GetNumberOfEntities());
-    // ImGui::Text("Bodies: %d", System::GetNumberOfBodies());
+    ImGui::Text("Bodies: %d", Physics::GetNumberOfBodies());
     ImGui::DragFloat3("Player Position",
                       glm::value_ptr(player.transform.position));
     ImGui::DragFloat("Culling Angle", &cam.cullingAngle, 0.05f, -1.0f, 1.0f);

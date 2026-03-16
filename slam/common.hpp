@@ -2,7 +2,6 @@
 #define SLAM_COMMON_HPP
 
 // #include "ext/HandmadeMath.h"
-#include "ext/glm/glm.hpp"
 #include <cstdint>
 #include <iostream>
 #include <memory>
