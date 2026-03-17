@@ -178,6 +178,7 @@ void EntityManager::RemoveEntity(Ptr<Entity> target) {
 }
 
 void EntityManager::DestroyAll() {
+  LOG("Destroying " << Get().entities.Size() << " entities!");
   for (Ptr<Entity> entity : *Get().entities.Vector()) {
     entity->Destroy();
   }

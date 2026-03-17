@@ -1,16 +1,5 @@
+#define SLAM_USING_NAMESPACES
 #include "../slam/slam.hpp"
-
-using namespace slam::err;
-using namespace slam::evt;
-using namespace slam::gfx;
-using namespace slam::dpy;
-using namespace slam::math;
-using namespace slam::scn;
-using namespace slam::res;
-using namespace slam::input;
-using namespace slam::entities;
-// using namespace slam::phys;
-using namespace slam;
 
 i32 main() {
   Engine::Get().Init(999);

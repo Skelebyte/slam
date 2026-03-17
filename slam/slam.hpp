@@ -23,4 +23,18 @@
 #include "third_party/imgui/imgui_impl_opengl3.h"
 #include "third_party/imgui/imgui_impl_sdl3.h"
 
+#ifdef SLAM_USING_NAMESPACES
+using namespace slam::err;
+using namespace slam::evt;
+using namespace slam::gfx;
+using namespace slam::dpy;
+using namespace slam::math;
+using namespace slam::scn;
+using namespace slam::res;
+using namespace slam::input;
+using namespace slam::entities;
+// using namespace slam::phys;
+using namespace slam;
+#endif
+
 #endif
