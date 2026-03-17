@@ -83,7 +83,6 @@ GENERATED += $(OBJDIR)/evt.o
 GENERATED += $(OBJDIR)/evt_sys.o
 GENERATED += $(OBJDIR)/file.o
 GENERATED += $(OBJDIR)/glad.o
-GENERATED += $(OBJDIR)/glm.o
 GENERATED += $(OBJDIR)/imgui.o
 GENERATED += $(OBJDIR)/imgui_demo.o
 GENERATED += $(OBJDIR)/imgui_draw.o
@@ -96,9 +95,7 @@ GENERATED += $(OBJDIR)/main.o
 GENERATED += $(OBJDIR)/material.o
 GENERATED += $(OBJDIR)/mathf.o
 GENERATED += $(OBJDIR)/mesh.o
-GENERATED += $(OBJDIR)/physics.o
 GENERATED += $(OBJDIR)/renderer.o
-GENERATED += $(OBJDIR)/rigidbody.o
 GENERATED += $(OBJDIR)/shader.o
 GENERATED += $(OBJDIR)/texture.o
 GENERATED += $(OBJDIR)/time.o
@@ -119,7 +116,6 @@ OBJECTS += $(OBJDIR)/evt.o
 OBJECTS += $(OBJDIR)/evt_sys.o
 OBJECTS += $(OBJDIR)/file.o
 OBJECTS += $(OBJDIR)/glad.o
-OBJECTS += $(OBJDIR)/glm.o
 OBJECTS += $(OBJDIR)/imgui.o
 OBJECTS += $(OBJDIR)/imgui_demo.o
 OBJECTS += $(OBJDIR)/imgui_draw.o
@@ -132,9 +128,7 @@ OBJECTS += $(OBJDIR)/main.o
 OBJECTS += $(OBJDIR)/material.o
 OBJECTS += $(OBJDIR)/mathf.o
 OBJECTS += $(OBJDIR)/mesh.o
-OBJECTS += $(OBJDIR)/physics.o
 OBJECTS += $(OBJDIR)/renderer.o
-OBJECTS += $(OBJDIR)/rigidbody.o
 OBJECTS += $(OBJDIR)/shader.o
 OBJECTS += $(OBJDIR)/texture.o
 OBJECTS += $(OBJDIR)/time.o
@@ -231,9 +225,6 @@ $(OBJDIR)/evt_sys.o: slam/evt/evt_sys.cpp
 $(OBJDIR)/glad.o: slam/ext/glad/glad.c
 	@echo "$(notdir $<)"
 	$(SILENT) $(CC) $(ALL_CFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-$(OBJDIR)/glm.o: slam/ext/glm/detail/glm.cpp
-	@echo "$(notdir $<)"
-	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/imgui.o: slam/ext/imgui/imgui.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
@@ -286,12 +277,6 @@ $(OBJDIR)/input.o: slam/input/input.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/mathf.o: slam/math/mathf.cpp
-	@echo "$(notdir $<)"
-	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-$(OBJDIR)/physics.o: slam/phys/physics.cpp
-	@echo "$(notdir $<)"
-	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-$(OBJDIR)/rigidbody.o: slam/phys/rigidbody.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/mesh.o: slam/res/mesh.cpp

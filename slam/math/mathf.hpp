@@ -17,8 +17,6 @@
 #include <glm/gtx/rotate_vector.hpp>
 // clang-format on
 
-// #include "../ext/gtx/rotate_vector.hpp"
-
 namespace slam::math {
 
 typedef glm::vec2 Vec2;

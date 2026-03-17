@@ -16,11 +16,9 @@
 #include "../slam/gfx/vbo.hpp"
 #include "../slam/input/input.hpp"
 #include "../slam/math/mathf.hpp"
-#include "../slam/phys/physics.hpp"
 #include "../slam/res/mesh.hpp"
 #include "../slam/scn/entity.hpp"
 #include "../slam/time.hpp"
-#include <reactphysics3d/reactphysics3d.h>
 
 using namespace slam::err;
 using namespace slam::evt;
@@ -31,7 +29,7 @@ using namespace slam::scn;
 using namespace slam::res;
 using namespace slam::input;
 using namespace slam::entities;
-using namespace slam::phys;
+// using namespace slam::phys;
 using namespace slam;
 
 i32 main() {
@@ -39,7 +37,6 @@ i32 main() {
   Window window = Window("Hi mum!", 800, 600, true, true);
   window.appendFpsToTitle = true;
   Renderer::Get().Init(&window);
-  Physics::Init();
 
   Keybind toggleWireframe = Keybind(Keycode::F1);
   Keybind toggleIcons = Keybind(Keycode::F2);
@@ -93,12 +90,7 @@ i32 main() {
 
   io.Fonts->AddFontFromFileTTF("assets/fonts/RobotoMono.ttf", 18);
 
-  Rigidbody rb = Rigidbody();
-  rb.transform.position = Vec3(0, 5, -5);
-  rb.Sync();
-
   MeshRenderer physMesh = MeshRenderer("assets/models/sphere.fbx");
-  physMesh.MakeChildOf(&rb);
   physMesh.material.color = RGB(1, 0, 0);
 
   while (window.IsRunning()) {
@@ -145,7 +137,6 @@ i32 main() {
 
     // LOG(Mathf::ToString(rb.transform.position));
     EntityManager::Get().UpdateAll();
-    Physics::Update();
 
     glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 
@@ -160,7 +151,7 @@ i32 main() {
     ImGui::Text("FPS: %d", Engine::Get().GetFps());
     ImGui::Text("Delta Time: %f", Time::DeltaTime());
     ImGui::Text("Entities: %d", EntityManager::GetNumberOfEntities());
-    ImGui::Text("Bodies: %d", Physics::GetNumberOfBodies());
+    // ImGui::Text("Bodies: %d", Physics::GetNumberOfBodies());
     ImGui::DragFloat3("Player Position",
                       glm::value_ptr(player.transform.position));
     ImGui::DragFloat("Culling Angle", &cam.cullingAngle, 0.05f, -1.0f, 1.0f);
