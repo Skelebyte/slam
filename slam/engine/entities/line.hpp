@@ -31,7 +31,7 @@ namespace slam::entities {
 struct Line : public Entity {
   Line(const Vec3 &start, const Vec3 &end) {
 
-    shader = Renderer::Get().GetShader("line");
+    shader = Renderer::GetShader("line");
     this->start = start;
     this->end = end;
 
@@ -83,9 +83,9 @@ struct Line : public Entity {
 
     shader->Bind();
     shader->GetUniform("model")->SetValue(model);
-    shader->GetUniform("view")->SetValue(*Renderer::Get().cameraView);
+    shader->GetUniform("view")->SetValue(*Renderer::GetCameraViewPtr());
     shader->GetUniform("projection")
-        ->SetValue(*Renderer::Get().cameraProjection);
+        ->SetValue(*Renderer::GetCameraProjectionPtr());
     shader->GetUniform("color")->SetValue(color);
 
     vao.Bind();

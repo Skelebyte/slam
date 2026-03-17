@@ -11,7 +11,7 @@ Entity::Entity() {
   transform = Transform();
   SetID(EntityManager::Get().GetNextID());
 
-  shaderBillboard = Renderer::Get().GetShader("billboard");
+  shaderBillboard = Renderer::GetShader("billboard");
 
   billboardIcon = Texture();
 
@@ -57,54 +57,6 @@ void Entity::Update() {
   IS_DESTROYED();
 
   transform.Process();
-
-  if (Engine::GetDrawEntityIcons() == false || drawDebugIcon == false)
-    return;
-
-  if (!drawDebugIcon)
-    return;
-
-  if (Renderer::Get().cameraTransform == nullptr ||
-      Renderer::Get().cameraView == nullptr ||
-      Renderer::Get().cameraProjection == nullptr) {
-    return;
-  }
-
-  modelBillboard = Mat4(1.0f);
-
-  modelBillboard = glm::translate(modelBillboard, transform.position);
-
-  // model *= glm::lookAt(transform.GetInheritedPosition(),
-  //                      transform.GetInheritedPosition() +
-  //                          *Renderer::Get().cameraPosition,
-  //                      Vec3(0, 1, 0));
-
-  modelBillboard *= glm::mat4_cast(
-      transform.GetInheritedRotation()); // convert to mat4x4 rotation
-
-  modelBillboard = glm::scale(modelBillboard, Vec3(1.0f));
-
-  shaderBillboard->Bind();
-  shaderBillboard->GetUniform("view")->SetValue(*Renderer::Get().cameraView);
-  shaderBillboard->GetUniform("projection")
-      ->SetValue(*Renderer::Get().cameraProjection);
-  shaderBillboard->GetUniform("model")->SetValue(modelBillboard);
-  glActiveTexture(GL_TEXTURE0);
-  billboardIcon.Bind();
-  shaderBillboard->GetUniform("diffuse_texture")->SetValue(0);
-
-  // LOG("ip" << Mathf::ToString(transform.GetInheritedPosition()));
-  vaoBillboard.Bind();
-  glDisable(GL_CULL_FACE);
-  glDisable(GL_DEPTH_TEST);
-  glDrawElements(GL_TRIANGLES, meshBillboard.indices.Size(), GL_UNSIGNED_INT,
-                 0);
-  THROW_ERROR_GL(
-      FATAL.Derived("GL_DRAW_ELEMENTS_FAIL (Entity Icon Billboard)"));
-  glEnable(GL_DEPTH_TEST);
-  glEnable(GL_CULL_FACE);
-
-  // LOG("drawing icon!");
 }
 
 // template <typename T> T *Entity::GetComponent() {

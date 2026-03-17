@@ -4,7 +4,7 @@ using namespace slam;
 using namespace slam::gfx;
 
 Material::Material(const str &shaderName) {
-  shader = Renderer::Get().GetShader(shaderName);
+  shader = Renderer::GetShader(shaderName);
 }
 
 void Material::Destroy() {

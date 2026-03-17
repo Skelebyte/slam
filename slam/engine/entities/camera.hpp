@@ -32,13 +32,13 @@ struct Camera : public Entity {
   Camera() : pauseLook(Keycode::ESC) {
     view = Mat4();
     projection = Mat4();
-    shader = Renderer::Get().GetShader("default");
+    shader = Renderer::GetShader("default");
 
-    Renderer::Get().cameraTransform = &transform;
-    Renderer::Get().cameraView = &view;
-    Renderer::Get().cameraProjection = &projection;
-    Renderer::Get().cameraCullingAngle = &cullingAngle;
-    Renderer::Get().cameraCullingDistance = &cullingDistance;
+    Renderer::SetCameraTransform(&transform);
+    Renderer::SetCameraView(&view);
+    Renderer::SetCameraProjection(&projection);
+    Renderer::SetCameraCullingAngle(&cullingAngle);
+    Renderer::SetCameraCullingDistance(&cullingDistance);
   }
   void Destroy() override {
     DESTROY();

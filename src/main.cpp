@@ -5,7 +5,7 @@ i32 main() {
   Engine::Get().Init(999);
   Window window = Window("Hi mum!", 800, 600, true, true);
   window.appendFpsToTitle = true;
-  Renderer::Get().Init(&window);
+  Renderer::Init(&window);
 
   Keybind toggleWireframe = Keybind(Keycode::F1);
   Keybind toggleIcons = Keybind(Keycode::F2);
@@ -68,7 +68,7 @@ i32 main() {
     window.Update();
 
     if (Input::GetKeyOnce(&toggleWireframe)) {
-      Renderer::Get().ToggleWireframe();
+      Renderer::ToggleWireframe();
     }
 
     if (Input::GetKeyOnce(&toggleFullscreen)) {
@@ -139,13 +139,13 @@ i32 main() {
 
   /*
     FIXME:
-    calling Renderer::Get().Shutdown() down after window.Destroy causes
+    calling Renderer::Shutdown() down after window.Destroy causes
     segfault (???)
   */
   ImGui_ImplOpenGL3_Shutdown();
   ImGui_ImplSDL3_Shutdown();
   ImGui::DestroyContext();
-  Renderer::Get().Shutdown();
+  Renderer::Shutdown();
   window.Destroy();
   Engine::Shutdown();
 }

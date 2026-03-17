@@ -6,22 +6,24 @@ using namespace slam::dpy;
 using namespace slam::gfx;
 using namespace slam::err;
 using namespace slam::util;
+using namespace slam::scn;
+using namespace slam::math;
 
 void Renderer::Init(dpy::Window *window) {
-  if (IsInitialized() == true) {
+  if (Get().IsInitialized() == true) {
     THROW_ERROR(WARNING.Derived("", "Renderer is already initialized!"));
     return;
   }
 
-  gl = SDL_GL_CreateContext(window->GetSDLWindow());
-  if (gl == nullptr) {
+  Get().gl = SDL_GL_CreateContext(window->GetSDLWindow());
+  if (Get().gl == nullptr) {
     THROW_ERROR(
         FATAL.Derived("", "Create to create OpenGL context. SDL error: " +
                               str(SDL_GetError())));
     return;
   }
 
-  SDL_GL_MakeCurrent(window->GetSDLWindow(), gl);
+  SDL_GL_MakeCurrent(window->GetSDLWindow(), Get().gl);
 
   if (!gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress)) {
     THROW_ERROR(FATAL.Derived("", "Failed to initialize glad! remind me to "
@@ -35,7 +37,9 @@ void Renderer::Init(dpy::Window *window) {
 
   glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
-  shaders = List<Shader>();
+  Get().shaders = List<Shader>();
+
+  SetShaderPath();
 
   AddShader("default", "fragment.glsl", "vertex.glsl");
   AddShader("line", "line_frag.glsl", "line_vert.glsl");
@@ -68,25 +72,25 @@ void Renderer::Init(dpy::Window *window) {
   GetShader("billboard")->AddUniform("model");
   GetShader("billboard")->AddUniform("diffuse_texture");
 
-  initialized = true;
+  Get().initialized = true;
 }
 
 void Renderer::Shutdown() {
-  SDL_GL_DestroyContext(gl);
+  SDL_GL_DestroyContext(Get().gl);
 
-  for (u32 i = 0; i < shaders.Size(); i++) {
-    shaders[i].Destroy();
+  // clean up shaders
+  for (u32 i = 0; i < Get().shaders.Size(); i++) {
+    Get().shaders[i].Destroy();
   }
+  Get().shaders.Clear();
 
-  shaders.Clear();
-
-  initialized = false;
+  Get().initialized = false;
 }
 
 void Renderer::ToggleWireframe() {
-  wireframe = !wireframe;
+  Get().wireframe = !Get().wireframe;
 
-  if (wireframe) {
+  if (Get().wireframe) {
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
   } else {
@@ -94,8 +98,8 @@ void Renderer::ToggleWireframe() {
   }
 }
 
-void Renderer::AddShader(const str &name, const str &fragPath,
-                         const str &vertPath) {
+void Renderer::AddShader(CRef<str> name, CRef<str> fragPath,
+                         CRef<str> vertPath) {
   bool silence = ErrorSystem::Get().silenceWarnings;
 
   ErrorSystem::Get().silenceWarnings = true;
@@ -107,13 +111,14 @@ void Renderer::AddShader(const str &name, const str &fragPath,
     return;
   }
 
-  shaders.Add(Shader(name, shaderPath + fragPath, shaderPath + vertPath));
+  Get().shaders.Add(
+      Shader(name, GetShaderPath() + fragPath, GetShaderPath() + vertPath));
 }
 
-Shader *Renderer::GetShader(const str &name) {
-  for (u32 i = 0; i < shaders.Size(); i++) {
-    if (name == shaders[i].GetName()) {
-      return &shaders[i];
+Shader *Renderer::GetShader(CRef<str> name) {
+  for (u32 i = 0; i < Get().shaders.Size(); i++) {
+    if (name == Get().shaders[i].GetName()) {
+      return &Get().shaders[i];
     }
   }
 
@@ -123,3 +128,54 @@ Shader *Renderer::GetShader(const str &name) {
 }
 
 SDL_GLContext *Renderer::GetGLContext() { return &Get().gl; }
+
+void Renderer::SetShaderPath(CRef<str> path) {
+
+  // if last character in string is not '/' then append '/' to the end. this is
+  // because when loading the shader, it will prepend shaderPath to the file
+  // given. Example: path: "assets/shaders", shaderPath = "assets/shaders/"
+  if (path[path.length() - 1] != '/') {
+    Get().shaderPath = path + "/";
+    return;
+  }
+
+  Get().shaderPath = path;
+}
+
+str &Renderer::GetShaderPath() { return Get().shaderPath; }
+
+void Renderer::SetCameraTransform(Transform *target) {
+  Get().cameraTransform = target;
+}
+
+Transform *Renderer::GetCameraTransformPtr() { return Get().cameraTransform; }
+
+void Renderer::SetCameraCullingAngle(f32 *angle) {
+  Get().cameraCullingAngle = angle;
+}
+
+f32 Renderer::GetCameraCullingAngle() { return *Get().cameraCullingAngle; }
+
+f32 *Renderer::GetCameraCullingAnglePtr() { return Get().cameraCullingAngle; }
+
+void Renderer::SetCameraCullingDistance(f32 *value) {
+  Get().cameraCullingDistance = value;
+}
+
+f32 Renderer::GetCameraCullingDistance() {
+  return *Get().cameraCullingDistance;
+}
+
+f32 *Renderer::GetCameraCullingDistancePtr() {
+  return Get().cameraCullingDistance;
+}
+
+void Renderer::SetCameraView(Mat4 *value) { Get().cameraView = value; }
+
+Mat4 *Renderer::GetCameraViewPtr() { return Get().cameraView; }
+
+void Renderer::SetCameraProjection(Mat4 *value) {
+  Get().cameraProjection = value;
+}
+
+Mat4 *Renderer::GetCameraProjectionPtr() { return Get().cameraProjection; }
