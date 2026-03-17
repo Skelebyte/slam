@@ -1,9 +1,9 @@
 #ifndef SLAM_EBO_HPP
 #define SLAM_EBO_HPP
 
+#include "../../third_party/glad/glad.h"
 #include "../common.hpp"
 #include "../err/err_sys.hpp"
-#include "../third_party/glad/glad.h"
 
 namespace slam::gfx {
 class EBO : public Destroyable, public ID {

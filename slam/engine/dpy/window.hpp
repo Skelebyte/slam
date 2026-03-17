@@ -1,13 +1,13 @@
 #ifndef SLAM_WINDOW_HPP
 #define SLAM_WINDOW_HPP
 
+#include "../../third_party/imgui/imgui.h"
+#include "../../third_party/imgui/imgui_impl_opengl3.h"
+#include "../../third_party/imgui/imgui_impl_sdl3.h"
 #include "../common.hpp"
 #include "../err/err_sys.hpp"
 #include "../evt/evt_sys.hpp"
 #include "../math/mathf.hpp"
-#include "../third_party/imgui/imgui.h"
-#include "../third_party/imgui/imgui_impl_opengl3.h"
-#include "../third_party/imgui/imgui_impl_sdl3.h"
 #include <SDL3/SDL.h>
 #include <string>
 

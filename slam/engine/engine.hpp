@@ -1,11 +1,11 @@
 #ifndef SLAM_ENGINE_HPP
 #define SLAM_ENGINE_HPP
 
+#include "../third_party/glad/glad.h"
 #include "common.hpp"
 #include "dpy/window.hpp"
 #include "err/err_sys.hpp"
 #include "evt/evt_sys.hpp"
-#include "third_party/glad/glad.h"
 // #include "gfx/renderer.hpp"
 #include <SDL3/SDL.h>
 

@@ -1,12 +1,12 @@
 #ifndef SLAM_RENDERER_HPP
 #define SLAM_RENDERER_HPP
 
+#include "../../third_party/glad/glad.h"
 #include "../common.hpp"
 #include "../dpy/window.hpp"
 #include "../list.hpp"
 #include "../math/mathf.hpp"
 #include "../scn/transform.hpp"
-#include "../third_party/glad/glad.h"
 #include "../util/file.hpp"
 #include "shader.hpp"
 #include <SDL3/SDL.h>

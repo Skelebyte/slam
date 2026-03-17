@@ -1,10 +1,10 @@
 #ifndef SLAM_MESH_HPP
 #define SLAM_MESH_HPP
 
+#include "../../third_party/ufbx/ufbx.h"
 #include "../common.hpp"
 #include "../err/err_sys.hpp"
 #include "../list.hpp"
-#include "../third_party/ufbx/ufbx.h"
 #include "../util/file.hpp"
 #include "vertex.hpp"
 

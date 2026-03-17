@@ -14,7 +14,7 @@ project "slam"
       libdirs { "slam/third_party/SDL/lib" }
    filter {  }
 
-   links { "SDL3", "m", "reactphysics3d" }
+   links { "SDL3", "m" }
 
 
 

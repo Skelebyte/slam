@@ -1,9 +1,9 @@
 #ifndef GRAPHICS_HPP
 #define GRAPHICS_HPP
 
+#include "../../third_party/glad/glad.h"
 #include "../common.hpp"
 #include "../err/err_sys.hpp"
-#include "../third_party/glad/glad.h"
 #include "vbo.hpp"
 
 namespace slam::gfx {
