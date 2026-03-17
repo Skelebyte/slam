@@ -3,9 +3,9 @@
 
 #include "../common.hpp"
 #include "../dpy/window.hpp"
-#include "../ext/glad/glad.h"
 #include "../list.hpp"
 #include "../math/mathf.hpp"
+#include "../third_party/glad/glad.h"
 #include "../util/file.hpp"
 #include "color.hpp"
 #include <SDL3/SDL.h>

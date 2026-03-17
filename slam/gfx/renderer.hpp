@@ -3,10 +3,10 @@
 
 #include "../common.hpp"
 #include "../dpy/window.hpp"
-#include "../ext/glad/glad.h"
 #include "../list.hpp"
 #include "../math/mathf.hpp"
 #include "../scn/transform.hpp"
+#include "../third_party/glad/glad.h"
 #include "../util/file.hpp"
 #include "shader.hpp"
 #include <SDL3/SDL.h>

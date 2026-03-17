@@ -1,7 +1,7 @@
 #ifndef SLAM_COMMON_HPP
 #define SLAM_COMMON_HPP
 
-// #include "ext/HandmadeMath.h"
+// #include "third_party/HandmadeMath.h"
 #include <cstdint>
 #include <iostream>
 #include <memory>

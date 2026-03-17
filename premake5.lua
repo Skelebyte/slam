@@ -10,8 +10,8 @@ project "slam"
    files { "src/*.cpp", "slam/**.cpp", "slam/**.hpp", "slam/**.c", "slam/**.h" }
 
    filter "system:windows" 
-      includedirs { "slam/ext/SDL/include" }
-      libdirs { "slam/ext/SDL/lib" }
+      includedirs { "slam/third_party/SDL/include" }
+      libdirs { "slam/third_party/SDL/lib" }
    filter {  }
 
    links { "SDL3", "m", "reactphysics3d" }

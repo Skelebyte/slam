@@ -5,9 +5,6 @@
 #include "../slam/entities/mesh_renderer.hpp"
 #include "../slam/err/err_sys.hpp"
 #include "../slam/evt/evt_sys.hpp"
-#include "../slam/ext/imgui/imgui.h"
-#include "../slam/ext/imgui/imgui_impl_opengl3.h"
-#include "../slam/ext/imgui/imgui_impl_sdl3.h"
 #include "../slam/gfx/ebo.hpp"
 #include "../slam/gfx/renderer.hpp"
 #include "../slam/gfx/shader.hpp"
@@ -18,6 +15,9 @@
 #include "../slam/math/mathf.hpp"
 #include "../slam/res/mesh.hpp"
 #include "../slam/scn/entity.hpp"
+#include "../slam/third_party/imgui/imgui.h"
+#include "../slam/third_party/imgui/imgui_impl_opengl3.h"
+#include "../slam/third_party/imgui/imgui_impl_sdl3.h"
 #include "../slam/time.hpp"
 
 using namespace slam::err;

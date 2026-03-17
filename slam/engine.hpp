@@ -5,7 +5,7 @@
 #include "dpy/window.hpp"
 #include "err/err_sys.hpp"
 #include "evt/evt_sys.hpp"
-#include "ext/glad/glad.h"
+#include "third_party/glad/glad.h"
 // #include "gfx/renderer.hpp"
 #include <SDL3/SDL.h>
 

@@ -3,7 +3,7 @@
 
 #include "../common.hpp"
 #include "../err/err_sys.hpp"
-#include "../ext/glad/glad.h"
+#include "../third_party/glad/glad.h"
 
 namespace slam::gfx {
 struct VBO : public Destroyable, public ID {

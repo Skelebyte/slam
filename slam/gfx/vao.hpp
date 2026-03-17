@@ -3,7 +3,7 @@
 
 #include "../common.hpp"
 #include "../err/err_sys.hpp"
-#include "../ext/glad/glad.h"
+#include "../third_party/glad/glad.h"
 #include "vbo.hpp"
 
 namespace slam::gfx {

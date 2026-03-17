@@ -3,8 +3,8 @@
 
 #include "../common.hpp"
 #include "../err/err_sys.hpp"
-#include "../ext/glad/glad.h"
-#include "../ext/stb/stb_image.h"
+#include "../third_party/glad/glad.h"
+#include "../third_party/stb/stb_image.h"
 #include "../util/file.hpp"
 
 namespace slam::gfx {

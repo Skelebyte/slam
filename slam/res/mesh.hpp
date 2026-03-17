@@ -3,8 +3,8 @@
 
 #include "../common.hpp"
 #include "../err/err_sys.hpp"
-#include "../ext/ufbx/ufbx.h"
 #include "../list.hpp"
+#include "../third_party/ufbx/ufbx.h"
 #include "../util/file.hpp"
 #include "vertex.hpp"
 

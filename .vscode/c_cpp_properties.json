@@ -4,7 +4,7 @@
             "name": "Win32",
             "includePath": [
                 "${default}",
-                "slam\\ext\\SDL\\include"
+                "slam\\third_party\\SDL\\include"
             ],
             "windowsSdkVersion": "10.0.26100.0",
             "compilerPath": "cl.exe",
