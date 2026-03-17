@@ -87,6 +87,8 @@ struct MeshRenderer : public Entity {
       return;
     }
 
+    Engine::SetDrawnEntities(Engine::GetDrawnEntities() + 1);
+
     model = Mat4(1.0f);
 
     model = glm::translate(model, transform.GetInheritedPosition());

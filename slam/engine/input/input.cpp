@@ -126,12 +126,12 @@ math::Vec2 Input::GetMousePosition() {
 
 void Input::SetCursor(bool locked, bool hidden) {
   if (locked) {
-    SDL_SetWindowRelativeMouseMode(Engine::Get().window->GetSDLWindow(), true);
-    SDL_WarpMouseInWindow(Engine::Get().window->GetSDLWindow(),
-                          (f32)Engine::Get().window->GetDimensions().x / 2,
-                          (f32)Engine::Get().window->GetDimensions().y / 2);
+    SDL_SetWindowRelativeMouseMode(Engine::GetWindow()->GetSDLWindow(), true);
+    SDL_WarpMouseInWindow(Engine::GetWindow()->GetSDLWindow(),
+                          (f32)Engine::GetWindow()->GetDimensions().x / 2,
+                          (f32)Engine::GetWindow()->GetDimensions().y / 2);
   } else {
-    SDL_SetWindowRelativeMouseMode(Engine::Get().window->GetSDLWindow(), false);
+    SDL_SetWindowRelativeMouseMode(Engine::GetWindow()->GetSDLWindow(), false);
   }
 
   if (hidden) {

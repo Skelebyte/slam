@@ -59,7 +59,7 @@ struct Camera : public Entity {
 
     projection =
         glm::perspective(Mathf::ToRadians(fov),
-                         Engine::Get().window->GetViewportAspect(), near, far);
+                         Engine::GetWindow()->GetViewportAspect(), near, far);
 
     shader->Bind();
     shader->GetUniform("view")->SetValue(view);

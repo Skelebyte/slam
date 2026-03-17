@@ -40,7 +40,7 @@ Entity::Entity() {
   vaoBillboard.Unbind();
   eboBillboard.Unbind();
 
-  EntityManager::Get().AddEntity(this);
+  EntityManager::AddEntity(this);
 
   drawDebugIcon = false;
 }
@@ -48,9 +48,9 @@ Entity::Entity() {
 Entity::~Entity() { Destroy(); }
 
 void Entity::Destroy() {
-
   // DESTROY();
-  EntityManager::Get().RemoveEntity(this);
+
+  EntityManager::RemoveEntity(this);
 }
 
 void Entity::Update() {
@@ -58,8 +58,8 @@ void Entity::Update() {
 
   transform.Process();
 
-  // if (!Engine::Get().drawEntityIcons || !drawDebugIcon)
-  //   return;
+  if (Engine::GetDrawEntityIcons() == false || drawDebugIcon == false)
+    return;
 
   if (!drawDebugIcon)
     return;

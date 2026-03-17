@@ -63,17 +63,14 @@ i32 main() {
   physMesh.material.color = RGB(1, 0, 0);
 
   while (window.IsRunning()) {
-    Engine::Get().BeginFrame();
-    Engine::Get().drawEntityIcons = true;
+    Engine::BeginFrame();
 
     window.Update();
 
     if (Input::GetKeyOnce(&toggleWireframe)) {
       Renderer::Get().ToggleWireframe();
     }
-    if (Input::GetKeyOnce(&toggleIcons)) {
-      Engine::Get().drawEntityIcons = !Engine::Get().drawEntityIcons;
-    }
+
     if (Input::GetKeyOnce(&toggleFullscreen)) {
       window.ToggleFullscreen();
     }
@@ -120,13 +117,13 @@ i32 main() {
     ImGui::Text("FPS: %d", Engine::Get().GetFps());
     ImGui::Text("Delta Time: %f", Time::DeltaTime());
     ImGui::Text("Entities: %d", EntityManager::GetNumberOfEntities());
+    ImGui::Text("Drawn Entities: %d", Engine::GetDrawnEntities());
     // ImGui::Text("Bodies: %d", Physics::GetNumberOfBodies());
     ImGui::DragFloat3("Player Position",
                       glm::value_ptr(player.transform.position));
     ImGui::DragFloat("Culling Angle", &cam.cullingAngle, 0.05f, -1.0f, 1.0f);
     ImGui::DragFloat("Culling Distance", &cam.cullingDistance, 0.5f, 0.0f,
                      100.0f);
-    ImGui::Text("Press SPACE to spawn 10 spheres in the sky");
     if (ImGui::Button("Quit")) {
       window.Stop();
     }
@@ -134,11 +131,11 @@ i32 main() {
 
     window.SwapAndClear();
 
-    Engine::Get().EndFrame();
+    Engine::EndFrame();
     // window.Stop();
   }
 
-  EntityManager::Get().DestroyAll();
+  EntityManager::DestroyAll();
 
   /*
     FIXME:
@@ -150,5 +147,5 @@ i32 main() {
   ImGui::DestroyContext();
   Renderer::Get().Shutdown();
   window.Destroy();
-  Engine::Get().Shutdown();
+  Engine::Shutdown();
 }

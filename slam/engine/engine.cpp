@@ -6,7 +6,7 @@ using namespace slam::evt;
 using namespace slam::err;
 
 void Engine::Init(u32 fps) {
-  if (initialized) {
+  if (Get().initialized) {
     THROW_ERROR(WARNING.Derived("", "Engine is already initialized!"));
     return;
   }
@@ -21,46 +21,48 @@ void Engine::Init(u32 fps) {
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 
-  initialized = true;
-
-  last = SDL_GetTicks() / 1000.0f;
+  Get().last = SDL_GetTicks() / 1000.0f;
 
   SetTargetFps(fps);
+
+  Get().initialized = true;
 }
 
 void Engine::Shutdown() { EventSystem::Get().OnQuit.Invoke(); }
 
 void Engine::BeginFrame() {
-  isProcessFrame = false;
-  first = SDL_GetTicks() / 1000.0f;
+  Get().isProcessFrame = false;
+  Get().first = SDL_GetTicks() / 1000.0f;
 
-  deltaTime = first - last;
+  Get().deltaTime = Get().first - Get().last;
 
-  last = first;
+  Get().last = Get().first;
 
-  processedDeltaTime += deltaTime;
-  frameTime += deltaTime;
+  Get().processedDeltaTime += Get().deltaTime;
+  Get().frameTime += Get().deltaTime;
 
-  while (processedDeltaTime >= targetFps) {
-    processedDeltaTime -= targetFps;
-    isProcessFrame = true;
+  while (Get().processedDeltaTime >= Get().targetFps) {
+    Get().processedDeltaTime -= Get().targetFps;
+    Get().isProcessFrame = true;
 
-    if (frameTime >= 1.0f) {
-      frameTime = 0.0f;
-      fps = frames;
-      frames = 0;
+    if (Get().frameTime >= 1.0f) {
+      Get().frameTime = 0.0f;
+      Get().fps = Get().frames;
+      Get().frames = 0;
     }
   }
 
-  if (isProcessFrame) {
-    frames++;
+  if (Get().isProcessFrame) {
+    Get().frames++;
   }
 }
 
 void Engine::EndFrame() {
-  if (!isProcessFrame) {
+  if (!Get().isProcessFrame) {
     SDL_Delay(10);
   }
+
+  SetDrawnEntities(0);
 }
 
 bool Engine::IsProcessFrame() { return Get().isProcessFrame; }
@@ -69,8 +71,32 @@ void Engine::SetTargetFps(u32 fps) {
 
   LOG("fps: " << fps);
 
-  targetFps = 1.0f / (f32)fps;
-  LOG("tfps: " << targetFps);
+  Get().targetFps = 1.0f / (f32)fps;
+  LOG("tfps: " << Get().targetFps);
 }
 
-u32 Engine::GetFps() const { return fps; }
+u32 Engine::GetFps() { return Get().fps; }
+
+void Engine::SetWindow(dpy::Window *window) { Get().window = window; }
+
+dpy::Window *Engine::GetWindow() { return Get().window; }
+
+void Engine::SetDrawEntityIcons(bool value) { Get().drawEntityIcons = true; }
+
+bool Engine::GetDrawEntityIcons() { return Get().drawEntityIcons; }
+
+f32 Engine::GetDeltaTime() { return Get().deltaTime; }
+
+void Engine::SetTimeScale(f32 value) {
+  if (value <= 0.0f) {
+    Get().timeScale = 0.01f;
+    return;
+  }
+
+  Get().timeScale = value;
+}
+f32 Engine::GetTimeScale() { return Get().timeScale; }
+
+void Engine::SetDrawnEntities(u32 value) { Get().drawnEntities = value; }
+
+u32 Engine::GetDrawnEntities() { return Get().drawnEntities; }

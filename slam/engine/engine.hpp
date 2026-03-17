@@ -12,20 +12,28 @@
 namespace slam {
 
 struct Engine : public Singleton<Engine> {
-  void Init(u32 fps = 60);
-  void Shutdown();
-  void BeginFrame();
-  void EndFrame();
+  static void Init(u32 fps = 60);
+  static void Shutdown();
+  static void BeginFrame();
+  static void EndFrame();
   static bool IsProcessFrame();
-  void SetTargetFps(u32 fps);
-  u32 GetFps() const;
+  static void SetTargetFps(u32 fps);
+  static u32 GetFps();
+  static void SetWindow(dpy::Window *window);
+  static dpy::Window *GetWindow();
+  static void SetDrawEntityIcons(bool value);
+  static bool GetDrawEntityIcons();
+  static f32 GetDeltaTime();
+  static void SetTimeScale(f32 value);
+  static f32 GetTimeScale();
+  static void SetDrawnEntities(u32 value);
+  static u32 GetDrawnEntities();
 
-  Ptr<dpy::Window> window = nullptr;
+private:
+  dpy::Window *window;
   f32 deltaTime;
   f32 timeScale = 1.0f;
   bool drawEntityIcons;
-
-private:
   bool isProcessFrame = true;
   f32 targetFps;
   u32 fps;
@@ -34,6 +42,7 @@ private:
   f32 processedDeltaTime;
   f32 first;
   f32 last;
+  u32 drawnEntities;
 };
 
 } // namespace slam

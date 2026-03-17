@@ -35,7 +35,7 @@ Window::Window(const str &name, u32 w, u32 h, bool resizable, bool fullscreen) {
 
   EventSystem::Get().OnError += dpy::ErrorWindow;
 
-  Engine::Get().window = this;
+  Engine::SetWindow(this);
 
   this->title = name;
   this->fullscreen = fullscreen;
@@ -48,7 +48,7 @@ void Window::Destroy() {
 
   SDL_DestroyWindow(sdlWindow);
 
-  Engine::Get().window = nullptr;
+  Engine::SetWindow(nullptr);
 }
 
 void Window::PopupWindow(const str &title, const str &message,
@@ -197,9 +197,9 @@ void dpy::ErrorWindow() {
        ErrorSystem::Get().enablePopupOnErrors) == false)
     return;
 
-  Engine::Get().window->PopupWindow(ErrorSystem::Get().lastError->GetName(),
-                                    ErrorSystem::Get().lastError->GetDesc(),
-                                    true);
+  Engine::GetWindow()->PopupWindow(ErrorSystem::Get().lastError->GetName(),
+                                   ErrorSystem::Get().lastError->GetDesc(),
+                                   true);
 }
 
 void Window::SetTitle(const str &title) {
