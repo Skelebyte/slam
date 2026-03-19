@@ -25,7 +25,7 @@ void Renderer::Init(dpy::Window *window) {
 
   SDL_GL_MakeCurrent(window->GetSDLWindow(), Get().gl);
 
-  if (!gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress)) {
+  if (gladLoadGL((GLADloadfunc)SDL_GL_GetProcAddress) == 0) {
     THROW_ERROR(FATAL.Derived("", "Failed to initialize glad! remind me to "
                                   "come back here add a get_error func"));
   }
@@ -54,7 +54,7 @@ void Renderer::Init(dpy::Window *window) {
   GetShader("default")->AddUniform("color");
   GetShader("default")->AddUniform("light_position");
   GetShader("default")->AddUniform("ambient_color");
-  GetShader("default")->AddUniform("sky_color");
+  GetShader("default")->AddUniform("fog_color");
   GetShader("default")->AddUniform("camera_position");
   GetShader("default")->AddUniform("density");
   GetShader("default")->AddUniform("gradient");
@@ -179,3 +179,15 @@ void Renderer::SetCameraProjection(Mat4 *value) {
 }
 
 Mat4 *Renderer::GetCameraProjectionPtr() { return Get().cameraProjection; }
+
+void Renderer::SetSkyColor(Vec3 color) { Get().skyColor = color; }
+
+Vec3 Renderer::GetSkyColor() { return Get().skyColor; }
+
+Vec3 *Renderer::GetSkyColorPtr() { return &Get().skyColor; }
+
+void Renderer::SetFogColor(Vec3 color) { Get().fogColor = color; }
+
+Vec3 Renderer::GetFogColor() { return Get().fogColor; }
+
+Vec3 *Renderer::GetFogColorPtr() { return &Get().fogColor; }

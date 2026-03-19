@@ -1,8 +1,9 @@
+#include <glm/gtc/type_ptr.hpp>
 #define SLAM_USING_NAMESPACES
 #include "../slam/slam.hpp"
 
 i32 main() {
-  Engine::Get().Init(999);
+  Engine::Get().Init(144);
   Window window = Window("Hi mum!", 800, 600, true, true);
   window.appendFpsToTitle = true;
   Renderer::Init(&window);
@@ -102,9 +103,10 @@ i32 main() {
     }
 
     // LOG(Mathf::ToString(rb.transform.position));
-    EntityManager::Get().UpdateAll();
+    EntityManager::UpdateAll();
 
-    glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+    glClearColor(Renderer::GetSkyColor().x, Renderer::GetSkyColor().y,
+                 Renderer::GetSkyColor().z, 1.0f);
 
     io.DisplaySize =
         ImVec2(window.GetViewportSize().x, window.GetViewportSize().y);
@@ -118,9 +120,16 @@ i32 main() {
     ImGui::Text("Delta Time: %f", Time::DeltaTime());
     ImGui::Text("Entities: %d", EntityManager::GetNumberOfEntities());
     ImGui::Text("Drawn Entities: %d", Engine::GetDrawnEntities());
+    if (ImGui::CollapsingHeader("Fog Settings")) {
+      ImGui::ColorEdit3("Sky Color",
+                        glm::value_ptr(*Renderer::GetSkyColorPtr()));
+      ImGui::ColorEdit3("Fog Color",
+                        glm::value_ptr(*Renderer::GetFogColorPtr()));
+    }
     // ImGui::Text("Bodies: %d", Physics::GetNumberOfBodies());
     ImGui::DragFloat3("Player Position",
                       glm::value_ptr(player.transform.position));
+    ImGui::DragFloat("Sensitivity", &cam.sens, 0.05f, 0.0f, 4.0f);
     ImGui::DragFloat("Culling Angle", &cam.cullingAngle, 0.05f, -1.0f, 1.0f);
     ImGui::DragFloat("Culling Distance", &cam.cullingDistance, 0.5f, 0.0f,
                      100.0f);

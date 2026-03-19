@@ -1,7 +1,6 @@
 #ifndef SLAM_EBO_HPP
 #define SLAM_EBO_HPP
 
-#include "../../third_party/glad/glad.h"
 #include "../common.hpp"
 #include "../err/err_sys.hpp"
 

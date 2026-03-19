@@ -1,7 +1,6 @@
 #ifndef SLAM_SHADER_HPP
 #define SLAM_SHADER_HPP
 
-#include "../../third_party/glad/glad.h"
 #include "../common.hpp"
 #include "../dpy/window.hpp"
 #include "../list.hpp"

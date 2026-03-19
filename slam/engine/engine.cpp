@@ -1,4 +1,5 @@
 #include "engine.hpp"
+#include "time.hpp"
 #include <SDL3/SDL_timer.h>
 
 using namespace slam;
@@ -59,7 +60,6 @@ void Engine::BeginFrame() {
 
 void Engine::EndFrame() {
   if (!Get().isProcessFrame) {
-    SDL_Delay(10);
   }
 
   SetDrawnEntities(0);

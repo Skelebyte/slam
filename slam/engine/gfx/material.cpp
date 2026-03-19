@@ -84,5 +84,6 @@ void Default::Bind() {
   shader->GetUniform("diffuse_texture")->SetValue(0);
   shader->GetUniform("color")->SetValue(color);
   shader->GetUniform("affected_by_fog")->SetValue(fog);
+  shader->GetUniform("fog_color")->SetValue(Renderer::GetFogColor());
   shader->GetUniform("unlit")->SetValue(unlit);
 }

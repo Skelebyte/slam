@@ -2,6 +2,7 @@
 #define SLAM_COMMON_HPP
 
 // #include "../../third_party/HandmadeMath.h"
+#include "../third_party/glad/gl.h"
 #include <cstdint>
 #include <iostream>
 #include <memory>

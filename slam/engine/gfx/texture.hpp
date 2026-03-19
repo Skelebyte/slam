@@ -1,7 +1,6 @@
 #ifndef SLAM_TEXTURE_HPP
 #define SLAM_TEXTURE_HPP
 
-#include "../../third_party/glad/glad.h"
 #include "../../third_party/stb/stb_image.h"
 #include "../common.hpp"
 #include "../err/err_sys.hpp"

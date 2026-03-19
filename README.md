@@ -5,3 +5,12 @@
 A game engine named slam because it feels like slamming my head against a wall.
 
 Project started 26/2/2026
+
+## Dependencies
+
+1. SDL3 (zlib)
+2. GLM (MIT)
+3. STB_Image (MIT)
+4. ImGui (MIT)
+5. UFBX (MIT)
+6. Glad (MIT)

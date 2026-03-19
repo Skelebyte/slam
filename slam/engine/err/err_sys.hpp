@@ -1,7 +1,7 @@
 #ifndef SLAM_ERR_SYS_HPP
 #define SLAM_ERR_SYS_HPP
 
-#include "../../third_party/glad/glad.h"
+#include "../common.hpp"
 #include "err.hpp"
 #include <iostream>
 

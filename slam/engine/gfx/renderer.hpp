@@ -1,7 +1,6 @@
 #ifndef SLAM_RENDERER_HPP
 #define SLAM_RENDERER_HPP
 
-#include "../../third_party/glad/glad.h"
 #include "../common.hpp"
 #include "../dpy/window.hpp"
 #include "../list.hpp"
@@ -35,6 +34,12 @@ struct Renderer : public Singleton<Renderer> {
   static math::Mat4 *GetCameraViewPtr();
   static void SetCameraProjection(math::Mat4 *value);
   static math::Mat4 *GetCameraProjectionPtr();
+  static void SetSkyColor(math::Vec3 color);
+  static math::Vec3 GetSkyColor();
+  static math::Vec3 *GetSkyColorPtr();
+  static void SetFogColor(math::Vec3 color);
+  static math::Vec3 GetFogColor();
+  static math::Vec3 *GetFogColorPtr();
 
 private:
   scn::Transform *cameraTransform = nullptr;
@@ -42,6 +47,8 @@ private:
   f32 *cameraCullingDistance = nullptr;
   math::Mat4 *cameraView = nullptr;
   math::Mat4 *cameraProjection = nullptr;
+  math::Vec3 skyColor = math::Vec3(0.1f);
+  math::Vec3 fogColor = math::Vec3(0.1f);
   str shaderPath;
   List<Shader> shaders;
   SDL_GLContext gl;

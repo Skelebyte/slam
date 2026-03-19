@@ -16,7 +16,7 @@ uniform vec3 color = vec3(1.0, 1.0, 1.0);
 uniform vec3 light_position = vec3(1, 1, -1);
 uniform vec3 ambient_color = vec3(0.1, 0.1, 0.1);
 
-uniform vec3 sky_color = vec3(0.1, 0.1, 0.1);
+uniform vec3 fog_color = vec3(0.1, 0.1, 0.1);
 
 uniform vec3 camera_position;
 
@@ -31,7 +31,7 @@ vec4 fog(vec4 mixer) {
   float visibility = exp(-pow((distance * density), gradient));
   visibility = clamp(visibility, 0.0, 1.0);
 
-  return mix(vec4(sky_color, 1.0), mixer, visibility);
+  return mix(vec4(fog_color, 1.0), mixer, visibility);
 }
 
 void main() {

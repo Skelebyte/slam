@@ -82,7 +82,6 @@ GENERATED += $(OBJDIR)/err_sys.o
 GENERATED += $(OBJDIR)/evt.o
 GENERATED += $(OBJDIR)/evt_sys.o
 GENERATED += $(OBJDIR)/file.o
-GENERATED += $(OBJDIR)/glad.o
 GENERATED += $(OBJDIR)/imgui.o
 GENERATED += $(OBJDIR)/imgui_demo.o
 GENERATED += $(OBJDIR)/imgui_draw.o
@@ -116,7 +115,6 @@ OBJECTS += $(OBJDIR)/err_sys.o
 OBJECTS += $(OBJDIR)/evt.o
 OBJECTS += $(OBJDIR)/evt_sys.o
 OBJECTS += $(OBJDIR)/file.o
-OBJECTS += $(OBJDIR)/glad.o
 OBJECTS += $(OBJDIR)/imgui.o
 OBJECTS += $(OBJDIR)/imgui_demo.o
 OBJECTS += $(OBJDIR)/imgui_draw.o
@@ -275,9 +273,6 @@ $(OBJDIR)/time.o: slam/engine/time.cpp
 $(OBJDIR)/file.o: slam/engine/util/file.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-$(OBJDIR)/glad.o: slam/third_party/glad/glad.c
-	@echo "$(notdir $<)"
-	$(SILENT) $(CC) $(ALL_CFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/imgui.o: slam/third_party/imgui/imgui.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
