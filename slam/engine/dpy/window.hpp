@@ -32,6 +32,7 @@ struct Window : public Destroyable {
   void ToggleFullscreen();
 
   bool appendFpsToTitle;
+  bool blackBars = true;
 
 private:
   bool running;

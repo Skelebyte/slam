@@ -1,5 +1,6 @@
 #include "window.hpp"
 #include "../engine.hpp"
+#include "../gfx/renderer.hpp"
 #include <SDL3/SDL_messagebox.h>
 #include <SDL3/SDL_video.h>
 
@@ -8,6 +9,7 @@ using namespace slam::dpy;
 using namespace slam::evt;
 using namespace slam::err;
 using namespace slam::math;
+using namespace slam::gfx;
 
 Window::Window(const str &name, u32 w, u32 h, bool resizable, bool fullscreen) {
   if (Engine::Get().IsInitialized() == false) {
@@ -109,14 +111,28 @@ void Window::Update() {
     this->viewportPosition.y = (dimensions.y - this->viewportSize.y) / 2;
     this->letterboxed = true;
   }
-
-  glClear(GL_COLOR_BUFFER_BIT |
-          GL_DEPTH_BUFFER_BIT); // MOVE TO RENDERER/gfx (?)
-  THROW_ERROR_GL(FATAL.Derived("GL_CLEAR_FAIL"));
+  if (blackBars) {
+    glDisable(GL_SCISSOR_TEST);
+    glClearColor(0, 0, 0, 1);
+    glClear(GL_COLOR_BUFFER_BIT); // MOVE TO RENDERER/gfx (?)
+    THROW_ERROR_GL(FATAL.Derived("GL_CLEAR_FAIL"));
+  }
 
   glViewport(this->viewportPosition.x, this->viewportPosition.y,
              this->viewportSize.x, this->viewportSize.y);
   THROW_ERROR_GL(FATAL.Derived("GL_VIEWPORT_FAIL"));
+
+  if (blackBars) {
+    glEnable(GL_SCISSOR_TEST);
+    glScissor(viewportPosition.x, viewportPosition.y, viewportSize.x,
+              viewportSize.y);
+  } else {
+    glDisable(GL_SCISSOR_TEST);
+  }
+
+  glClearColor(Renderer::GetSkyColor().x, Renderer::GetSkyColor().y,
+               Renderer::GetSkyColor().z, 1.0f);
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   if (appendFpsToTitle) {
     SetTitle(title + " (" + std::to_string(Engine::Get().GetFps()) + " fps)");
@@ -141,8 +157,6 @@ void Window::SwapAndClear() {
     THROW_ERROR(FATAL.Derived("", "SDL failed to swap buffers. SDL error: " +
                                       str(SDL_GetError())));
   }
-
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 Vec2 Window::GetDimensions() {

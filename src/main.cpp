@@ -3,10 +3,11 @@
 #include "../slam/slam.hpp"
 
 i32 main() {
-  Engine::Get().Init(144);
+  Engine::Get().Init(999);
   Window window = Window("Hi mum!", 800, 600, true, true);
   window.appendFpsToTitle = true;
   Renderer::Init(&window);
+  UIContext::Init();
 
   Keybind toggleWireframe = Keybind(Keycode::F1);
   Keybind toggleIcons = Keybind(Keycode::F2);
@@ -49,19 +50,18 @@ i32 main() {
   f32 g = 0.0f;
   f32 b = 0.0f;
 
-  IMGUI_CHECKVERSION();
-  ImGui::CreateContext();
-  ImGuiIO &io = ImGui::GetIO();
-
-  ImGui::StyleColorsDark();
-
-  ImGui_ImplSDL3_InitForOpenGL(window.GetSDLWindow(), Renderer::GetGLContext());
-  ImGui_ImplOpenGL3_Init("#version 330");
-
-  io.Fonts->AddFontFromFileTTF("assets/fonts/RobotoMono.ttf", 18);
-
   MeshRenderer physMesh = MeshRenderer("assets/models/sphere.fbx");
   physMesh.material.color = RGB(1, 0, 0);
+  MeshRenderer physMesh2 = MeshRenderer("assets/models/sphere.fbx");
+  physMesh2.material.color = RGB(0, 1, 0);
+  physMesh2.transform.position.y = 1.0f;
+
+  window.blackBars = false;
+
+  f32 vel1 = 5.0f;
+  f32 vel2 = 5.0f;
+
+  f32 scale = Time::GetTimeScale();
 
   while (window.IsRunning()) {
     Engine::BeginFrame();
@@ -102,22 +102,35 @@ i32 main() {
       // SpawnBalls(cam.transform.GetInheritedPosition());
     }
 
+    physMesh.transform.position.x += vel1 * Time::DeltaTime(true);
+
+    if (physMesh.transform.position.x > 5.0f ||
+        physMesh.transform.position.x < -5.0f)
+      vel1 = -vel1;
+
+    physMesh2.transform.position.x += vel2 * Time::DeltaTime();
+
+    if (physMesh2.transform.position.x > 5.0f ||
+        physMesh2.transform.position.x < -5.0f)
+      vel2 = -vel2;
+
     // LOG(Mathf::ToString(rb.transform.position));
     EntityManager::UpdateAll();
 
-    glClearColor(Renderer::GetSkyColor().x, Renderer::GetSkyColor().y,
-                 Renderer::GetSkyColor().z, 1.0f);
-
-    io.DisplaySize =
-        ImVec2(window.GetViewportSize().x, window.GetViewportSize().y);
+    UIContext::GetIO()->DisplaySize =
+        ImVec2(Engine::GetWindow()->GetViewportSize().x,
+               Engine::GetWindow()->GetViewportSize().y);
     ImGui::SetNextWindowPos(
-        ImVec2(window.GetViewportPosition().x, window.GetViewportPosition().y));
+        ImVec2(Engine::GetWindow()->GetViewportPosition().x,
+               Engine::GetWindow()->GetViewportPosition().y));
     ImGui::SetNextWindowSize(ImVec2(0, 0));
 
     ImGui::Begin("viewport", nullptr,
                  ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoBackground);
-    ImGui::Text("FPS: %d", Engine::Get().GetFps());
-    ImGui::Text("Delta Time: %f", Time::DeltaTime());
+    ImGui::Text("FPS: %d", Engine::GetFps());
+    ImGui::Text("Delta Time: %f (* %f)", Time::DeltaTime(),
+                Time::GetTimeScale());
+    ImGui::DragFloat("Time scale", &scale, 0.1f, -1.0f, 1.0f);
     ImGui::Text("Entities: %d", EntityManager::GetNumberOfEntities());
     ImGui::Text("Drawn Entities: %d", Engine::GetDrawnEntities());
     if (ImGui::CollapsingHeader("Fog Settings")) {
@@ -133,12 +146,16 @@ i32 main() {
     ImGui::DragFloat("Culling Angle", &cam.cullingAngle, 0.05f, -1.0f, 1.0f);
     ImGui::DragFloat("Culling Distance", &cam.cullingDistance, 0.5f, 0.0f,
                      100.0f);
+    ImGui::Checkbox("Blackbars", &window.blackBars);
     if (ImGui::Button("Quit")) {
       window.Stop();
     }
+
     ImGui::End();
 
     window.SwapAndClear();
+
+    Time::SetTimeScale(scale);
 
     Engine::EndFrame();
     // window.Stop();
@@ -151,9 +168,7 @@ i32 main() {
     calling Renderer::Shutdown() down after window.Destroy causes
     segfault (???)
   */
-  ImGui_ImplOpenGL3_Shutdown();
-  ImGui_ImplSDL3_Shutdown();
-  ImGui::DestroyContext();
+  UIContext::Shutdown();
   Renderer::Shutdown();
   window.Destroy();
   Engine::Shutdown();

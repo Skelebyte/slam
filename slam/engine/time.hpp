@@ -5,8 +5,9 @@
 
 namespace slam {
 struct Time {
-  static f32 DeltaTime();
+  static f32 DeltaTime(bool ignoreTimeScale = false);
   static void SetTimeScale(f32 scale);
+  static f32 GetTimeScale();
   static u64 MsToNs(u32 value);
 };
 } // namespace slam

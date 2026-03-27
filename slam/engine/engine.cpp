@@ -87,14 +87,7 @@ bool Engine::GetDrawEntityIcons() { return Get().drawEntityIcons; }
 
 f32 Engine::GetDeltaTime() { return Get().deltaTime; }
 
-void Engine::SetTimeScale(f32 value) {
-  if (value <= 0.0f) {
-    Get().timeScale = 0.01f;
-    return;
-  }
-
-  Get().timeScale = value;
-}
+void Engine::SetTimeScale(f32 value) { Get().timeScale = value; }
 f32 Engine::GetTimeScale() { return Get().timeScale; }
 
 void Engine::SetDrawnEntities(u32 value) { Get().drawnEntities = value; }

@@ -75,6 +75,7 @@ OBJECTS :=
 GENERATED += $(OBJDIR)/color.o
 GENERATED += $(OBJDIR)/common.o
 GENERATED += $(OBJDIR)/ebo.o
+GENERATED += $(OBJDIR)/element.o
 GENERATED += $(OBJDIR)/engine.o
 GENERATED += $(OBJDIR)/entity.o
 GENERATED += $(OBJDIR)/err.o
@@ -101,6 +102,7 @@ GENERATED += $(OBJDIR)/texture.o
 GENERATED += $(OBJDIR)/time.o
 GENERATED += $(OBJDIR)/transform.o
 GENERATED += $(OBJDIR)/ufbx.o
+GENERATED += $(OBJDIR)/ui_context.o
 GENERATED += $(OBJDIR)/vao.o
 GENERATED += $(OBJDIR)/vbo.o
 GENERATED += $(OBJDIR)/vertex.o
@@ -108,6 +110,7 @@ GENERATED += $(OBJDIR)/window.o
 OBJECTS += $(OBJDIR)/color.o
 OBJECTS += $(OBJDIR)/common.o
 OBJECTS += $(OBJDIR)/ebo.o
+OBJECTS += $(OBJDIR)/element.o
 OBJECTS += $(OBJDIR)/engine.o
 OBJECTS += $(OBJDIR)/entity.o
 OBJECTS += $(OBJDIR)/err.o
@@ -134,6 +137,7 @@ OBJECTS += $(OBJDIR)/texture.o
 OBJECTS += $(OBJDIR)/time.o
 OBJECTS += $(OBJDIR)/transform.o
 OBJECTS += $(OBJDIR)/ufbx.o
+OBJECTS += $(OBJDIR)/ui_context.o
 OBJECTS += $(OBJDIR)/vao.o
 OBJECTS += $(OBJDIR)/vbo.o
 OBJECTS += $(OBJDIR)/vertex.o
@@ -268,6 +272,12 @@ $(OBJDIR)/transform.o: slam/engine/scn/transform.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/time.o: slam/engine/time.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/element.o: slam/engine/ui/element.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/ui_context.o: slam/engine/ui/ui_context.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/file.o: slam/engine/util/file.cpp

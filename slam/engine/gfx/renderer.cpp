@@ -76,6 +76,8 @@ void Renderer::Init(dpy::Window *window) {
 }
 
 void Renderer::Shutdown() {
+  if (Get().initialized == false)
+    return;
   SDL_GL_DestroyContext(Get().gl);
 
   // clean up shaders
