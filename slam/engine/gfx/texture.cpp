@@ -7,14 +7,14 @@ using namespace slam::err;
 using namespace slam::util;
 
 Texture::Texture() {
-  u8 *data = Texture::CustomTexture(4, 4, 255, 255, 255, 200, 200, 200);
+  uchar *data = Texture::CustomTexture(4, 4, 255, 255, 255, 200, 200, 200);
   isValid = true;
   LoadFromData(data, 3, 4, 4);
 }
 
 Texture::Texture(const str &path, TextureFilter filter) {
   if (path.empty() == true) {
-    u8 *data = Texture::CustomTexture(4, 4, 255, 255, 255, 200, 200, 200);
+    uchar *data = Texture::CustomTexture(4, 4, 255, 255, 255, 200, 200, 200);
     isValid = true;
     LoadFromData(data, 3, 4, 4);
     return;
@@ -32,7 +32,7 @@ Texture::Texture(const str &path, TextureFilter filter) {
 
   i32 width, height, channels;
 
-  u8 *data;
+  uchar *data;
 
   data = stbi_load(path.c_str(), &width, &height, &channels, 0);
   if (!data) {
@@ -52,12 +52,12 @@ void Texture::Destroy() {
 }
 
 void Texture::TextureFallback() {
-  u8 *data = Texture::CustomTexture(4, 4, 255, 0, 255, 0, 0, 0);
+  uchar *data = Texture::CustomTexture(4, 4, 255, 0, 255, 0, 0, 0);
   isValid = false;
   LoadFromData(data, 3, 4, 4);
 }
 
-void Texture::LoadFromData(u8 *data, u32 channels, u32 width, u32 height,
+void Texture::LoadFromData(uchar *data, u32 channels, u32 width, u32 height,
                            TextureFilter filter) {
   if (!data) {
     THROW_ERROR(ERROR.Derived("", "The `data` parameter is not valid!"));
@@ -104,9 +104,9 @@ void Texture::LoadFromData(u8 *data, u32 channels, u32 width, u32 height,
   free(data);
 }
 
-u8 *Texture::CustomTexture(u32 width, u32 height, u32 r1, u32 g1, u32 b1,
-                           u32 r2, u32 g2, u32 b2) {
-  u8 *data = (u8 *)malloc(width * height * 3);
+uchar *Texture::CustomTexture(u32 width, u32 height, u32 r1, u32 g1, u32 b1,
+                              u32 r2, u32 g2, u32 b2) {
+  uchar *data = (uchar *)malloc(width * height * 3);
   for (i32 y = 0; y < height; y++) {
     for (i32 x = 0; x < width; x++) {
       f32 t = (f32)x / width;

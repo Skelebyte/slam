@@ -1,4 +1,5 @@
 #include "engine.hpp"
+#include "common.hpp"
 #include "time.hpp"
 #include <SDL3/SDL_timer.h>
 
@@ -6,7 +7,7 @@ using namespace slam;
 using namespace slam::evt;
 using namespace slam::err;
 
-void Engine::Init(u32 fps) {
+void Engine::Init(u16 fps) {
   if (Get().initialized) {
     THROW_ERROR(WARNING.Derived("", "Engine is already initialized!"));
     return;
@@ -67,11 +68,15 @@ void Engine::EndFrame() {
 
 bool Engine::IsProcessFrame() { return Get().isProcessFrame; }
 
-void Engine::SetTargetFps(u32 fps) {
+void Engine::SetTargetFps(u16 fps) {
 
   LOG("fps: " << fps);
 
-  Get().targetFps = 1.0f / (f32)fps;
+  if (fps > 999) {
+    Get().targetFps = 1.0f / 999.0f;
+  } else {
+    Get().targetFps = 1.0f / (f32)fps;
+  }
   LOG("tfps: " << Get().targetFps);
 }
 

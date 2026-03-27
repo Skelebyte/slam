@@ -1,9 +1,8 @@
-#include <glm/gtc/type_ptr.hpp>
 #define SLAM_USING_NAMESPACES
 #include "../slam/slam.hpp"
 
 i32 main() {
-  Engine::Get().Init(999);
+  Engine::Get().Init(-1);
   Window window = Window("Hi mum!", 800, 600, true, true);
   window.appendFpsToTitle = true;
   Renderer::Init(&window);

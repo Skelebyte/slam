@@ -11,12 +11,12 @@
 namespace slam {
 
 struct Engine : public Singleton<Engine> {
-  static void Init(u32 fps = 60);
+  static void Init(u16 = 60);
   static void Shutdown();
   static void BeginFrame();
   static void EndFrame();
   static bool IsProcessFrame();
-  static void SetTargetFps(u32 fps);
+  static void SetTargetFps(u16 fps);
   static u32 GetFps();
   static void SetWindow(dpy::Window *window);
   static dpy::Window *GetWindow();

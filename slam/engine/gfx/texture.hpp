@@ -18,10 +18,10 @@ struct Texture : public Destroyable, public ID {
   Texture(const str &path, TextureFilter filter = NEAREST);
   void Destroy() override;
   void TextureFallback();
-  void LoadFromData(u8 *data, u32 channels, u32 width, u32 height,
+  void LoadFromData(uchar *data, u32 channels, u32 width, u32 height,
                     TextureFilter filter = NEAREST);
-  static u8 *CustomTexture(u32 width, u32 height, u32 r1, u32 g1, u32 b1,
-                           u32 r2, u32 g2, u32 b2);
+  static uchar *CustomTexture(u32 width, u32 height, u32 r1, u32 g1, u32 b1,
+                              u32 r2, u32 g2, u32 b2);
   void Bind();
   void Unbind();
   bool IsValid() const;
