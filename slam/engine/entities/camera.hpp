@@ -66,8 +66,8 @@ struct Camera : public Entity {
     shader->GetUniform("projection")->SetValue(projection);
     shader->GetUniform("camera_position")
         ->SetValue(transform.GetInheritedPosition());
-    // shader->GetUniform("light_position")
-    //     ->SetValue(transform.GetInheritedPosition());
+    shader->GetUniform("light_position")
+        ->SetValue(transform.GetInheritedPosition());
     Entity::Update();
   }
 
@@ -85,8 +85,8 @@ struct Camera : public Entity {
 
     Vec2 mouse = Input::GetMousePosition();
 
-    f32 x = (-mouse.y) * sens * Time::DeltaTime();
-    f32 y = (-mouse.x) * sens * Time::DeltaTime();
+    f32 x = (-mouse.y) * sens / 1000;
+    f32 y = (-mouse.x) * sens / 1000;
 
     transform.rotation.x += Mathf::ToDegrees(x);
     if (transform.parent != nullptr) {
