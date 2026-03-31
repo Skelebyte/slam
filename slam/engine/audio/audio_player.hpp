@@ -8,12 +8,14 @@
 namespace slam::audio {
 
 struct AudioPlayer : public scn::Entity {
-  AudioPlayer(const str &path, bool global = false);
+  AudioPlayer(const str &path, bool global = true);
   void Destroy() override;
   void Update() override;
 
 protected:
   bool playing = false;
+  bool looping = false;
+  bool global = true;
   str path;
   u64 frame;
   ma_result result;

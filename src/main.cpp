@@ -2,7 +2,7 @@
 #include "../slam/slam.hpp"
 
 i32 main() {
-  Engine::Get().Init(-1);
+  Engine::Get().Init(999);
   Window window = Window("Hi mum!", 800, 600, true, true);
   window.appendFpsToTitle = true;
   Renderer::Init(&window);
@@ -15,6 +15,7 @@ i32 main() {
   player.transform.position.z = 5;
 
   Camera cam = Camera();
+  cam.fov = 200.0f;
   cam.transform.position.y = 1;
   cam.MakeChildOf(&player);
 
@@ -32,7 +33,7 @@ i32 main() {
 
   Keybind spawn = Keybind(Keycode::SPACE);
 
-  Keybind zoom = Keybind(Keycode::RMB);
+  // Keybind zoom = Keybind(Keycode::RMB);
 
   f32 defaultZoom = 75.0f;
   f32 fullZoom = 5.0f;
@@ -75,11 +76,11 @@ i32 main() {
       window.ToggleFullscreen();
     }
 
-    if (Input::GetKey(&zoom)) {
-      cam.fov = Mathf::Lerp(cam.fov, fullZoom, 5.0f * Time::DeltaTime());
-    } else {
-      cam.fov = Mathf::Lerp(cam.fov, defaultZoom, 5.0f * Time::DeltaTime());
-    }
+    // if (Input::GetKey(&zoom)) {
+    //   cam.fov = Mathf::Lerp(cam.fov, fullZoom, 5.0f * Time::DeltaTime());
+    // } else {
+    //   cam.fov = Mathf::Lerp(cam.fov, defaultZoom, 5.0f * Time::DeltaTime());
+    // }
 
     Vec3 velocity = Vec3();
     velocity += player.transform.Right() * ((f32)Input::GetAxis(horizontal));
