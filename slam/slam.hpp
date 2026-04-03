@@ -1,6 +1,9 @@
 #ifndef SLAM_SLAM_HPP
 #define SLAM_SLAM_HPP
 
+#include "engine/audio/audio_listener.hpp"
+#include "engine/audio/audio_manager.hpp"
+#include "engine/audio/audio_player.hpp"
 #include "engine/dpy/window.hpp"
 #include "engine/engine.hpp"
 #include "engine/entities/camera.hpp"
@@ -36,6 +39,7 @@ using namespace slam::res;
 using namespace slam::input;
 using namespace slam::entities;
 using namespace slam::ui;
+using namespace slam::audio;
 // using namespace slam::phys;
 using namespace slam;
 #endif

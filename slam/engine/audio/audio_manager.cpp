@@ -1,4 +1,6 @@
+#define MINIAUDIO_IMPLEMENTATION
 #include "audio_manager.hpp"
+#include "audio_listener.hpp"
 
 using namespace slam;
 using namespace slam::audio;
@@ -13,7 +15,7 @@ void AudioManager::Init() {
   if (Get().result != MA_SUCCESS) {
     THROW_ERROR(
         FATAL.Derived("", "Failed to initialize miniaudio! miniaudio error: " +
-                              ToStr(Get().result)));
+                              String::From(Get().result)));
     return;
   }
 
@@ -34,4 +36,40 @@ ma_engine *AudioManager::GetEngine() {
     return nullptr;
 
   return &Get().engine;
+}
+
+void AudioManager::SetListener(AudioListener *listener) {
+  if (Get().initialized == false)
+    return;
+
+  Get().listener = listener;
+}
+
+AudioListener *AudioManager::GetListener() {
+  if (Get().initialized == false)
+    return nullptr;
+
+  if (Get().listener == nullptr) {
+    THROW_ERROR(FATAL.Derived(
+        "", "There must be an AudioListener! Have you created one?"));
+    return nullptr;
+  }
+
+  return Get().listener;
+}
+
+void AudioManager::SetAllowPitchModifier(bool value) {
+  if (Get().initialized == false) {
+    return;
+  }
+
+  Get().canTimescaleModPitch = value;
+}
+
+bool AudioManager::GetAllowPitchModifier() {
+  if (Get().initialized == false) {
+    return false;
+  }
+
+  return Get().canTimescaleModPitch;
 }

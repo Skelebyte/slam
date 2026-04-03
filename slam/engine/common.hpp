@@ -32,11 +32,13 @@ template <typename T> using Ptr = T *;
 template <typename T> using UPtr = std::unique_ptr<T>;
 template <typename T> using SPtr = std::shared_ptr<T>;
 
-str ToStr(int value);
-str ToStr(double value);
-str ToStr(float value);
-str ToStr(char value);
-str ToStr(char *value);
+struct String {
+  static str From(i32 value);
+  static str From(f64 value);
+  static str From(f32 value);
+  static str From(char value);
+  static str From(char *value);
+};
 
 struct Destroyable {
   virtual void Destroy() { destroyed = true; };
@@ -53,7 +55,7 @@ template <typename T> struct Singleton {
     static T instance;
     return instance;
   }
-  bool IsInitialized() const { return initialized; }
+  static bool IsInitialized() { return Get().initialized; }
 
 protected:
   bool initialized = false;

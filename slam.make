@@ -72,6 +72,9 @@ endif
 GENERATED :=
 OBJECTS :=
 
+GENERATED += $(OBJDIR)/audio_listener.o
+GENERATED += $(OBJDIR)/audio_manager.o
+GENERATED += $(OBJDIR)/audio_player.o
 GENERATED += $(OBJDIR)/color.o
 GENERATED += $(OBJDIR)/common.o
 GENERATED += $(OBJDIR)/ebo.o
@@ -107,6 +110,9 @@ GENERATED += $(OBJDIR)/vao.o
 GENERATED += $(OBJDIR)/vbo.o
 GENERATED += $(OBJDIR)/vertex.o
 GENERATED += $(OBJDIR)/window.o
+OBJECTS += $(OBJDIR)/audio_listener.o
+OBJECTS += $(OBJDIR)/audio_manager.o
+OBJECTS += $(OBJDIR)/audio_player.o
 OBJECTS += $(OBJDIR)/color.o
 OBJECTS += $(OBJDIR)/common.o
 OBJECTS += $(OBJDIR)/ebo.o
@@ -205,6 +211,15 @@ endif
 # File Rules
 # #############################################
 
+$(OBJDIR)/audio_listener.o: slam/engine/audio/audio_listener.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/audio_manager.o: slam/engine/audio/audio_manager.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/audio_player.o: slam/engine/audio/audio_player.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/common.o: slam/engine/common.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
