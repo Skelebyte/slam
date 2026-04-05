@@ -211,9 +211,32 @@ void dpy::ErrorWindow() {
        ErrorSystem::Get().enablePopupOnErrors) == false)
     return;
 
-  Engine::GetWindow()->PopupWindow(ErrorSystem::Get().lastError->GetName(),
-                                   ErrorSystem::Get().lastError->GetDesc(),
-                                   true);
+  str severity = "";
+
+  switch (ErrorSystem::Get().lastError->GetSeverity()) {
+  case err::ES_MSG:
+    severity = "MSG";
+    break;
+  case err::ES_WARNING:
+    severity = "WARNING";
+    break;
+  case err::ES_ERROR:
+    severity = "ERROR";
+    break;
+  case err::ES_FATAL:
+    severity = "FATAL";
+    break;
+  default:
+    severity = "ERROR";
+    break;
+  }
+
+  Engine::GetWindow()->PopupWindow(
+      ErrorSystem::Get().lastError->GetName(),
+      ErrorSystem::Get().lastError->GetDesc() + "\n\nSource: \"" +
+          ErrorSystem::Get().file + "\"\nFunction: \"" +
+          ErrorSystem::Get().function + "\"\nSeverity: " + severity,
+      true);
 }
 
 void Window::SetTitle(const str &title) {

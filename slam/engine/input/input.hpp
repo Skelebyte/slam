@@ -90,7 +90,7 @@ struct Keybind {
 };
 
 struct InputAxis {
-  InputAxis(CRef<Keycode> pos, CRef<Keycode> neg);
+  InputAxis(CRef<Keycode> neg, CRef<Keycode> pos);
   Keycode positive;
   Keycode negative;
 };

@@ -9,7 +9,7 @@ Keybind::Keybind(Keycode code) {
   pressed = false;
 }
 
-InputAxis::InputAxis(CRef<Keycode> pos, CRef<Keycode> neg) {
+InputAxis::InputAxis(CRef<Keycode> neg, CRef<Keycode> pos) {
   this->positive = pos;
   this->negative = neg;
 }

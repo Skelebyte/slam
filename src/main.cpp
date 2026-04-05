@@ -1,16 +1,22 @@
 #define SLAM_USING_NAMESPACES
+// Tells the engine to use its entry point (main), creating a window with the
+// name "Demo"
 #define SLAM_USE_ENGINE_MAIN "Demo"
 #include "../slam/slam.hpp"
 
 MeshRenderer *mesh;
 Camera *camera;
 
+// Called when the app first starts. Before this the engine initializes the
+// window and other systems like audio.
 void App::Start() {
   mesh = new MeshRenderer("assets/models/cube.fbx");
   mesh->transform.position.z = -5;
   camera = new Camera();
+  THROW_ERROR(ERROR.Derived("New error name!", " New error description!"));
 }
 
+// Called every frame. Drawing and other processes are done behind the scenes.
 void App::Update() {
   camera->transform.position +=
       Mathf::Normalized(

@@ -5,6 +5,7 @@ workspace "slam"
 project "slam"
    kind "ConsoleApp"
    language "C++"
+   cppdialect "C++17"
    targetdir "bin/%{cfg.buildcfg}"
 
    files { "src/*.cpp", "slam/**.cpp", "slam/**.hpp", "slam/**.c", "slam/**.h" }
