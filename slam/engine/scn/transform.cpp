@@ -32,11 +32,11 @@ Vec3 Transform::Forward() const {
 Vec3 Transform::InheritedForward() const {
   // Vec3 forward = Vec3(0, 0, -1);
 
-  // forward = Mathf::RotateX(forward, GetInheritedRotation().x);
-  // forward = Mathf::RotateY(forward, GetInheritedRotation().y);
-  // forward = Mathf::RotateZ(forward, GetInheritedRotation().z);
+  // forward = Mathf::RotateX(forward, GetGlobalRotation().x);
+  // forward = Mathf::RotateY(forward, GetGlobalRotation().y);
+  // forward = Mathf::RotateZ(forward, GetGlobalRotation().z);
 
-  return GetInheritedRotation() * Vec3(0, 0, -1);
+  return GetGlobalRotation() * Vec3(0, 0, -1);
 }
 
 Vec3 Transform::Right() const {
@@ -45,29 +45,29 @@ Vec3 Transform::Right() const {
   // right = Mathf::RotateX(right, rotation.x);
   // right = Mathf::RotateY(right, rotation.y);
   // right = Mathf::RotateZ(right, rotation.z);
-  return GetInheritedRotation() * Vec3(1, 0, 0);
+  return GetGlobalRotation() * Vec3(1, 0, 0);
 }
 
-Vec3 Transform::GetInheritedPosition() const {
+Vec3 Transform::GetGlobalPosition() const {
   if (parent == nullptr) {
     return position;
   }
 
-  Vec3 result = parent->GetInheritedPosition() +
-                (parent->GetInheritedRotation() * position);
+  Vec3 result =
+      parent->GetGlobalPosition() + (parent->GetGlobalRotation() * position);
 
   return result;
 }
 
-Quat Transform::GetInheritedRotation() const {
+Quat Transform::GetGlobalRotation() const {
   Quat local = Mathf::ToQuat(rotation);
   if (parent == nullptr) {
     return local;
   }
-  return parent->GetInheritedRotation() * local;
+  return parent->GetGlobalRotation() * local;
 }
 
-Vec3 Transform::GetInheritedScale() const {
+Vec3 Transform::GetGlobalScale() const {
   Vec3 value = scale;
   if (parent != nullptr) {
     value *= parent->scale;

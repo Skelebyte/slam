@@ -52,8 +52,8 @@ struct Camera : public Entity {
     transform.Process();
     MouseLook();
 
-    view = glm::lookAt(transform.GetInheritedPosition(),
-                       transform.GetInheritedPosition() +
+    view = glm::lookAt(transform.GetGlobalPosition(),
+                       transform.GetGlobalPosition() +
                            transform.InheritedForward(),
                        Vec3(0, 1, 0));
 
@@ -65,9 +65,9 @@ struct Camera : public Entity {
     shader->GetUniform("view")->SetValue(view);
     shader->GetUniform("projection")->SetValue(projection);
     shader->GetUniform("camera_position")
-        ->SetValue(transform.GetInheritedPosition());
-    shader->GetUniform("light_position")
-        ->SetValue(transform.GetInheritedPosition());
+        ->SetValue(transform.GetGlobalPosition());
+    // shader->GetUniform("light_position")
+    //     ->SetValue(transform.GetGlobalPosition());
     Entity::Update();
   }
 

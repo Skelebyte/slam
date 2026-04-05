@@ -130,8 +130,8 @@ void Window::Update() {
     glDisable(GL_SCISSOR_TEST);
   }
 
-  glClearColor(Renderer::GetSkyColor().x, Renderer::GetSkyColor().y,
-               Renderer::GetSkyColor().z, 1.0f);
+  glClearColor(Renderer::GetSkyColor().r, Renderer::GetSkyColor().g,
+               Renderer::GetSkyColor().b, 1.0f);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   if (appendFpsToTitle) {

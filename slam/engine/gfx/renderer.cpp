@@ -182,14 +182,14 @@ void Renderer::SetCameraProjection(Mat4 *value) {
 
 Mat4 *Renderer::GetCameraProjectionPtr() { return Get().cameraProjection; }
 
-void Renderer::SetSkyColor(Vec3 color) { Get().skyColor = color; }
+void Renderer::SetSkyColor(RGB color) { Get().skyColor = color; }
 
-Vec3 Renderer::GetSkyColor() { return Get().skyColor; }
+RGB Renderer::GetSkyColor() { return Get().skyColor; }
 
-Vec3 *Renderer::GetSkyColorPtr() { return &Get().skyColor; }
+RGB *Renderer::GetSkyColorPtr() { return &Get().skyColor; }
 
-void Renderer::SetFogColor(Vec3 color) { Get().fogColor = color; }
+void Renderer::SetFogColor(RGB color) { Get().fogColor = color; }
 
-Vec3 Renderer::GetFogColor() { return Get().fogColor; }
+RGB Renderer::GetFogColor() { return Get().fogColor; }
 
-Vec3 *Renderer::GetFogColorPtr() { return &Get().fogColor; }
+RGB *Renderer::GetFogColorPtr() { return &Get().fogColor; }

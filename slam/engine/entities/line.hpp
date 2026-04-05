@@ -74,12 +74,12 @@ struct Line : public Entity {
 
     model = Mat4(1.0f);
 
-    model = glm::translate(model, transform.GetInheritedPosition());
+    model = glm::translate(model, transform.GetGlobalPosition());
 
     model *= glm::mat4_cast(
-        transform.GetInheritedRotation()); // convert to mat4x4 rotation
+        transform.GetGlobalRotation()); // convert to mat4x4 rotation
 
-    model = glm::scale(model, transform.GetInheritedScale());
+    model = glm::scale(model, transform.GetGlobalScale());
 
     shader->Bind();
     shader->GetUniform("model")->SetValue(model);

@@ -19,14 +19,14 @@ void AudioListener::Update() {
   transform.Process();
 
   // ma_engine_listener_set_direction(AudioManager::GetEngine(), 0,
-  //                                  -transform.GetInheritedPosition().x, 0,
-  //                                  -transform.GetInheritedPosition().z);
+  //                                  -transform.GetGlobalPosition().x, 0,
+  //                                  -transform.GetGlobalPosition().z);
 
   ma_engine_listener_set_position(
       AudioManager::GetEngine(), 0,
-      AudioManager::GetListener()->transform.GetInheritedPosition().x,
-      AudioManager::GetListener()->transform.GetInheritedPosition().y,
-      AudioManager::GetListener()->transform.GetInheritedPosition().z);
+      AudioManager::GetListener()->transform.GetGlobalPosition().x,
+      AudioManager::GetListener()->transform.GetGlobalPosition().y,
+      AudioManager::GetListener()->transform.GetGlobalPosition().z);
   ma_engine_listener_set_direction(
       AudioManager::GetEngine(), 0,
       AudioManager::GetListener()->transform.InheritedForward().x,

@@ -73,15 +73,15 @@ struct MeshRenderer : public Entity {
     }
 
     Vec3 direction = Mathf::Normalized(
-        transform.GetInheritedPosition() -
-        Renderer::GetCameraTransformPtr()->GetInheritedPosition());
+        transform.GetGlobalPosition() -
+        Renderer::GetCameraTransformPtr()->GetGlobalPosition());
 
     if (Mathf::Dot(direction,
                    Renderer::GetCameraTransformPtr()->InheritedForward()) <
             Renderer::GetCameraCullingAngle() &&
         Mathf::Distance(
-            transform.GetInheritedPosition(),
-            Renderer::GetCameraTransformPtr()->GetInheritedPosition()) >=
+            transform.GetGlobalPosition(),
+            Renderer::GetCameraTransformPtr()->GetGlobalPosition()) >=
             Renderer::GetCameraCullingDistance() &&
         allowViewCulling) {
       return;
@@ -91,12 +91,12 @@ struct MeshRenderer : public Entity {
 
     model = Mat4(1.0f);
 
-    model = glm::translate(model, transform.GetInheritedPosition());
+    model = glm::translate(model, transform.GetGlobalPosition());
 
     model *= glm::mat4_cast(
-        transform.GetInheritedRotation()); // convert to mat4x4 rotation
+        transform.GetGlobalRotation()); // convert to mat4x4 rotation
 
-    model = glm::scale(model, transform.GetInheritedScale());
+    model = glm::scale(model, transform.GetGlobalScale());
 
     shader->Bind();
     shader->GetUniform("model")->SetValue(model);

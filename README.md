@@ -6,17 +6,23 @@ Project started 26/2/2026
 
 A game engine written in C++ for Linux and Windows.
 
-This project is named slam because it feels like slamming my head against a wall.
-
 ## Features
 
-- 3D static model loading
+- 3D model loading
 - Texture loading
 - Basic OpenGL with lighting and fog
 - Audio loading and playback
 - Windowing and input
 - Error system
 - Basic event system
+
+## Screenshots
+
+![Screenshot of a simple scene](github/screenshots/Screenshot_5-4-26.png)
+*"Grandma's TV" by [AtskaHeart](https://skfb.ly/ooppx) - [CC BY 4.0](http://creativecommons.org/licenses/by/4.0/) - Model and textures modified from original.*
+
+![Gif of realtime lighting](github/gifs/slam_demo_light1.GIF)
+*"Shiba" by [zixisun02](https://skfb.ly/6WxVW) - [CC BY 4.0](http://creativecommons.org/licenses/by/4.0/) - Model merged and re-exported from original.*
 
 ## Dependencies
 

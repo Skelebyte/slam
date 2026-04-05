@@ -31,7 +31,16 @@ union RGB {
   RGB(f32 r, f32 g, f32 b);
 };
 
+struct HSV {
+  HSV(f32 hue = 0.0f, f32 sat = 0.0f, f32 val = 0.0f);
+
+  f32 hue;
+  f32 saturation;
+  f32 value;
+};
+
 RGB ToRGB(const RGB255 &color);
+RGB ToRGB(const HSV &color);
 RGB255 ToRGB255(const RGB &color);
 
 } // namespace slam::gfx

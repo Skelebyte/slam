@@ -51,9 +51,9 @@ void AudioPlayer::Update() {
 
   if (global) {
 
-    ma_sound_set_position(&sound, transform.GetInheritedPosition().x,
-                          transform.GetInheritedPosition().y,
-                          transform.GetInheritedPosition().z);
+    ma_sound_set_position(&sound, transform.GetGlobalPosition().x,
+                          transform.GetGlobalPosition().y,
+                          transform.GetGlobalPosition().z);
   }
 
   if (IsPlaying()) {

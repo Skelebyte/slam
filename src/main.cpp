@@ -63,7 +63,7 @@ i32 main() {
   MeshRenderer physMesh2 = MeshRenderer("assets/models/sphere.fbx");
   physMesh2.material.color = RGB(0, 1, 0);
   physMesh2.transform.position.y = 1.0f;
-  audio.transform.position = physMesh.transform.GetInheritedPosition();
+  audio.transform.position = physMesh.transform.GetGlobalPosition();
   audio.MakeChildOf(&physMesh);
 
   window.blackBars = false;
@@ -141,10 +141,8 @@ i32 main() {
     ImGui::Text("Entities: %d", EntityManager::GetNumberOfEntities());
     ImGui::Text("Drawn Entities: %d", Engine::GetDrawnEntities());
     if (ImGui::CollapsingHeader("Fog Settings")) {
-      ImGui::ColorEdit3("Sky Color",
-                        glm::value_ptr(*Renderer::GetSkyColorPtr()));
-      ImGui::ColorEdit3("Fog Color",
-                        glm::value_ptr(*Renderer::GetFogColorPtr()));
+      ImGui::ColorEdit3("Sky Color", Renderer::GetSkyColorPtr()->data);
+      ImGui::ColorEdit3("Fog Color", Renderer::GetFogColorPtr()->data);
     }
     // ImGui::Text("Bodies: %d", Physics::GetNumberOfBodies());
     ImGui::DragFloat3("Player Position",
