@@ -27,6 +27,7 @@ struct Engine : public Singleton<Engine> {
   static f32 GetTimeScale();
   static void SetDrawnEntities(u32 value);
   static u32 GetDrawnEntities();
+  static str GetVersion();
 
 private:
   dpy::Window *window;

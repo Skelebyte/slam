@@ -3,13 +3,11 @@
 
 using namespace slam;
 
-f32 Time::DeltaTime(bool ignoreTimeScale) {
-  if (ignoreTimeScale) {
-    return Engine::GetDeltaTime();
-  } else {
-    return Engine::GetDeltaTime() * Engine::GetTimeScale();
-  }
+f32 Time::DeltaTime() {
+  return Engine::GetDeltaTime() * Engine::GetTimeScale();
 }
+
+f32 Time::UnscaledDeltaTime() { return Engine::GetDeltaTime(); }
 
 void Time::SetTimeScale(f32 scale) { Engine::SetTimeScale(scale); }
 

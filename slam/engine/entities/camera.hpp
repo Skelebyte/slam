@@ -29,7 +29,7 @@ using namespace slam;
 namespace slam::entities {
 
 struct Camera : public Entity {
-  Camera() : pauseLook(Keycode::ESC) {
+  Camera() {
     view = Mat4();
     projection = Mat4();
     shader = Renderer::GetShader("default");
@@ -72,7 +72,7 @@ struct Camera : public Entity {
   }
 
   void MouseLook() {
-    if (Input::GetKeyOnce(&pauseLook)) {
+    if (Input::GetKeyOnce(ESC)) {
       allowMouseLook = !allowMouseLook;
     }
 
@@ -111,7 +111,6 @@ struct Camera : public Entity {
 
 private:
   Shader *shader;
-  Keybind pauseLook;
 };
 
 } // namespace slam::entities

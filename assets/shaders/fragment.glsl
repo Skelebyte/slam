@@ -13,7 +13,7 @@ uniform vec3 color = vec3(1.0, 1.0, 1.0);
 
 // uniform float specular_strength = 0.5;
 
-uniform vec3 light_position = vec3(1, 1, -1);
+uniform vec3 light_position = vec3(0, 0, 0);
 uniform vec3 ambient_color = vec3(0.1, 0.1, 0.1);
 
 uniform vec3 fog_color = vec3(0.1, 0.1, 0.1);

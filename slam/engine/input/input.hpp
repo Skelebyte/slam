@@ -4,6 +4,7 @@
 #include "../common.hpp"
 #include "../dpy/window.hpp"
 #include "../engine.hpp"
+#include "../list.hpp"
 #include "../math/mathf.hpp"
 
 namespace slam::input {
@@ -95,16 +96,30 @@ struct InputAxis {
 };
 
 struct Input : public Singleton<Input> {
-  static i32 GetAxis(CRef<InputAxis> axis);
+  static i32 GetAxis(const InputAxis &axis);
+  static i32 GetAxis(const Keycode &neg, const Keycode &pos);
   static bool GetKey(Ptr<Keybind> keybind);
+  static bool GetKey(const Keycode &keycode);
   static bool GetKeyOnce(Ptr<Keybind> keybind);
+  static bool GetKeyOnce(const Keycode &keycode); // TODO: this
   static math::Vec2 GetRawMousePosition();
   static math::Vec2 GetMousePosition();
   static void SetCursor(bool locked, bool hidden);
+  /**
+   * @brief DO NOT CALL! This is for internal engine use only!
+   *
+   */
+  static void INTERNALResetMousePositionCache();
 
 private:
+  static bool CheckLastInput(const Keycode &target);
+  static void AddLastInput(const Keycode &target);
+  static void RemoveLastInput(const Keycode &target);
+  List<i32> inputFromLastFrame = List<i32>();
   bool mouseHidden;
   bool mouseLocked;
+  bool getMousePosCalled;
+  math::Vec2 mousePosCache;
 };
 } // namespace slam::input
 

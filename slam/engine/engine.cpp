@@ -1,11 +1,13 @@
 #include "engine.hpp"
 #include "common.hpp"
+#include "input/input.hpp"
 #include "time.hpp"
 #include <SDL3/SDL_timer.h>
 
 using namespace slam;
 using namespace slam::evt;
 using namespace slam::err;
+using namespace slam::input;
 
 void Engine::Init(u16 fps) {
   if (Get().initialized) {
@@ -33,6 +35,9 @@ void Engine::Init(u16 fps) {
 void Engine::Shutdown() { EventSystem::Get().OnQuit.Invoke(); }
 
 void Engine::BeginFrame() {
+
+  Input::INTERNALResetMousePositionCache();
+
   Get().isProcessFrame = false;
   Get().first = SDL_GetTicks() / 1000.0f;
 
@@ -98,3 +103,5 @@ f32 Engine::GetTimeScale() { return Get().timeScale; }
 void Engine::SetDrawnEntities(u32 value) { Get().drawnEntities = value; }
 
 u32 Engine::GetDrawnEntities() { return Get().drawnEntities; }
+
+str Engine::GetVersion() { return "0.1.0-alpha"; }

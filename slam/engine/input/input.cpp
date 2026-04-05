@@ -52,6 +52,43 @@ i32 Input::GetAxis(CRef<InputAxis> axis) {
   return 0;
 }
 
+i32 Input::GetAxis(const Keycode &neg, const Keycode &pos) {
+  SDL_MouseButtonFlags flags = SDL_GetMouseState(NULL, NULL);
+
+  if (pos < 0 && neg < 0) {
+    if (flags & SDL_BUTTON_MASK(-pos) && flags & SDL_BUTTON_MASK(-neg)) {
+      return 0;
+    }
+  }
+
+  if (pos < 0) {
+    if (flags == SDL_BUTTON_MASK(-pos)) {
+      return 1;
+    }
+  }
+
+  if (neg < 0) {
+    if (flags == SDL_BUTTON_MASK(-neg)) {
+      return -1;
+    }
+  }
+
+  const bool *input = SDL_GetKeyboardState(NULL);
+  if (input[pos] == true && input[neg] == true) {
+    return 0;
+  }
+
+  if (input[pos] == true) {
+    return 1;
+  }
+
+  if (input[neg] == true) {
+    return -1;
+  }
+
+  return 0;
+}
+
 bool Input::GetKey(Ptr<Keybind> keybind) {
   SDL_MouseButtonFlags flags = SDL_GetMouseState(NULL, NULL);
 
@@ -72,6 +109,32 @@ bool Input::GetKey(Ptr<Keybind> keybind) {
     return true;
   } else {
     keybind->pressed = false;
+    return false;
+  }
+
+  return false;
+}
+
+bool Input::GetKey(const Keycode &keycode) {
+  SDL_MouseButtonFlags flags = SDL_GetMouseState(NULL, NULL);
+
+  if (keycode < 0) { // checking mouse keys
+    if (flags == SDL_BUTTON_MASK(-keycode)) {
+
+      return true;
+    } else {
+
+      return false;
+    }
+    return false;
+  }
+
+  const bool *input = SDL_GetKeyboardState(NULL);
+  if (input[keycode] == true) {
+
+    return true;
+  } else {
+
     return false;
   }
 
@@ -111,15 +174,54 @@ bool Input::GetKeyOnce(Ptr<Keybind> keybind) {
   return false;
 }
 
+bool Input::GetKeyOnce(const Keycode &keycode) {
+  SDL_MouseButtonFlags flags = SDL_GetMouseState(NULL, NULL);
+
+  if (keycode < 0) { // checking mouse keys
+    if (flags & SDL_BUTTON_MASK(-keycode) && CheckLastInput(keycode) == false) {
+      AddLastInput(keycode);
+      return true;
+    }
+
+    if ((flags & SDL_BUTTON_MASK(-keycode)) == 0 &&
+        CheckLastInput(keycode) == true) {
+      RemoveLastInput(keycode);
+      return false;
+    }
+
+    return false;
+  }
+
+  const bool *input = SDL_GetKeyboardState(NULL);
+  if (input[keycode] == true && CheckLastInput(keycode) == false) {
+    AddLastInput(keycode);
+    return true;
+  }
+
+  if (input[keycode] == false && CheckLastInput(keycode) == true) {
+    RemoveLastInput(keycode);
+    return false;
+  }
+
+  return false;
+}
+
 Vec2 Input::GetRawMousePosition() {
   Vec2 pos;
   SDL_GetMouseState(&pos.x, &pos.y);
   return pos;
 }
 
-math::Vec2 Input::GetMousePosition() {
+Vec2 Input::GetMousePosition() {
+  if (Get().getMousePosCalled) {
+    return Get().mousePosCache;
+  }
+
   Vec2 pos;
   SDL_GetRelativeMouseState(&pos.x, &pos.y);
+
+  Get().mousePosCache = pos;
+  Get().getMousePosCalled = true;
 
   return pos;
 }
@@ -140,4 +242,36 @@ void Input::SetCursor(bool locked, bool hidden) {
     SDL_ShowCursor();
   }
   // SDL_ShowCursor();
+}
+
+void Input::INTERNALResetMousePositionCache() {
+  if (!Get().getMousePosCalled)
+    return;
+
+  Get().getMousePosCalled = false;
+  Get().mousePosCache = Vec2(0);
+}
+
+bool Input::CheckLastInput(const Keycode &target) {
+  for (u32 i = 0; i < Get().inputFromLastFrame.Size(); i++) {
+    if (Get().inputFromLastFrame[i] == (i32)target) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+void Input::AddLastInput(const Keycode &target) {
+  if (CheckLastInput(target))
+    return;
+
+  Get().inputFromLastFrame.Add(target);
+}
+
+void Input::RemoveLastInput(const Keycode &target) {
+  if (!CheckLastInput(target))
+    return;
+
+  Get().inputFromLastFrame.RemoveElement((i32)target);
 }

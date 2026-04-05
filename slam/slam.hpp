@@ -1,6 +1,7 @@
 #ifndef SLAM_SLAM_HPP
 #define SLAM_SLAM_HPP
 
+#include "engine/app.hpp"
 #include "engine/audio/audio_listener.hpp"
 #include "engine/audio/audio_manager.hpp"
 #include "engine/audio/audio_player.hpp"
@@ -42,6 +43,43 @@ using namespace slam::ui;
 using namespace slam::audio;
 // using namespace slam::phys;
 using namespace slam;
+#endif
+
+#ifdef SLAM_USE_ENGINE_MAIN
+
+i32 main() {
+  // Initialize everything
+  slam::Engine::Init(999);
+  slam::dpy::Window window =
+      slam::dpy::Window(SLAM_USE_ENGINE_MAIN, 800, 600, true, false);
+  window.appendFpsToTitle = true;
+  slam::gfx::Renderer::Init(&window);
+  slam::ui::UIContext::Init();
+  slam::audio::AudioManager::Init();
+
+  slam::App::Start();
+
+  // Game loop. Can be stopped with Window::Stop()
+  while (window.IsRunning()) {
+    slam::Engine::BeginFrame();
+    window.Update();
+
+    slam::App::Update();
+
+    slam::scn::EntityManager::UpdateAll();
+
+    window.SwapAndClear();
+    slam::Engine::EndFrame();
+  }
+
+  // Clean up
+  slam::scn::EntityManager::DestroyAll();
+  slam::ui::UIContext::Shutdown();
+  slam::gfx::Renderer::Shutdown();
+  window.Destroy();
+  slam::Engine::Shutdown();
+}
+
 #endif
 
 #endif
