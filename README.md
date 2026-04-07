@@ -25,7 +25,7 @@ This is a basic example of loading a model and creating a flying camera, using t
 #define SLAM_USING_NAMESPACES
 // Tells the engine to use its entry point (main), creating a window with the
 // name "Demo".
-#define SLAM_USE_ENGINE_MAIN "Demo"
+#define SLAM_ENTRY_POINT "Demo"
 #include "../slam/slam.hpp"
 
 MeshRenderer *mesh;

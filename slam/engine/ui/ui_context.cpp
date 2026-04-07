@@ -19,6 +19,8 @@ void UIContext::Init(CRef<str> defaultFont) {
 
   Get().io->Fonts->AddFontFromFileTTF(defaultFont.c_str(), 18);
 
+  Get().elements = List<Element *>();
+
   Get().initialized = true;
 }
 
@@ -43,14 +45,25 @@ void UIContext::Update() {
   if (Get().initialized == false)
     return;
 
-  // Get().io->DisplaySize = ImVec2(Engine::GetWindow()->GetViewportSize().x,
-  //                                Engine::GetWindow()->GetViewportSize().y);
-  // ImGui::SetNextWindowPos(ImVec2(Engine::GetWindow()->GetViewportPosition().x,
-  //                                Engine::GetWindow()->GetViewportPosition().y));
-  // ImGui::SetNextWindowSize(ImVec2(0, 0));
+  Get().io->DisplaySize = ImVec2(Engine::GetWindow()->GetViewportSize().x,
+                                 Engine::GetWindow()->GetViewportSize().y);
+  ImGui::SetNextWindowPos(ImVec2(Engine::GetWindow()->GetViewportPosition().x,
+                                 Engine::GetWindow()->GetViewportPosition().y));
+  ImGui::SetNextWindowSize(ImVec2(Engine::GetWindow()->GetViewportSize().x,
+                                  Engine::GetWindow()->GetViewportSize().y));
 
-  // ImGui::Begin("viewport", nullptr,
-  //              ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoBackground);
-  // loop
+  ImGui::Begin("viewport", nullptr,
+               ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoBackground);
+
+  for (u32 i = 0; i < Get().elements.Size(); i++) {
+    auto current = ImGui::GetCursorPos();
+    ImGui::SetCursorPos(
+        ImVec2(Get().elements[i]->position.x, Get().elements[i]->position.y));
+    Get().elements[i]->Update();
+    ImGui::SetCursorPos(current);
+  }
+
   ImGui::End();
 }
+
+void UIContext::AddElement(Element *element) { Get().elements.Add(element); }

@@ -48,7 +48,7 @@ TARGET = $(TARGETDIR)/slam
 OBJDIR = obj/Debug
 DEFINES += -DDEBUG
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -g
-ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -g
+ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -g -std=c++17
 ALL_LDFLAGS += $(LDFLAGS)
 
 else ifeq ($(config),release)
@@ -57,7 +57,7 @@ TARGET = $(TARGETDIR)/slam
 OBJDIR = obj/Release
 DEFINES += -DNDEBUG
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -flto -O3
-ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -flto -O3
+ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -flto -O3 -std=c++17
 ALL_LDFLAGS += $(LDFLAGS) -flto -s
 
 endif
@@ -75,6 +75,7 @@ OBJECTS :=
 GENERATED += $(OBJDIR)/audio_listener.o
 GENERATED += $(OBJDIR)/audio_manager.o
 GENERATED += $(OBJDIR)/audio_player.o
+GENERATED += $(OBJDIR)/button.o
 GENERATED += $(OBJDIR)/color.o
 GENERATED += $(OBJDIR)/common.o
 GENERATED += $(OBJDIR)/ebo.o
@@ -101,6 +102,7 @@ GENERATED += $(OBJDIR)/mesh.o
 GENERATED += $(OBJDIR)/physics.o
 GENERATED += $(OBJDIR)/renderer.o
 GENERATED += $(OBJDIR)/shader.o
+GENERATED += $(OBJDIR)/text.o
 GENERATED += $(OBJDIR)/texture.o
 GENERATED += $(OBJDIR)/time.o
 GENERATED += $(OBJDIR)/transform.o
@@ -113,6 +115,7 @@ GENERATED += $(OBJDIR)/window.o
 OBJECTS += $(OBJDIR)/audio_listener.o
 OBJECTS += $(OBJDIR)/audio_manager.o
 OBJECTS += $(OBJDIR)/audio_player.o
+OBJECTS += $(OBJDIR)/button.o
 OBJECTS += $(OBJDIR)/color.o
 OBJECTS += $(OBJDIR)/common.o
 OBJECTS += $(OBJDIR)/ebo.o
@@ -139,6 +142,7 @@ OBJECTS += $(OBJDIR)/mesh.o
 OBJECTS += $(OBJDIR)/physics.o
 OBJECTS += $(OBJDIR)/renderer.o
 OBJECTS += $(OBJDIR)/shader.o
+OBJECTS += $(OBJDIR)/text.o
 OBJECTS += $(OBJDIR)/texture.o
 OBJECTS += $(OBJDIR)/time.o
 OBJECTS += $(OBJDIR)/transform.o
@@ -289,7 +293,13 @@ $(OBJDIR)/transform.o: slam/engine/scn/transform.cpp
 $(OBJDIR)/time.o: slam/engine/time.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/button.o: slam/engine/ui/button.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/element.o: slam/engine/ui/element.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/text.o: slam/engine/ui/text.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/ui_context.o: slam/engine/ui/ui_context.cpp

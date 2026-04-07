@@ -14,7 +14,7 @@ InputAxis::InputAxis(CRef<Keycode> neg, CRef<Keycode> pos) {
   this->negative = neg;
 }
 
-i32 Input::GetAxis(CRef<InputAxis> axis) {
+f32 Input::GetAxis(CRef<InputAxis> axis) {
   SDL_MouseButtonFlags flags = SDL_GetMouseState(NULL, NULL);
 
   if (axis.positive < 0 && axis.negative < 0) {
@@ -52,7 +52,7 @@ i32 Input::GetAxis(CRef<InputAxis> axis) {
   return 0;
 }
 
-i32 Input::GetAxis(const Keycode &neg, const Keycode &pos) {
+f32 Input::GetAxis(const Keycode &neg, const Keycode &pos) {
   SDL_MouseButtonFlags flags = SDL_GetMouseState(NULL, NULL);
 
   if (pos < 0 && neg < 0) {

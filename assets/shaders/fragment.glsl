@@ -50,15 +50,20 @@ void main() {
 
   // FragColor = vec4(normal, 1.0);
 
+  vec4 output = vec4(0);
+
   if (unlit) {
-    FragColor = texture(diffuse_texture, texture_coord) * vec4(color, 1.0);
+    output = texture(diffuse_texture, texture_coord) * vec4(color, 1.0);
 
   } else {
     vec4 final = (texture(diffuse_texture, texture_coord)) * vec4(result, 1.0);
     if (affected_by_fog == true) {
-      FragColor = fog(final);
+      output = fog(final);
     } else {
-      FragColor = final;
+      output = final;
     }
   }
+
+  // FragColor = vec4(1.0 - output.rgb, output.a); // invert
+  FragColor = output;
 }

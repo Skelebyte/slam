@@ -11,38 +11,7 @@ Entity::Entity() {
   transform = Transform();
   SetID(EntityManager::Get().GetNextID());
 
-  shaderBillboard = Renderer::GetShader("billboard");
-
-  billboardIcon = Texture();
-
-  meshBillboard = Mesh::GeneratePlane(1, Vec2(1));
-
-  vaoBillboard = VAO();
-  vboBillboard = VBO();
-  eboBillboard = EBO();
-
-  vaoBillboard.Init();
-  vaoBillboard.Bind();
-
-  vboBillboard.Init(meshBillboard.data.Pointer(),
-                    sizeof(f32) * meshBillboard.data.Size());
-  eboBillboard.Init(meshBillboard.indices.Pointer(),
-                    sizeof(u32) * meshBillboard.indices.Size());
-
-  vaoBillboard.LinkAttrib(vboBillboard, 0, 3, GL_FLOAT, 8 * sizeof(f32),
-                          (void *)0);
-  vaoBillboard.LinkAttrib(vboBillboard, 1, 2, GL_FLOAT, 8 * sizeof(f32),
-                          (void *)(3 * sizeof(f32)));
-  vaoBillboard.LinkAttrib(vboBillboard, 2, 3, GL_FLOAT, 8 * sizeof(f32),
-                          (void *)(5 * sizeof(f32)));
-
-  vboBillboard.Unbind();
-  vaoBillboard.Unbind();
-  eboBillboard.Unbind();
-
   EntityManager::AddEntity(this);
-
-  drawDebugIcon = false;
 }
 
 Entity::~Entity() { Destroy(); }

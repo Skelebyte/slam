@@ -23,7 +23,9 @@
 #include "engine/res/mesh.hpp"
 #include "engine/scn/entity.hpp"
 #include "engine/time.hpp"
+#include "engine/ui/button.hpp"
 #include "engine/ui/element.hpp"
+#include "engine/ui/text.hpp"
 #include "engine/ui/ui_context.hpp"
 #include "third_party/imgui/imgui.h"
 #include "third_party/imgui/imgui_impl_opengl3.h"
@@ -45,13 +47,20 @@ using namespace slam::audio;
 using namespace slam;
 #endif
 
-#ifdef SLAM_USE_ENGINE_MAIN
+#ifdef SLAM_ENTRY_POINT
 
 i32 main() {
   // Initialize everything
   slam::Engine::Init(999);
-  slam::dpy::Window window =
-      slam::dpy::Window(SLAM_USE_ENGINE_MAIN, 800, 600, true, false);
+  str name = SLAM_ENTRY_POINT;
+  if (name.empty()) {
+    THROW_ERROR(ERROR.Derived(
+        "",
+        "You did not give SLAM_ENTRY_POINT a value! The window SLAM makes will "
+        "default to \"SLAM\"\nExample: #define SLAM_ENTRY_POINT \"MyGame\""));
+    name = "SLAM";
+  }
+  slam::dpy::Window window = slam::dpy::Window(name, 800, 600, true, false);
   window.appendFpsToTitle = true;
   slam::gfx::Renderer::Init(&window);
   slam::ui::UIContext::Init();
@@ -61,12 +70,17 @@ i32 main() {
 
   // Game loop. Can be stopped with Window::Stop()
   while (window.IsRunning()) {
+    if (slam::gfx::Renderer::GetCameraTransformPtr() == nullptr) {
+      THROW_ERROR(FATAL.Derived("", "There is no camera!"));
+    }
+
     slam::Engine::BeginFrame();
     window.Update();
 
     slam::App::Update();
 
     slam::scn::EntityManager::UpdateAll();
+    slam::ui::UIContext::Update();
 
     window.SwapAndClear();
     slam::Engine::EndFrame();

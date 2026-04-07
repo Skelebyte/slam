@@ -96,8 +96,8 @@ struct InputAxis {
 };
 
 struct Input : public Singleton<Input> {
-  static i32 GetAxis(const InputAxis &axis);
-  static i32 GetAxis(const Keycode &neg, const Keycode &pos);
+  static f32 GetAxis(const InputAxis &axis);
+  static f32 GetAxis(const Keycode &neg, const Keycode &pos);
   static bool GetKey(Ptr<Keybind> keybind);
   static bool GetKey(const Keycode &keycode);
   static bool GetKeyOnce(Ptr<Keybind> keybind);

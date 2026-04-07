@@ -3,11 +3,14 @@
 
 #include "../common.hpp"
 #include "../engine.hpp"
+#include "../math/mathf.hpp"
 
 namespace slam::ui {
 
 struct Element {
-  // TODO: this
+  Element();
+  virtual void Update() = 0;
+  math::Vec2 position;
 };
 
 } // namespace slam::ui

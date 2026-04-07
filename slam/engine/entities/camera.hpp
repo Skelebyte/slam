@@ -72,10 +72,6 @@ struct Camera : public Entity {
   }
 
   void MouseLook() {
-    if (Input::GetKeyOnce(ESC)) {
-      allowMouseLook = !allowMouseLook;
-    }
-
     if (!allowMouseLook) {
       Input::SetCursor(false, false);
       return;

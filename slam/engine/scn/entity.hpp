@@ -24,16 +24,6 @@ struct Entity : public ID, public Destroyable {
   void MakeChildOf(Entity *entity);
 
   Transform transform;
-  bool drawDebugIcon;
-  gfx::Texture billboardIcon;
-
-private:
-  gfx::Shader *shaderBillboard;
-  math::Mat4 modelBillboard;
-  gfx::VAO vaoBillboard;
-  gfx::VBO vboBillboard;
-  gfx::EBO eboBillboard;
-  res::Mesh meshBillboard;
 };
 
 struct EntityManager : public Singleton<EntityManager> {
@@ -46,7 +36,7 @@ struct EntityManager : public Singleton<EntityManager> {
 
 private:
   u32 nextID = 1;
-  List<Ptr<Entity>> entities;
+  List<Entity *> entities;
 };
 
 } // namespace slam::scn
