@@ -12,6 +12,8 @@ Text *text2;
 
 Button *quit;
 
+void Quit() { Engine::GetWindow()->Stop(); }
+
 void App::Start() {
   camera = new Camera();
 
@@ -29,13 +31,11 @@ void App::Start() {
   text2->position = Vec2(123, 231);
 
   quit = new Button("QUIT");
+  quit->OnPressed += Quit;
   quit->position.y = 32;
 }
 
 void App::Update() {
-  if (quit->IsPressed()) {
-    Engine::GetWindow()->Stop();
-  }
 
   if (Input::GetKey(Keycode::RMB)) {
     camera->allowMouseLook = true;
