@@ -1,0 +1,16 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "${default}",
+                "slam\\third_party\\SDL\\include"
+            ],
+            "windowsSdkVersion": "10.0.26100.0",
+            "compilerPath": "cl.exe",
+            "cStandard": "c17",
+            "intelliSenseMode": "windows-msvc-x64"
+        }
+    ],
+    "version": 4
+}

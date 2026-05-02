@@ -1,0 +1,69 @@
+#ifndef SLAM_LIST_HPP
+#define SLAM_LIST_HPP
+
+#include "common.hpp"
+#include "err/err_sys.hpp"
+#include <vector>
+
+namespace slam {
+template <typename T> struct List {
+  List() { data = std::vector<T>(); }
+  /**
+   * @brief Returns number of elements
+   *
+   * @return u32
+   */
+  u32 Size() { return data.size(); }
+  void Add(CRef<T> value, bool first = false) {
+    if (first) {
+      data.insert(data.begin(), value);
+    } else {
+      data.push_back(value);
+    }
+  }
+
+  void Remove(u32 index) {
+    if (index > Size()) {
+      err::ErrorSystem::THROW_ERROR(err::ERROR.Derived(
+          "INDEX_OUT_OF_BOUNDS", "Index " + std::to_string(index) +
+                                     " is out of bounds. Size of list: " +
+                                     std::to_string(Size()) + "."));
+      return;
+    }
+
+    data.erase(data.begin() + index);
+  }
+
+  void RemoveElement(T element) {
+    for (u32 i = 0; i < Size(); i++) {
+      if (data[i] == element) {
+        Remove(i);
+        break;
+      }
+    }
+  }
+
+  void Clear() { data.clear(); }
+
+  T *Pointer() { return data.data(); }
+
+  std::vector<T> *Vector() { return &data; }
+
+  T &operator[](u32 index) {
+    if (index >= Size()) {
+      err::ErrorSystem::THROW_ERROR(err::FATAL.Derived(
+          "INDEX_OUT_OF_BOUNDS", "Index " + std::to_string(index) +
+                                     " is out of bounds. Size of list: " +
+                                     std::to_string(Size()) + "."));
+      // return nullptr;
+    }
+
+    return data[index];
+  }
+
+private:
+  std::vector<T> data;
+};
+} // namespace slam
+
+#endif
