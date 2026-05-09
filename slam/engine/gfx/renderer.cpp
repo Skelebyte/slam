@@ -81,7 +81,7 @@ void Renderer::Shutdown() {
   SDL_GL_DestroyContext(Get().gl);
 
   // clean up shaders
-  for (u32 i = 0; i < Get().shaders.Size(); i++) {
+  for (uint32 i = 0; i < Get().shaders.Size(); i++) {
     Get().shaders[i].Destroy();
   }
   Get().shaders.Clear();
@@ -118,7 +118,7 @@ void Renderer::AddShader(CRef<str> name, CRef<str> fragPath,
 }
 
 Shader *Renderer::GetShader(CRef<str> name) {
-  for (u32 i = 0; i < Get().shaders.Size(); i++) {
+  for (uint32 i = 0; i < Get().shaders.Size(); i++) {
     if (name == Get().shaders[i].GetName()) {
       return &Get().shaders[i];
     }
@@ -152,23 +152,25 @@ void Renderer::SetCameraTransform(Transform *target) {
 
 Transform *Renderer::GetCameraTransformPtr() { return Get().cameraTransform; }
 
-void Renderer::SetCameraCullingAngle(f32 *angle) {
+void Renderer::SetCameraCullingAngle(float32 *angle) {
   Get().cameraCullingAngle = angle;
 }
 
-f32 Renderer::GetCameraCullingAngle() { return *Get().cameraCullingAngle; }
+float32 Renderer::GetCameraCullingAngle() { return *Get().cameraCullingAngle; }
 
-f32 *Renderer::GetCameraCullingAnglePtr() { return Get().cameraCullingAngle; }
+float32 *Renderer::GetCameraCullingAnglePtr() {
+  return Get().cameraCullingAngle;
+}
 
-void Renderer::SetCameraCullingDistance(f32 *value) {
+void Renderer::SetCameraCullingDistance(float32 *value) {
   Get().cameraCullingDistance = value;
 }
 
-f32 Renderer::GetCameraCullingDistance() {
+float32 Renderer::GetCameraCullingDistance() {
   return *Get().cameraCullingDistance;
 }
 
-f32 *Renderer::GetCameraCullingDistancePtr() {
+float32 *Renderer::GetCameraCullingDistancePtr() {
   return Get().cameraCullingDistance;
 }
 

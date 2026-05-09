@@ -81,8 +81,8 @@ struct Camera : public Entity {
 
     Vec2 mouse = Input::GetMousePosition();
 
-    f32 x = (-mouse.y) * sens / 1000;
-    f32 y = (-mouse.x) * sens / 1000;
+    float32 x = (-mouse.y) * sens / 1000;
+    float32 y = (-mouse.x) * sens / 1000;
 
     transform.rotation.x += Mathf::ToDegrees(x);
     if (transform.parent != nullptr) {
@@ -94,16 +94,16 @@ struct Camera : public Entity {
     transform.rotation.x = Mathf::Clamp(transform.rotation.x, -89.0f, 89.0f);
   }
 
-  f32 fov = 75.0f;
-  f32 near = 0.1f;
-  f32 far = 1000.0f;
+  float32 fov = 75.0f;
+  float32 near = 0.1f;
+  float32 far = 1000.0f;
   Mat4 view;
   Mat4 projection;
   bool allowMouseLook = false;
-  f32 sens = 1.4f;
-  f32 cullingAngle = 0.4f;
+  float32 sens = 1.4f;
+  float32 cullingAngle = 0.4f;
   // minimum distance before culling
-  f32 cullingDistance = 10.0f;
+  float32 cullingDistance = 10.0f;
 
 private:
   Shader *shader;

@@ -4,11 +4,11 @@
 
 using namespace slam;
 
-str String::From(i32 value) { return std::to_string(value); }
+str String::From(int32 value) { return std::to_string(value); }
 
-str String::From(f64 value) { return std::to_string(value); }
+str String::From(float64 value) { return std::to_string(value); }
 
-str String::From(f32 value) { return std::to_string(value); }
+str String::From(float32 value) { return std::to_string(value); }
 
 str String::From(char value) { return std::to_string(value); }
 

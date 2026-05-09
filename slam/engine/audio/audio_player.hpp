@@ -18,14 +18,14 @@ struct AudioPlayer : public scn::Entity {
   void SetLooping(bool value);
   void SetGlobal(bool value);
   bool IsPlaying() const;
-  f32 pitch = 1.0f;
-  f32 volume = 1.0f;
+  float32 pitch = 1.0f;
+  float32 volume = 1.0f;
 
 protected:
   bool looping = false;
   bool global = true;
   str path;
-  u64 frame = 0;
+  uint64 frame = 0;
   ma_result result;
   ma_sound sound;
 

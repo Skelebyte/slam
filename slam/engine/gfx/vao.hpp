@@ -14,8 +14,8 @@ public:
   void Destroy() override;
   void Bind();
   void Unbind();
-  void LinkAttrib(VBO &vbo, u32 layout, u32 components, u32 type, size_t stride,
-                  void *offset);
+  void LinkAttrib(VBO &vbo, uint32 layout, uint32 components, uint32 type,
+                  size_t stride, void *offset);
 };
 
 } // namespace slam::gfx

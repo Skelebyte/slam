@@ -14,7 +14,7 @@ InputAxis::InputAxis(CRef<Keycode> neg, CRef<Keycode> pos) {
   this->negative = neg;
 }
 
-f32 Input::GetAxis(CRef<InputAxis> axis) {
+float32 Input::GetAxis(CRef<InputAxis> axis) {
   SDL_MouseButtonFlags flags = SDL_GetMouseState(NULL, NULL);
 
   if (axis.positive < 0 && axis.negative < 0) {
@@ -52,7 +52,7 @@ f32 Input::GetAxis(CRef<InputAxis> axis) {
   return 0;
 }
 
-f32 Input::GetAxis(const Keycode &neg, const Keycode &pos) {
+float32 Input::GetAxis(const Keycode &neg, const Keycode &pos) {
   SDL_MouseButtonFlags flags = SDL_GetMouseState(NULL, NULL);
 
   if (pos < 0 && neg < 0) {
@@ -230,8 +230,8 @@ void Input::SetCursor(bool locked, bool hidden) {
   if (locked) {
     SDL_SetWindowRelativeMouseMode(Engine::GetWindow()->GetSDLWindow(), true);
     SDL_WarpMouseInWindow(Engine::GetWindow()->GetSDLWindow(),
-                          (f32)Engine::GetWindow()->GetDimensions().x / 2,
-                          (f32)Engine::GetWindow()->GetDimensions().y / 2);
+                          (float32)Engine::GetWindow()->GetDimensions().x / 2,
+                          (float32)Engine::GetWindow()->GetDimensions().y / 2);
   } else {
     SDL_SetWindowRelativeMouseMode(Engine::GetWindow()->GetSDLWindow(), false);
   }
@@ -253,8 +253,8 @@ void Input::INTERNALResetMousePositionCache() {
 }
 
 bool Input::CheckLastInput(const Keycode &target) {
-  for (u32 i = 0; i < Get().inputFromLastFrame.Size(); i++) {
-    if (Get().inputFromLastFrame[i] == (i32)target) {
+  for (uint32 i = 0; i < Get().inputFromLastFrame.Size(); i++) {
+    if (Get().inputFromLastFrame[i] == (int32)target) {
       return true;
     }
   }
@@ -273,5 +273,5 @@ void Input::RemoveLastInput(const Keycode &target) {
   if (!CheckLastInput(target))
     return;
 
-  Get().inputFromLastFrame.RemoveElement((i32)target);
+  Get().inputFromLastFrame.RemoveElement((int32)target);
 }

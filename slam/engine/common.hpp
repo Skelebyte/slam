@@ -10,16 +10,16 @@
 #include <vector>
 
 namespace slam {
-typedef int32_t i32;
-typedef uint32_t u32;
-typedef int64_t i64;
-typedef uint64_t u64;
-typedef int8_t i8;
-typedef uint8_t u8;
-typedef int16_t i16;
-typedef uint16_t u16;
-typedef float f32;
-typedef double f64;
+typedef int32_t int32;
+typedef uint32_t uint32;
+typedef int64_t int64;
+typedef uint64_t uint64;
+typedef int8_t int8;
+typedef uint8_t uint8;
+typedef int16_t int16;
+typedef uint16_t uint16;
+typedef float float32;
+typedef double float64;
 typedef unsigned char uchar;
 typedef std::string str;
 
@@ -33,9 +33,9 @@ template <typename T> using UPtr = std::unique_ptr<T>;
 template <typename T> using SPtr = std::shared_ptr<T>;
 
 struct String {
-  static str From(i32 value);
-  static str From(f64 value);
-  static str From(f32 value);
+  static str From(int32 value);
+  static str From(float64 value);
+  static str From(float32 value);
   static str From(char value);
   static str From(char *value);
 };
@@ -62,14 +62,14 @@ protected:
 };
 
 struct ID {
-  u32 GetID() { return id; }
+  uint32 GetID() { return id; }
 
 protected:
-  u32 *GetID_Ptr() { return &id; }
-  void SetID(u32 newID) { id = newID; }
+  uint32 *GetID_Ptr() { return &id; }
+  void SetID(uint32 newID) { id = newID; }
 
 private:
-  u32 id;
+  uint32 id;
 };
 
 /**

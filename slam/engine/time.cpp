@@ -3,14 +3,14 @@
 
 using namespace slam;
 
-f32 Time::DeltaTime() {
+float32 Time::DeltaTime() {
   return Engine::GetDeltaTime() * Engine::GetTimeScale();
 }
 
-f32 Time::UnscaledDeltaTime() { return Engine::GetDeltaTime(); }
+float32 Time::UnscaledDeltaTime() { return Engine::GetDeltaTime(); }
 
-void Time::SetTimeScale(f32 scale) { Engine::SetTimeScale(scale); }
+void Time::SetTimeScale(float32 scale) { Engine::SetTimeScale(scale); }
 
-f32 Time::GetTimeScale() { return Engine::GetTimeScale(); }
+float32 Time::GetTimeScale() { return Engine::GetTimeScale(); }
 
-u64 Time::MsToNs(u32 value) { return value * 1000000; }
+uint64 Time::MsToNs(uint32 value) { return value * 1000000; }

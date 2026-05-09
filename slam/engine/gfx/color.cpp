@@ -5,33 +5,33 @@ using namespace slam;
 using namespace slam::gfx;
 using namespace slam::math;
 
-RGB255::RGB255(u32 rgb) {
-  u32 value = Mathf::Wrap(rgb, 0, 255);
+RGB255::RGB255(uint32 rgb) {
+  uint32 value = Mathf::Wrap(rgb, 0, 255);
   r = value;
   g = value;
   b = value;
 }
 
-RGB255::RGB255(u32 r, u32 g, u32 b) {
+RGB255::RGB255(uint32 r, uint32 g, uint32 b) {
   this->r = Mathf::Wrap(r, 0, 255);
   this->g = Mathf::Wrap(g, 0, 255);
   this->b = Mathf::Wrap(b, 0, 255);
 }
 
-RGB::RGB(f32 rgb) {
-  f32 value = Mathf::Wrap(rgb, 0.0f, 1.0f);
+RGB::RGB(float32 rgb) {
+  float32 value = Mathf::Wrap(rgb, 0.0f, 1.0f);
   r = rgb;
   g = rgb;
   b = rgb;
 }
 
-RGB::RGB(f32 r, f32 g, f32 b) {
+RGB::RGB(float32 r, float32 g, float32 b) {
   this->r = Mathf::Wrap(r, 0.0f, 1.0f);
   this->g = Mathf::Wrap(g, 0.0f, 1.0f);
   this->b = Mathf::Wrap(b, 0.0f, 1.0f);
 }
 
-HSV::HSV(f32 hue, f32 sat, f32 val) {
+HSV::HSV(float32 hue, float32 sat, float32 val) {
   this->hue = Mathf::Clamp(hue, 0.0f, 360.0f);
   saturation = Mathf::Clamp(sat, 0.0f, 1.0f);
   value = Mathf::Clamp(val, 0.0f, 1.0f);
@@ -43,14 +43,14 @@ RGB ToRGB(const RGB255 &color) {
 }
 RGB ToRGB(const HSV &color) {
 
-  f32 h = color.hue / 60;
-  f32 i = std::floor(h);
-  f32 f = h - i;
-  f32 p = color.value * (1 - color.saturation);
-  f32 q = color.value * (1 - color.saturation * f);
-  f32 t = color.value * (1 - color.saturation * (1 - f));
+  float32 h = color.hue / 60;
+  float32 i = std::floor(h);
+  float32 f = h - i;
+  float32 p = color.value * (1 - color.saturation);
+  float32 q = color.value * (1 - color.saturation * f);
+  float32 t = color.value * (1 - color.saturation * (1 - f));
 
-  i32 sector = (i32)i;
+  int32 sector = (int32)i;
   if (sector == 0)
     return RGB(color.value, t, p);
   if (sector == 1)

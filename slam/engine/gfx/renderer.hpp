@@ -24,12 +24,12 @@ struct Renderer : public Singleton<Renderer> {
   static str &GetShaderPath();
   static void SetCameraTransform(scn::Transform *target);
   static scn::Transform *GetCameraTransformPtr();
-  static void SetCameraCullingAngle(f32 *angle);
-  static f32 GetCameraCullingAngle();
-  static f32 *GetCameraCullingAnglePtr();
-  static void SetCameraCullingDistance(f32 *value);
-  static f32 GetCameraCullingDistance();
-  static f32 *GetCameraCullingDistancePtr();
+  static void SetCameraCullingAngle(float32 *angle);
+  static float32 GetCameraCullingAngle();
+  static float32 *GetCameraCullingAnglePtr();
+  static void SetCameraCullingDistance(float32 *value);
+  static float32 GetCameraCullingDistance();
+  static float32 *GetCameraCullingDistancePtr();
   static void SetCameraView(math::Mat4 *value);
   static math::Mat4 *GetCameraViewPtr();
   static void SetCameraProjection(math::Mat4 *value);
@@ -43,8 +43,8 @@ struct Renderer : public Singleton<Renderer> {
 
 private:
   scn::Transform *cameraTransform = nullptr;
-  f32 *cameraCullingAngle = nullptr;
-  f32 *cameraCullingDistance = nullptr;
+  float32 *cameraCullingAngle = nullptr;
+  float32 *cameraCullingDistance = nullptr;
   math::Mat4 *cameraView = nullptr;
   math::Mat4 *cameraProjection = nullptr;
   RGB skyColor = RGB(0.1f);

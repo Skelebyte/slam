@@ -20,13 +20,13 @@ struct Transform {
   math::Vec3 GetGlobalScale() const;
 
   // TODO: this afor position, rotation, and scale. prep for implmenting jolt
-  //  void SetPosition(f32 xyz);
-  //  void SetPosition(f32 x, f32 y, f32 z);
+  //  void SetPosition(float32 xyz);
+  //  void SetPosition(float32 x, float32 y, float32 z);
   //  math::Vec3 GetPositionLocal();
   //  math::Vec3 GetPositionGlobal();
   //  math::Vec3 *GetPositionLocalPtr();
 
-  void SetRotation(f32 x, f32 y, f32 z);
+  void SetRotation(float32 x, float32 y, float32 z);
 
   math::Vec3 position;
   math::Vec3 rotation;

@@ -96,8 +96,8 @@ struct InputAxis {
 };
 
 struct Input : public Singleton<Input> {
-  static f32 GetAxis(const InputAxis &axis);
-  static f32 GetAxis(const Keycode &neg, const Keycode &pos);
+  static float32 GetAxis(const InputAxis &axis);
+  static float32 GetAxis(const Keycode &neg, const Keycode &pos);
   static bool GetKey(Ptr<Keybind> keybind);
   static bool GetKey(const Keycode &keycode);
   static bool GetKeyOnce(Ptr<Keybind> keybind);
@@ -115,7 +115,7 @@ private:
   static bool CheckLastInput(const Keycode &target);
   static void AddLastInput(const Keycode &target);
   static void RemoveLastInput(const Keycode &target);
-  List<i32> inputFromLastFrame = List<i32>();
+  List<int32> inputFromLastFrame = List<int32>();
   bool mouseHidden;
   bool mouseLocked;
   bool getMousePosCalled;

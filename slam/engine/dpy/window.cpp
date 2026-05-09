@@ -11,7 +11,8 @@ using namespace slam::err;
 using namespace slam::math;
 using namespace slam::gfx;
 
-Window::Window(const str &name, u32 w, u32 h, bool resizable, bool fullscreen) {
+Window::Window(const str &name, uint32 w, uint32 h, bool resizable,
+               bool fullscreen) {
   if (Engine::Get().IsInitialized() == false) {
     THROW_ERROR(
         FATAL.Derived("", "Engine is not initialized! Please initialize with "
@@ -90,14 +91,14 @@ void Window::Update() {
 
   Vec2 dimensions = this->GetDimensions();
 
-  f32 windowAspect = (f32)dimensions.x / dimensions.y;
-  f32 gameAspect = (f32)1920 / 1080;
+  float32 windowAspect = (float32)dimensions.x / dimensions.y;
+  float32 gameAspect = (float32)1920 / 1080;
 
   this->pillarboxed = false;
   this->letterboxed = false;
 
   if (windowAspect > gameAspect) {
-    this->viewportSize.x = (i32)(dimensions.y * gameAspect);
+    this->viewportSize.x = (int32)(dimensions.y * gameAspect);
     this->viewportSize.y = dimensions.y;
 
     this->viewportPosition.x = (dimensions.x - this->viewportSize.x) / 2;
@@ -105,7 +106,7 @@ void Window::Update() {
     this->pillarboxed = true;
   } else {
     this->viewportSize.x = dimensions.x;
-    this->viewportSize.y = (i32)(dimensions.x / gameAspect);
+    this->viewportSize.y = (int32)(dimensions.x / gameAspect);
 
     this->viewportPosition.x = 0;
     this->viewportPosition.y = (dimensions.y - this->viewportSize.y) / 2;
@@ -162,8 +163,8 @@ void Window::SwapAndClear() {
 Vec2 Window::GetDimensions() {
   IS_DESTROYED(Vec2());
 
-  i32 x;
-  i32 y;
+  int32 x;
+  int32 y;
   Vec2 dimensions;
 
   if (SDL_GetWindowSize(this->sdlWindow, &x, &y) == false) {
@@ -197,10 +198,10 @@ Vec2 Window::GetViewportSize() const {
   return viewportSize;
 }
 
-f32 Window::GetViewportAspect() const {
+float32 Window::GetViewportAspect() const {
   IS_DESTROYED(0.0f);
 
-  return (f32)this->viewportSize.x / (f32)this->viewportSize.y;
+  return (float32)this->viewportSize.x / (float32)this->viewportSize.y;
 }
 
 void dpy::ErrorWindow() {

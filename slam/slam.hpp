@@ -49,7 +49,7 @@ using namespace slam;
 
 #ifdef SLAM_ENTRY_POINT
 
-i32 main() {
+int32 main() {
   // Initialize everything
   slam::Engine::Init(999);
   str name = SLAM_ENTRY_POINT;

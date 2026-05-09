@@ -27,15 +27,15 @@ struct Entity : public ID, public Destroyable {
 };
 
 struct EntityManager : public Singleton<EntityManager> {
-  static u32 GetNextID();
+  static uint32 GetNextID();
   static void AddEntity(Ptr<Entity> target);
   static void RemoveEntity(Ptr<Entity> target);
   static void UpdateAll();
   static void DestroyAll();
-  static u32 GetNumberOfEntities();
+  static uint32 GetNumberOfEntities();
 
 private:
-  u32 nextID = 1;
+  uint32 nextID = 1;
   List<Entity *> entities;
 };
 

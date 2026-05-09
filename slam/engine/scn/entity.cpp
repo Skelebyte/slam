@@ -29,7 +29,7 @@ void Entity::Update() {
 }
 
 // template <typename T> T *Entity::GetComponent() {
-//   for (i32 i = 0; i < this->components.Size(); i++) {
+//   for (int32 i = 0; i < this->components.Size(); i++) {
 //     if (typeid(this->components[i]) == typeid(T)) {
 //       return (T)this->components[i];
 //     }
@@ -43,7 +43,7 @@ void Entity::Update() {
 // }
 
 // template <typename T> bool Entity::HasComponentOfType() {
-//   for (i32 i = 0; i < this->components.Size(); i++) {
+//   for (int32 i = 0; i < this->components.Size(); i++) {
 //     if (typeid(this->components[i]) == typeid(T)) {
 //       return true;
 //     }
@@ -60,7 +60,7 @@ void Entity::MakeChildOf(Entity *entity) {
   transform.parent = &entity->transform;
 }
 
-u32 EntityManager::GetNextID() {
+uint32 EntityManager::GetNextID() {
   Get().nextID++;
 
   return Get().nextID - 1;
@@ -90,7 +90,7 @@ void EntityManager::RemoveEntity(Ptr<Entity> target) {
     return;
   }
 
-  for (u32 i = 0; i < Get().entities.Size(); i++) {
+  for (uint32 i = 0; i < Get().entities.Size(); i++) {
     if (Get().entities[i]->GetID() == target->GetID()) {
       Get().entities.Remove(i);
       break;
@@ -112,4 +112,4 @@ void EntityManager::UpdateAll() {
   }
 }
 
-u32 EntityManager::GetNumberOfEntities() { return Get().entities.Size(); }
+uint32 EntityManager::GetNumberOfEntities() { return Get().entities.Size(); }

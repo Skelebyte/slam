@@ -11,38 +11,38 @@
 namespace slam {
 
 struct Engine : public Singleton<Engine> {
-  static void Init(u16 = 60);
+  static void Init(uint16 = 60);
   static void Shutdown();
   static void BeginFrame();
   static void EndFrame();
   static bool IsProcessFrame();
-  static void SetTargetFps(u16 fps);
-  static u32 GetFps();
+  static void SetTargetFps(uint16 fps);
+  static uint32 GetFps();
   static void SetWindow(dpy::Window *window);
   static dpy::Window *GetWindow();
   static void SetDrawEntityIcons(bool value);
   static bool GetDrawEntityIcons();
-  static f32 GetDeltaTime();
-  static void SetTimeScale(f32 value);
-  static f32 GetTimeScale();
-  static void SetDrawnEntities(u32 value);
-  static u32 GetDrawnEntities();
+  static float32 GetDeltaTime();
+  static void SetTimeScale(float32 value);
+  static float32 GetTimeScale();
+  static void SetDrawnEntities(uint32 value);
+  static uint32 GetDrawnEntities();
   static str GetVersion();
 
 private:
   dpy::Window *window;
-  f32 deltaTime;
-  f32 timeScale = 1.0f;
+  float32 deltaTime;
+  float32 timeScale = 1.0f;
   bool drawEntityIcons;
   bool isProcessFrame = true;
-  f32 targetFps;
-  u32 fps;
-  u32 frames;
-  f32 frameTime;
-  f32 processedDeltaTime;
-  f32 first;
-  f32 last;
-  u32 drawnEntities;
+  float32 targetFps;
+  uint32 fps;
+  uint32 frames;
+  float32 frameTime;
+  float32 processedDeltaTime;
+  float32 first;
+  float32 last;
+  uint32 drawnEntities;
 };
 
 } // namespace slam

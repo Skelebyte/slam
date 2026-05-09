@@ -55,7 +55,7 @@ void UIContext::Update() {
   ImGui::Begin("viewport", nullptr,
                ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoBackground);
 
-  for (u32 i = 0; i < Get().elements.Size(); i++) {
+  for (uint32 i = 0; i < Get().elements.Size(); i++) {
     auto current = ImGui::GetCursorPos();
     ImGui::SetCursorPos(
         ImVec2(Get().elements[i]->position.x, Get().elements[i]->position.y));

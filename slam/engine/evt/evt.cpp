@@ -10,7 +10,7 @@ Event::Event(const str &name) {
 void Event::Invoke() {
   IS_DESTROYED();
 
-  for (u32 i = 0; i < listeners.Size(); i++) {
+  for (uint32 i = 0; i < listeners.Size(); i++) {
     listeners[i]();
   }
 }

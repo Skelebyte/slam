@@ -7,7 +7,7 @@
 namespace slam::gfx {
 struct VBO : public Destroyable, public ID {
   VBO() = default;
-  void Init(f32 *vertices, size_t size);
+  void Init(float32 *vertices, size_t size);
   void Destroy() override;
   void Bind();
   void Unbind();

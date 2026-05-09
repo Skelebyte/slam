@@ -30,7 +30,7 @@ Texture::Texture(const str &path, TextureFilter filter) {
 
   stbi_set_flip_vertically_on_load(1);
 
-  i32 width, height, channels;
+  int32 width, height, channels;
 
   uchar *data;
 
@@ -57,8 +57,8 @@ void Texture::TextureFallback() {
   LoadFromData(data, 3, 4, 4);
 }
 
-void Texture::LoadFromData(uchar *data, u32 channels, u32 width, u32 height,
-                           TextureFilter filter) {
+void Texture::LoadFromData(uchar *data, uint32 channels, uint32 width,
+                           uint32 height, TextureFilter filter) {
   if (!data) {
     THROW_ERROR(ERROR.Derived("", "The `data` parameter is not valid!"));
     return;
@@ -92,7 +92,7 @@ void Texture::LoadFromData(uchar *data, u32 channels, u32 width, u32 height,
     THROW_ERROR_GL(FATAL.Derived("", "Setting MAG_FILTER failed."));
   }
 
-  u32 format = channels == 4 ? GL_RGBA : GL_RGB;
+  uint32 format = channels == 4 ? GL_RGBA : GL_RGB;
 
   glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format,
                GL_UNSIGNED_BYTE, data);
@@ -104,16 +104,16 @@ void Texture::LoadFromData(uchar *data, u32 channels, u32 width, u32 height,
   free(data);
 }
 
-uchar *Texture::CustomTexture(u32 width, u32 height, u32 r1, u32 g1, u32 b1,
-                              u32 r2, u32 g2, u32 b2) {
+uchar *Texture::CustomTexture(uint32 width, uint32 height, uint32 r1, uint32 g1,
+                              uint32 b1, uint32 r2, uint32 g2, uint32 b2) {
   uchar *data = (uchar *)malloc(width * height * 3);
-  for (i32 y = 0; y < height; y++) {
-    for (i32 x = 0; x < width; x++) {
-      f32 t = (f32)x / width;
-      f32 s = (f32)y / height;
+  for (int32 y = 0; y < height; y++) {
+    for (int32 x = 0; x < width; x++) {
+      float32 t = (float32)x / width;
+      float32 s = (float32)y / height;
 
-      i32 index = (y * width + x) * 3;
-      if (((i32)(s * height) + (i32)(t * width)) % 2 == 0) {
+      int32 index = (y * width + x) * 3;
+      if (((int32)(s * height) + (int32)(t * width)) % 2 == 0) {
         data[index] = r1;
         data[index + 1] = g1;
         data[index + 2] = b1;

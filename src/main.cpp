@@ -5,7 +5,7 @@
 Camera *camera;
 MeshRenderer *ground;
 MeshRenderer *tree;
-f32 speed = 5.0f;
+float32 speed = 5.0f;
 
 Text *text;
 Text *text2;
@@ -29,7 +29,7 @@ void App::Start() {
   text2->position = Vec2(123, 231);
 
   quit = new Button("QUIT");
-  quit->OnPressed += Quit;
+  quit->OnPressed += App::Quit;
   quit->position.y = 32;
 }
 

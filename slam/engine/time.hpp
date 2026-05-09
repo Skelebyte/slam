@@ -5,11 +5,11 @@
 
 namespace slam {
 struct Time {
-  static f32 DeltaTime();
-  static f32 UnscaledDeltaTime();
-  static void SetTimeScale(f32 scale);
-  static f32 GetTimeScale();
-  static u64 MsToNs(u32 value);
+  static float32 DeltaTime();
+  static float32 UnscaledDeltaTime();
+  static void SetTimeScale(float32 scale);
+  static float32 GetTimeScale();
+  static uint64 MsToNs(uint32 value);
 };
 } // namespace slam
 

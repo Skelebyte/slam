@@ -5,8 +5,8 @@
 using namespace slam;
 using namespace slam::math;
 
-f32 Mathf::ToRadians(f32 value) {
-  f32 result = value * M_PI / 180;
+float32 Mathf::ToRadians(float32 value) {
+  float32 result = value * M_PI / 180;
 
   if (result != result) {
     std::cout << "Mathf::radians: value is NaN, returning 0" << std::endl;
@@ -16,8 +16,8 @@ f32 Mathf::ToRadians(f32 value) {
   return result;
 }
 
-f32 Mathf::ToDegrees(f32 value) {
-  f32 result = value / M_PI * 180;
+float32 Mathf::ToDegrees(float32 value) {
+  float32 result = value / M_PI * 180;
 
   if (result != result) {
     std::cout << "Mathf::radians: value is NaN, returning 0" << std::endl;
@@ -27,9 +27,9 @@ f32 Mathf::ToDegrees(f32 value) {
   return result;
 }
 
-f32 Mathf::Lerp(f32 a, f32 b, f32 t) { return a + t * (b - a); }
+float32 Mathf::Lerp(float32 a, float32 b, float32 t) { return a + t * (b - a); }
 
-f32 Mathf::Clamp(f32 target, f32 min, f32 max) {
+float32 Mathf::Clamp(float32 target, float32 min, float32 max) {
   if (target > max)
     return max;
   if (target < min)
@@ -38,7 +38,7 @@ f32 Mathf::Clamp(f32 target, f32 min, f32 max) {
   return target;
 }
 
-f32 Mathf::Wrap(f32 target, f32 min, f32 max) {
+float32 Mathf::Wrap(float32 target, float32 min, float32 max) {
   if (target > max)
     return target - max;
   if (target < min)
@@ -57,15 +57,15 @@ str Mathf::ToString(const Quat &target) {
          std::to_string(target.z) + "," + std::to_string(target.w);
 }
 
-f32 Mathf::Distance(const Vec3 &a, const Vec3 &b) {
+float32 Mathf::Distance(const Vec3 &a, const Vec3 &b) {
   return glm::distance(a, b);
 }
 
-f32 Mathf::Dot(CRef<Vec3> a, CRef<Vec3> b) { return glm::dot(a, b); }
+float32 Mathf::Dot(CRef<Vec3> a, CRef<Vec3> b) { return glm::dot(a, b); }
 
-i32 Mathf::Abs(i32 value) { return abs(value); }
+int32 Mathf::Abs(int32 value) { return abs(value); }
 
-f32 Mathf::Abs(f32 value) { return abs(value); }
+float32 Mathf::Abs(float32 value) { return abs(value); }
 
 Vec3 Mathf::Normalized(const Vec3 &target) {
   if (glm::length(target) == 0) {
@@ -75,15 +75,15 @@ Vec3 Mathf::Normalized(const Vec3 &target) {
   return glm::normalize(target);
 }
 
-Vec3 Mathf::RotateX(const Vec3 &target, f32 angleDeg) {
+Vec3 Mathf::RotateX(const Vec3 &target, float32 angleDeg) {
   return glm::rotateX(target, Mathf::ToRadians(angleDeg));
 }
 
-Vec3 Mathf::RotateY(const Vec3 &target, f32 angleDeg) {
+Vec3 Mathf::RotateY(const Vec3 &target, float32 angleDeg) {
   return glm::rotateY(target, Mathf::ToRadians(angleDeg));
 }
 
-Vec3 Mathf::RotateZ(const Vec3 &target, f32 angleDeg) {
+Vec3 Mathf::RotateZ(const Vec3 &target, float32 angleDeg) {
   return glm::rotateZ(target, Mathf::ToRadians(angleDeg));
 }
 
@@ -99,10 +99,10 @@ Vec3 Mathf::ToEuler(const Quat &target) {
 
 Quat Mathf::ToQuat(const Vec3 &target) { return Quat(glm::radians(target)); }
 
-i32 Mathf::Random(i32 max) {
+int32 Mathf::Random(int32 max) {
   srand(SDL_GetTicksNS());
 
-  i32 value = rand() % max;
+  int32 value = rand() % max;
 
   return value;
 }

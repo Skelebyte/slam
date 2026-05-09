@@ -30,7 +30,7 @@ This is a basic example of loading a model and creating a flying camera, using t
 
 MeshRenderer *mesh;
 Camera *camera;
-f32 speed = 2.5f;
+float32 speed = 2.5f;
 
 // Called when the app first starts. Before this the engine initializes the
 // window and other systems like audio.
@@ -44,8 +44,8 @@ void App::Start() {
 void App::Update() {
   camera->transform.position +=
       Mathf::Normalized(
-          (camera->transform.Right() * (f32)Input::GetAxis(A, D) +
-           camera->transform.Forward() * (f32)Input::GetAxis(S, W))) *
+          (camera->transform.Right() * (float32)Input::GetAxis(A, D) +
+           camera->transform.Forward() * (float32)Input::GetAxis(S, W))) *
       Time::DeltaTime() * speed;
 }
 ```
@@ -57,7 +57,7 @@ Here is what a basic app would look like without using the engines entry point.
 #define SLAM_USING_NAMESPACES
 #include "../slam/slam.hpp"
 
-i32 main() {
+int32 main() {
   // Initialize engine
   Engine::Init(999);
   Window window =
@@ -77,8 +77,8 @@ i32 main() {
 
     camera.transform.position +=
       Mathf::Normalized(
-          (camera.transform.Right() * (f32)Input::GetAxis(Keycode::A, Keycode::D) +
-           camera.transform.Forward() * (f32)Input::GetAxis(Keycode::S, Keycode::W))) *
+          (camera.transform.Right() * (float32)Input::GetAxis(Keycode::A, Keycode::D) +
+           camera.transform.Forward() * (float32)Input::GetAxis(Keycode::S, Keycode::W))) *
       Time::DeltaTime() * 2.5f;
 
     EntityManager::UpdateAll();
@@ -103,16 +103,16 @@ Most basic types such as `int32_t` (`int`) and `float`, have been aliased with `
 ```cpp
 // common.hpp
 
-typedef int32_t i32;
-typedef uint32_t u32;
-typedef int64_t i64;
-typedef uint64_t u64;
-typedef int8_t i8;
-typedef uint8_t u8;
-typedef int16_t i16;
-typedef uint16_t u16;
-typedef float f32;
-typedef double f64;
+typedef int32_t int32;
+typedef uint32_t uint32;
+typedef int64_t int64;
+typedef uint64_t uint64;
+typedef int8_t int8;
+typedef uint8_t uint8;
+typedef int16_t int16;
+typedef uint16_t uint16;
+typedef float float32;
+typedef double float64;
 typedef unsigned char uchar;
 typedef std::string str;
 ```
@@ -204,7 +204,7 @@ Keybind myBind = Keybind(Keycode::SPACE);
 if(Input::GetKey(&myBind)) { ... }
 
 InputAxis axis = InputAxis(Keycode::A, Keycode::D);
-i32 value = Input::GetAxis(axis);
+int32 value = Input::GetAxis(axis);
 ```
 
 ### Audio

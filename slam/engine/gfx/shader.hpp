@@ -11,21 +11,21 @@
 
 namespace slam::gfx {
 struct Uniform {
-  Uniform(const str &name, u32 shaderID);
+  Uniform(const str &name, uint32 shaderID);
   str GetName() const;
-  u32 GetID() const;
+  uint32 GetID() const;
 
   void SetValue(const math::Mat4 &value);
   void SetValue(const math::Vec3 &value);
   void SetValue(const RGB255 &value);
   void SetValue(const RGB &value);
-  void SetValue(f32 value);
-  void SetValue(i32 value);
+  void SetValue(float32 value);
+  void SetValue(int32 value);
   void SetValue(bool value);
 
 private:
   str name;
-  u32 id;
+  uint32 id;
 };
 
 struct Shader : public ID, public Destroyable {
@@ -41,7 +41,7 @@ struct Shader : public ID, public Destroyable {
 private:
   str name = "";
   List<Uniform> uniforms;
-  bool IsCompileNotOK(u32 shader, const str &type);
+  bool IsCompileNotOK(uint32 shader, const str &type);
   bool IsLinkOK();
 };
 

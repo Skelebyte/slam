@@ -9,7 +9,7 @@ using namespace slam::evt;
 using namespace slam::err;
 using namespace slam::input;
 
-void Engine::Init(u16 fps) {
+void Engine::Init(uint16 fps) {
   if (Get().initialized) {
     THROW_ERROR(WARNING.Derived("", "Engine is already initialized!"));
     return;
@@ -73,19 +73,19 @@ void Engine::EndFrame() {
 
 bool Engine::IsProcessFrame() { return Get().isProcessFrame; }
 
-void Engine::SetTargetFps(u16 fps) {
+void Engine::SetTargetFps(uint16 fps) {
 
   LOG("fps: " << fps);
 
   if (fps > 999) {
     Get().targetFps = 1.0f / 999.0f;
   } else {
-    Get().targetFps = 1.0f / (f32)fps;
+    Get().targetFps = 1.0f / (float32)fps;
   }
   LOG("tfps: " << Get().targetFps);
 }
 
-u32 Engine::GetFps() { return Get().fps; }
+uint32 Engine::GetFps() { return Get().fps; }
 
 void Engine::SetWindow(dpy::Window *window) { Get().window = window; }
 
@@ -95,13 +95,13 @@ void Engine::SetDrawEntityIcons(bool value) { Get().drawEntityIcons = true; }
 
 bool Engine::GetDrawEntityIcons() { return Get().drawEntityIcons; }
 
-f32 Engine::GetDeltaTime() { return Get().deltaTime; }
+float32 Engine::GetDeltaTime() { return Get().deltaTime; }
 
-void Engine::SetTimeScale(f32 value) { Get().timeScale = value; }
-f32 Engine::GetTimeScale() { return Get().timeScale; }
+void Engine::SetTimeScale(float32 value) { Get().timeScale = value; }
+float32 Engine::GetTimeScale() { return Get().timeScale; }
 
-void Engine::SetDrawnEntities(u32 value) { Get().drawnEntities = value; }
+void Engine::SetDrawnEntities(uint32 value) { Get().drawnEntities = value; }
 
-u32 Engine::GetDrawnEntities() { return Get().drawnEntities; }
+uint32 Engine::GetDrawnEntities() { return Get().drawnEntities; }
 
 str Engine::GetVersion() { return "0.1.0-alpha"; }

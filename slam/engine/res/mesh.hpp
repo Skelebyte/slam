@@ -20,11 +20,11 @@ struct Mesh {
    * up vector.
    */
   Mesh(const str &path, bool blenderFix = true);
-  static Mesh GeneratePlane(u32 divisions, const math::Vec2 &dimensions);
+  static Mesh GeneratePlane(uint32 divisions, const math::Vec2 &dimensions);
   List<Vertex> vertices;
-  List<u32> indices;
+  List<uint32> indices;
 
-  List<f32> data;
+  List<float32> data;
 };
 
 } // namespace slam::res

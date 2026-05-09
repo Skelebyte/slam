@@ -15,7 +15,8 @@ struct ErrorSystem : public Singleton<ErrorSystem> {
 
   // This is a flag that determins what errors can have pop up windows.
   // Selected errors: `ErrorSeverity::ERROR` and `ErrorSeverity::FATAL`.
-  u32 enablePopupOnErrors = ErrorSeverity::ES_ERROR | ErrorSeverity::ES_FATAL;
+  uint32 enablePopupOnErrors =
+      ErrorSeverity::ES_ERROR | ErrorSeverity::ES_FATAL;
 
   // If this is true, warnings will not be printed to the console. If
   // `ErrorSeverity::WARNING` has been added to `enablePopupOnErrors` then a
