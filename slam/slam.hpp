@@ -23,10 +23,6 @@
 #include "engine/res/mesh.hpp"
 #include "engine/scn/entity.hpp"
 #include "engine/time.hpp"
-#include "engine/ui/button.hpp"
-#include "engine/ui/element.hpp"
-#include "engine/ui/text.hpp"
-#include "engine/ui/ui_context.hpp"
 #include "third_party/imgui/imgui.h"
 #include "third_party/imgui/imgui_impl_opengl3.h"
 #include "third_party/imgui/imgui_impl_sdl3.h"
@@ -41,7 +37,7 @@ using namespace slam::scn;
 using namespace slam::res;
 using namespace slam::input;
 using namespace slam::entities;
-using namespace slam::ui;
+// using namespace slam::devui;
 using namespace slam::audio;
 // using namespace slam::phys;
 using namespace slam;
@@ -63,7 +59,6 @@ int32 main() {
   slam::dpy::Window window = slam::dpy::Window(name, 800, 600, true, false);
   window.appendFpsToTitle = true;
   slam::gfx::Renderer::Init(&window);
-  slam::ui::UIContext::Init();
   slam::audio::AudioManager::Init();
 
   slam::App::Start();
@@ -80,7 +75,6 @@ int32 main() {
     slam::App::Update();
 
     slam::scn::EntityManager::UpdateAll();
-    slam::ui::UIContext::Update();
 
     window.SwapAndClear();
     slam::Engine::EndFrame();
@@ -88,7 +82,6 @@ int32 main() {
 
   // Clean up
   slam::scn::EntityManager::DestroyAll();
-  slam::ui::UIContext::Shutdown();
   slam::gfx::Renderer::Shutdown();
   window.Destroy();
   slam::Engine::Shutdown();

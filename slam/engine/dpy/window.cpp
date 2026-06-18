@@ -83,7 +83,7 @@ void Window::Update() {
   SDL_Event sdlEvent;
 
   while (SDL_PollEvent(&sdlEvent)) {
-    ImGui_ImplSDL3_ProcessEvent(&sdlEvent);
+    // ImGui_ImplSDL3_ProcessEvent(&sdlEvent);
     if (sdlEvent.type == SDL_EVENT_QUIT) {
       this->Stop();
     }
@@ -139,16 +139,16 @@ void Window::Update() {
     SetTitle(title + " (" + std::to_string(Engine::Get().GetFps()) + " fps)");
   }
 
-  ImGui_ImplOpenGL3_NewFrame();
-  ImGui_ImplSDL3_NewFrame();
-  ImGui::NewFrame();
+  // ImGui_ImplOpenGL3_NewFrame();
+  // ImGui_ImplSDL3_NewFrame();
+  // ImGui::NewFrame();
 }
 
 void Window::SwapAndClear() {
   IS_DESTROYED();
 
-  ImGui::Render();
-  ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+  // ImGui::Render();
+  // ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
   if (!Engine::Get().IsProcessFrame()) {
     return;

@@ -7,11 +7,6 @@ MeshRenderer *ground;
 MeshRenderer *tree;
 float32 speed = 5.0f;
 
-Text *text;
-Text *text2;
-
-Button *quit;
-
 void App::Start() {
   camera = new Camera();
 
@@ -23,14 +18,6 @@ void App::Start() {
   tree->material.diffuse = Texture("assets/textures/TreePodium.png");
   tree->transform.position = Vec3(2.5, -.5, 2.5);
   tree->transform.scale = Vec3(0.3f);
-
-  text = new Text("Hi mum!");
-  text2 = new Text("Hi dad!");
-  text2->position = Vec2(123, 231);
-
-  quit = new Button("QUIT");
-  quit->OnPressed += App::Quit;
-  quit->position.y = 32;
 }
 
 void App::Update() {
